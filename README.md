@@ -52,12 +52,28 @@ plt.show()
 | --- | --- |
 | `plot_histogram(df, column, bins=20)` | Distribution of one numeric column |
 | `plot_bar(df, column, top=None)` | Bar chart of a categorical column's value counts |
+| `plot_multi_value_bar(df, column, sep=",", top=None)` | Counts for cells holding several values, e.g. `"Dramas, Comedies"` |
 | `plot_scatter(df, x, y)` | Scatter plot of two numeric columns |
 | `plot_correlation(df)` | Correlation heatmap of all numeric columns |
 | `plot_missing(df)` | Count of missing values per column |
 
 All functions also accept `ax=` (an existing matplotlib Axes) and
 `save_path=` (a file path to save the figure).
+
+## Example: the Netflix titles dataset
+
+[`examples/netflix_analysis.py`](examples/netflix_analysis.py) explores the
+[Netflix titles dataset](https://www.kaggle.com/datasets/shivamb/netflix-shows).
+Download `netflix_titles.csv` from Kaggle, then run:
+
+```bash
+python examples/netflix_analysis.py path/to/netflix_titles.csv
+```
+
+It saves a 6-panel `netflix_overview.png`: Movies vs TV Shows, release-year
+and date-added distributions, top 10 genres, top 10 countries, and movie
+runtimes. It also shows how the same functions compose into a grid by passing
+each an `ax=`.
 
 ## Requirements
 

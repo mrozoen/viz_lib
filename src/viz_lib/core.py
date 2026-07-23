@@ -47,6 +47,28 @@ def plot_bar(df, column, top=None, ax=None, save_path=None):
     return _finish(ax, save_path)
 
 
+def plot_multi_value_bar(df, column, sep=",", top=None, ax=None, save_path=None):
+    """Plot counts for a column whose cells hold several values.
+
+    Handy for fields like ``"Dramas, Comedies"`` or ``"United States, India"``
+    where each cell lists multiple values separated by ``sep``. Every value is
+    counted on its own. ``top`` keeps only the N most common values.
+    """
+    exploded = (
+        df[column].dropna().astype(str).str.split(sep).explode().str.strip()
+    )
+    counts = exploded.value_counts()
+    if top is not None:
+        counts = counts.head(top)
+    if ax is None:
+        _, ax = plt.subplots(figsize=(8, 5))
+    ax.barh(counts.index.astype(str), counts.values, color="#c44e52")
+    ax.invert_yaxis()
+    ax.set_title(f"Top values in {column}")
+    ax.set_xlabel("Count")
+    return _finish(ax, save_path)
+
+
 def plot_scatter(df, x, y, ax=None, save_path=None):
     """Plot the relationship between two numeric columns."""
     if ax is None:
