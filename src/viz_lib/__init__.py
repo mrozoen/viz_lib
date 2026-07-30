@@ -6,7 +6,7 @@ from viz_lib.core import (
     nation_firepower,
 )
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
     "load",
