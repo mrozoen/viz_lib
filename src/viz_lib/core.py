@@ -1,25 +1,27 @@
-"""World Cup player-stat visualizations, built on matplotlib.
+"""Aesthetic 2026 World Cup player-stat visualizations, built on matplotlib.
 
-Every chart function takes a tidy DataFrame from :func:`load` and returns a
-matplotlib ``Axes``. Pass ``save_path=`` to write the figure straight to disk.
-The whole library shares one "stadium night" look defined at the top.
+Two editorial, neon-styled charts share one "midnight pitch" look: a deep
+indigo background with a complementary **teal + coral** palette. Each function
+takes a tidy DataFrame from :func:`load` and returns a matplotlib ``Axes``;
+pass ``save_path=`` to write a PNG straight to disk.
 """
 
 from __future__ import annotations
 
+import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# ── Palette ────────────────────────────────────────────────────────────
-# A dark "stadium night" theme. Position hues are the colorblind-safe
-# Okabe-Ito set, assigned in a fixed order and never cycled.
-BG, INK, MUTED, GOLD, GRID = "#0f1a17", "#f4f1e8", "#8b968f", "#f2c14e", "#26332c"
-POS_COLORS = {"FW": "#e69f00", "MF": "#009e73", "DF": "#56b4e9", "GK": "#cc79a7"}
+# ── Palette: complementary teal + coral on a deep indigo night ─────────────
+BG, INK, MUTED = "#140a2e", "#ece9f7", "#8b86ad"
+TEAL, CORAL, GRID = "#22d3ee", "#ff8a4c", "#2a2050"
+TEAL_RAMP = mcolors.LinearSegmentedColormap.from_list(
+    "teal", ["#0e5563", "#17a2c4", "#22d3ee", "#a5f3fc"])
 
 
 def _ax(figsize, polar=False):
-    """Make a styled figure + axes in the shared dark theme."""
+    """Make a styled figure + axes in the shared midnight-pitch theme."""
     fig, ax = plt.subplots(figsize=figsize, subplot_kw={"polar": polar})
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(BG)
@@ -30,17 +32,24 @@ def _ax(figsize, polar=False):
 
 
 def _finish(ax, title, subtitle=None, save_path=None):
-    """Add the gold title (+ optional subtitle), then save/return the axes."""
-    ax.set_title(title, color=GOLD, fontsize=17, fontweight="bold",
-                 loc="left", pad=26)
+    """Add the editorial headline (+ teal subtitle), then save/return the axes."""
+    ax.set_title(title, color=INK, fontsize=17, fontweight="bold",
+                 loc="left", pad=30)
     if subtitle:
-        ax.annotate(subtitle, xy=(0, 1), xytext=(0, 8), va="bottom",
+        ax.annotate(subtitle, xy=(0, 1), xytext=(0, 10), va="bottom",
                     xycoords="axes fraction", textcoords="offset points",
-                    color=MUTED, fontsize=10)
+                    color=TEAL, fontsize=10.5)
     if save_path:
         ax.figure.savefig(save_path, dpi=150, bbox_inches="tight",
                           facecolor=ax.figure.get_facecolor())
     return ax
+
+
+def _glow(ax, x, y, color, core=170, zorder=5):
+    """Draw a soft neon bloom by stacking translucent copies of a marker."""
+    for size, alpha in ((core * 6, 0.05), (core * 2.6, 0.12), (core, 1.0)):
+        ax.scatter(x, y, s=size, color=color, alpha=alpha,
+                   edgecolors="none", zorder=zorder)
 
 
 def load(path):
@@ -58,102 +67,69 @@ def load(path):
     return df
 
 
-def golden_boot(df, n=12, save_path=None):
-    """The Golden Boot race: a lollipop chart of the top ``n`` goalscorers."""
-    top = (df.sort_values("Gls", ascending=False)
-             .head(n)[["Player", "Country", "Gls"]].iloc[::-1])
-    m = float(top["Gls"].max())
-    ax = _ax((9, 7))
-    y = np.arange(len(top))
-    ax.hlines(y, 0, top["Gls"], color=GOLD, alpha=0.35, lw=2.5)
-    ax.scatter(top["Gls"], y, s=470, color=GOLD, zorder=3,
-               edgecolor=BG, linewidth=1.5)
-    for yi, (_, r) in zip(y, top.iterrows()):
-        ax.text(r["Gls"], yi, int(r["Gls"]), ha="center", va="center",
-                color=BG, fontsize=10, fontweight="bold", zorder=4)
-        ax.text(-m * 0.04, yi, f"{r['Player']}  ·  {r['Country']}", ha="right",
-                va="center", color=INK, fontsize=10)
-    ax.set_xlim(-m * 0.5, m * 1.12)
-    ax.set_yticks([])
-    ax.set_xticks([])
-    return _finish(ax, "The Golden Boot Race",
-                   f"Top {n} goalscorers  ·  goals in the tournament", save_path)
+def minutes_vs_goals(df, highlight=8, save_path=None):
+    """Scatter every player as minutes played (x) vs goals scored (y).
 
-
-def finishers_vs_playmakers(df, min_90s=1.5, annotate=6, save_path=None):
-    """Scatter every attacking contributor as goals (x) vs assists (y).
-
-    Bubble size scales with minutes played and colour marks the position, so
-    pure finishers sit to the right, creators sit high, and the complete
-    forwards land up in the top-right corner.
+    The whole tournament forms a faint teal field; the top ``highlight``
+    finishers glow coral and are named. A dashed guide marks the elite
+    "a goal every 90 minutes" scoring pace.
     """
-    d = df[(df["90s"] >= min_90s) & (df["Gls"] + df["Ast"] > 0)].copy()
-    d["GA"] = d["Gls"] + d["Ast"]
-    ax = _ax((9, 7.5))
-    for pos, color in POS_COLORS.items():
-        s = d[d["Pos"] == pos]
-        ax.scatter(s["Gls"], s["Ast"], s=s["Min"] / 3 + 25, color=color,
-                   alpha=0.75, edgecolor=BG, linewidth=0.6, label=pos)
-    ax.axvline(d["Gls"].median(), color=GRID, lw=1, zorder=0)
-    ax.axhline(d["Ast"].median(), color=GRID, lw=1, zorder=0)
-    for i, (_, r) in enumerate(d.nlargest(annotate, "GA").iterrows()):
-        dy = 7 if i % 2 == 0 else -15  # stagger so adjacent labels don't collide
-        ax.annotate(r["Player"], (r["Gls"], r["Ast"]), xytext=(8, dy),
-                    textcoords="offset points", color=INK, fontsize=9)
-    ax.set_xlabel("Goals", color=MUTED)
-    ax.set_ylabel("Assists", color=MUTED)
-    ax.set_xlim(right=d["Gls"].max() * 1.28)
-    ax.grid(True, color=GRID, lw=0.6, alpha=0.5)
-    leg = ax.legend(title="Position", frameon=False, labelcolor=INK,
-                    loc="upper right")
-    leg.get_title().set_color(MUTED)
-    return _finish(ax, "Finishers vs. Playmakers",
-                   "Each bubble is a player  ·  size = minutes played", save_path)
+    d = df[df["Min"] > 0].copy()
+    ax = _ax((10, 7.5))
+    ax.scatter(d["Min"], d["Gls"], s=26, color=TEAL, alpha=0.28,
+               edgecolors="none", zorder=2)
+
+    xmax = float(d["Min"].max())
+    ax.plot([0, xmax], [0, xmax / 90], color=MUTED, lw=1, ls="--",
+            alpha=0.55, zorder=1)
+    ax.annotate("a goal every 90 min", xy=(xmax, xmax / 90), xytext=(-8, 9),
+                textcoords="offset points", ha="right", color=MUTED,
+                fontsize=9, style="italic")
+
+    top = d.nlargest(highlight, "Gls")
+    _glow(ax, top["Min"], top["Gls"], CORAL)
+    for i, (_, r) in enumerate(top.iterrows()):
+        dy = 8 if i % 2 == 0 else -14  # stagger so adjacent names don't collide
+        ax.annotate(r["Player"], (r["Min"], r["Gls"]), xytext=(10, dy),
+                    textcoords="offset points", color=INK, fontsize=9.5,
+                    fontweight="bold")
+
+    ax.set_xlabel("Minutes played", color=MUTED, fontsize=11)
+    ax.set_ylabel("Goals scored", color=MUTED, fontsize=11)
+    ax.grid(True, color=GRID, lw=0.7, alpha=0.6)
+    ax.margins(0.07)
+    ax.set_xlim(right=xmax * 1.2)  # headroom for the rightmost player labels
+    return _finish(ax, "WHERE MINUTES BECOME GOALS",
+                   "2026 World Cup  ·  every player, and the finishers who beat the pace",
+                   save_path)
 
 
 def nation_firepower(df, n=12, save_path=None):
-    """Radial bar chart of total goals scored by the top ``n`` nations."""
+    """Radial bar chart of total goals scored by the top ``n`` nations.
+
+    Bars run a light-to-deep teal ramp by goals; the leading nation blazes
+    coral so the eye lands on it first.
+    """
     g = df.groupby("Country")["Gls"].sum().sort_values(ascending=False).head(n)
+    vals = g.values
     ax = _ax((8.5, 8.5), polar=True)
     theta = np.linspace(0, 2 * np.pi, len(g), endpoint=False)
-    width = 2 * np.pi / len(g) * 0.86
-    colors = plt.cm.YlOrRd(0.35 + 0.6 * g.values / g.values.max())
-    ax.bar(theta, g.values, width=width, color=colors, edgecolor=BG,
-           linewidth=1.5, zorder=3)
+    width = 2 * np.pi / len(g) * 0.82
+    colors = [mcolors.to_rgba(CORAL) if v == vals.max()  # leader(s) blaze coral
+              else mcolors.to_rgba(c)
+              for v, c in zip(vals, TEAL_RAMP(0.25 + 0.7 * vals / vals.max()))]
+    ax.bar(theta, vals, width=width, color=colors, edgecolor=BG,
+           linewidth=2, zorder=3)
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
-    ax.set_xticks(theta)
-    ax.set_xticklabels([])
+    ax.set_xticks([])
     ax.set_yticks([])
-    ax.set_ylim(0, g.values.max() * 1.18)
+    ax.set_ylim(0, vals.max() * 1.2)
     ax.spines["polar"].set_visible(False)
-    ax.grid(color=GRID, lw=0.6, alpha=0.6)
+    ax.grid(color=GRID, lw=0.7, alpha=0.5)
     for t, (name, val) in zip(theta, g.items()):
-        ax.text(t, val + g.values.max() * 0.05, f"{name}\n{int(val)}",
-                ha="center", va="center", color=INK, fontsize=8.5,
-                fontweight="bold")
-    return _finish(ax, "National Firepower",
-                   "Total goals scored by nation", save_path)
-
-
-def tournament_trend(by_year, stat="Gls", save_path=None):
-    """Line chart of a summed ``stat`` across tournaments.
-
-    ``by_year`` maps a tournament label (e.g. ``2018``) to its DataFrame.
-    """
-    years = sorted(by_year)
-    totals = [float(by_year[y][stat].sum()) for y in years]
-    ax = _ax((9, 5))
-    ax.plot(years, totals, color=GOLD, lw=2.5, marker="o", ms=10,
-            mec=BG, mew=1.5, zorder=3)
-    ax.fill_between(years, totals, color=GOLD, alpha=0.12)
-    for x, yv in zip(years, totals):
-        ax.text(x, yv + max(totals) * 0.04, int(yv), ha="center",
-                color=INK, fontsize=10, fontweight="bold")
-    ax.set_xticks(years)
-    ax.set_xticklabels(years, color=MUTED)
-    ax.set_yticks([])
-    ax.margins(y=0.2)
-    ax.grid(True, axis="x", color=GRID, lw=0.6, alpha=0.4)
-    return _finish(ax, f"World Cup Pulse  ·  total {stat}",
-                   "Summed across every player each tournament", save_path)
+        color = CORAL if val == vals.max() else INK
+        ax.text(t, val + vals.max() * 0.06, f"{name}\n{int(val)}", ha="center",
+                va="center", color=color, fontsize=9, fontweight="bold")
+    return _finish(ax, "NATIONAL FIREPOWER",
+                   "2026 World Cup  ·  total goals scored by nation", save_path)
