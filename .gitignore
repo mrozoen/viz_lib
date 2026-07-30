@@ -6,3 +6,7 @@ dist/
 .eggs/
 charts/
 *.png
+
+# ...but keep the showcase charts embedded in the README
+!examples/charts/
+!examples/charts/*.png

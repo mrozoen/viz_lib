@@ -1,21 +1,19 @@
-"""viz_lib: a tiny matplotlib-based visualization library for pandas DataFrames."""
+"""viz_lib: tiny, aesthetic World Cup player-stat visualizations for pandas."""
 
 from viz_lib.core import (
-    plot_bar,
-    plot_correlation,
-    plot_histogram,
-    plot_missing,
-    plot_multi_value_bar,
-    plot_scatter,
+    finishers_vs_playmakers,
+    golden_boot,
+    load,
+    nation_firepower,
+    tournament_trend,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
-    "plot_histogram",
-    "plot_bar",
-    "plot_multi_value_bar",
-    "plot_scatter",
-    "plot_correlation",
-    "plot_missing",
+    "load",
+    "golden_boot",
+    "finishers_vs_playmakers",
+    "nation_firepower",
+    "tournament_trend",
 ]
