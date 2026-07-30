@@ -49,12 +49,18 @@ python examples/worldcup_analysis.py
 
 ## The visualizations
 
-### 🎯 Where Minutes Become Goals — `minutes_vs_goals(df, highlight=8)`
+### 🎯 Where Minutes Become Goals — `minutes_vs_goals(df, max_avatars=8)`
 
-Every player plotted as **minutes played (x) vs goals scored (y)**. The whole
-tournament forms a faint teal field of dots; the top finishers glow coral and
-are named. A dashed guide marks the elite *"a goal every 90 minutes"* pace —
-players above it are outscoring the clock.
+A curated cast plotted as **minutes played (x) vs goals scored (y)**, each
+glowing coral and wearing their country's flag in a medallion below the chart —
+an editorial photo strip, connected to their point. A dashed guide marks the
+elite *"a goal every 90 minutes"* pace, so players above the line are
+outscoring the clock and the grinders sit along the bottom.
+
+The cast is a fixed set of stars (Ronaldo, Mbappé, Haaland, Bellingham, Lamine
+Yamal, Neymar), and the remaining slots — capped by `max_avatars` to avoid
+clutter — are split between the **most goals in the fewest minutes** and the
+**fewest goals in the most minutes**.
 
 ![Where Minutes Become Goals](examples/charts/minutes_vs_goals.png)
 
@@ -71,7 +77,7 @@ first.
 | Function | What it does |
 | --- | --- |
 | `load(path)` | Read a stats CSV into a tidy DataFrame with a clean `Country` column |
-| `minutes_vs_goals(df, highlight=8)` | Minutes-vs-goals scatter; top `highlight` scorers glow and are named |
+| `minutes_vs_goals(df, max_avatars=8)` | Minutes-vs-goals scatter of a curated cast, with flag medallions |
 | `nation_firepower(df, n=12)` | Radial bar chart of goals by the top `n` nations |
 
 Both chart functions return a matplotlib `Axes` (so you can keep tweaking) and
@@ -88,6 +94,9 @@ accept `save_path=` to write the figure to disk.
 - **Neon glow, honestly.** The bloom on highlighted marks is drawn by stacking
   translucent copies, not faked with a second axis. Two variables on different
   scales (minutes vs goals) are shown as a scatter, never a dual-axis chart.
+- **Flags, offline.** Country flags come from the bundled [`flagpy`](https://pypi.org/project/flagpy/)
+  package (no network needed); England — which isn't an ISO country — is drawn
+  as a St George's cross, and each flag is centre-cropped to a circle.
 
 ## Project layout
 
@@ -105,7 +114,8 @@ viz_lib/
 
 ## Requirements
 
-Python 3.8+, plus `pandas`, `numpy`, and `matplotlib` (installed automatically).
+Python 3.8+, plus `pandas`, `numpy`, `matplotlib`, and `flagpy` (installed
+automatically).
 
 ## License
 
