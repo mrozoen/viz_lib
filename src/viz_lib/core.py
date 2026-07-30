@@ -1,11 +1,10 @@
 """Aesthetic 2026 World Cup player-stat visualizations, built on matplotlib.
-Deep-indigo theme; charts take a DataFrame from load(), return an Axes, and
+Warm-charcoal theme; charts take a DataFrame from load(), return an Axes, and
 accept save_path=. Named players wear their country's flag.
 """
 
 from __future__ import annotations
 
-import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -16,35 +15,28 @@ try:
 except Exception:  # flags degrade gracefully to a plain disc
     _flagpy = None
 
-# ── Palette: coral accent + a warm "firepower" ramp on a deep indigo night ─
-BG, INK, MUTED = "#140a2e", "#ece9f7", "#8b86ad"
-TEAL, CORAL, GRID = "#22d3ee", "#ff8a4c", "#2a2050"
-FIRE = mcolors.LinearSegmentedColormap.from_list(
-    "fire", ["#7b2cbf", "#e0245e", "#ff7b00", "#ffd60a"])
+# ── Palette: coral + gold accents on a warm charcoal ground ────────────────
+BG, INK, MUTED = "#211d1b", "#f2ede6", "#9b938a"
+CORAL, GOLD, GRID = "#ff8a4c", "#e9b949", "#3a342e"
 
 # Players always named on the minutes-vs-goals chart.
 REQUIRED = ["Cristiano Ronaldo", "Kylian Mbappé", "Erling Haaland",
             "Jude Bellingham", "Lamine Yamal", "Neymar"]
 
-
-def _ax(figsize, polar=False):
-    """A styled figure + axes in the shared theme."""
-    fig, ax = plt.subplots(figsize=figsize, subplot_kw={"polar": polar})
-    fig.patch.set_facecolor(BG)
-    ax.set_facecolor(BG)
-    ax.spines[:].set_visible(False)
-    ax.tick_params(colors=MUTED, labelsize=9)
-    return ax
+# flagpy names a few nations differently from the dataset.
+_ALIAS = {"Netherlands": "The Netherlands", "United States": "The United States",
+          "Czech Republic": "The Czech Republic", "Korea Republic": "South Korea",
+          "IR Iran": "Iran"}
 
 
 def _finish(ax, title, subtitle=None, save_path=None):
-    """Editorial headline + teal subtitle, then save/return the axes."""
+    """Editorial headline + gold subtitle, then save/return the axes."""
     ax.set_title(title, color=INK, fontsize=17, fontweight="bold",
                  loc="left", pad=30)
     if subtitle:
         ax.annotate(subtitle, xy=(0, 1), xytext=(0, 10), va="bottom",
                     xycoords="axes fraction", textcoords="offset points",
-                    color=TEAL, fontsize=10.5)
+                    color=GOLD, fontsize=10.5)
     if save_path:
         ax.figure.savefig(save_path, dpi=150, bbox_inches="tight",
                           facecolor=ax.figure.get_facecolor())
@@ -60,7 +52,7 @@ def _flag(country):
     if _flagpy is None:
         return None
     try:
-        img = np.asarray(_flagpy.get_flag_img(country).convert("RGB"))
+        img = np.asarray(_flagpy.get_flag_img(_ALIAS.get(country, country)).convert("RGB"))
     except Exception:
         return None
     h, w = img.shape[:2]
@@ -90,7 +82,7 @@ def _avatar(fig, cx, cy, dia, country):
         im = a.imshow(img, extent=(-1, 1, -1, 1), aspect="auto", zorder=3)
         im.set_clip_path(Circle((0, 0), 0.97, transform=a.transData))
     else:
-        a.add_patch(Circle((0, 0), 0.97, color="#241a4d", zorder=2))
+        a.add_patch(Circle((0, 0), 0.97, color="#332d28", zorder=2))
     a.add_patch(Circle((0, 0), 0.97, fill=False, lw=2.5, ec=CORAL, zorder=5))
 
 
@@ -169,31 +161,30 @@ def minutes_vs_goals(df, max_avatars=8, save_path=None):
 
 
 def nation_firepower(df, n=12, save_path=None):
-    """Radial 'flames': each top-``n`` nation heats from violet to a gold tip.
-
-    Bar length and tip colour both encode goals — the biggest sides burn brightest.
-    """
-    g = df.groupby("Country")["Gls"].sum().sort_values(ascending=False).head(n)
+    """A simple bar chart of goals by the top ``n`` nations, each bar flag-tipped."""
+    g = df.groupby("Country")["Gls"].sum().sort_values().tail(n)
     vals, top = g.values, g.values.max()
-    ax = _ax((9, 9), polar=True)
-    theta = np.linspace(0, 2 * np.pi, len(g), endpoint=False)
-    width = 2 * np.pi / len(g) * 0.7
-    for t, v in zip(theta, vals):  # a radius gradient turns each bar into a flame
-        seg = np.linspace(0, v, 40)
-        ax.bar([t] * 39, np.diff(seg), bottom=seg[:-1], width=width,
-               color=FIRE(0.1 + 0.9 * seg[:-1] / top), zorder=3)
-    for s, a in ((260, 0.45), (90, 1.0)):  # glowing hot tips
-        ax.scatter(theta, vals, s=s, color="#fff8d6", alpha=a,
-                   edgecolors="none", zorder=4)
-    ax.set_theta_offset(np.pi / 2)
-    ax.set_theta_direction(-1)
-    ax.set(xticks=[], yticks=np.arange(5, top + 1, 5), ylim=(0, top * 1.18))
-    ax.set_yticklabels([])
-    ax.spines["polar"].set_visible(False)
-    ax.grid(color=GRID, lw=0.6, alpha=0.35)
-    for t, (name, val) in zip(theta, g.items()):
-        ax.text(t, val + top * 0.09, f"{name}\n{int(val)}", ha="center",
-                va="center", color="#ffd60a" if val == top else INK,
-                fontsize=9, fontweight="bold")
-    return _finish(ax, "NATIONAL FIREPOWER",
-                   "2026 World Cup  ·  total goals scored by nation", save_path)
+    fig = plt.figure(figsize=(10, 8))
+    fig.patch.set_facecolor(BG)
+    ax = fig.add_axes([0.17, 0.08, 0.70, 0.82])
+    ax.set_facecolor(BG)
+    ax.spines[:].set_visible(False)
+    ax.tick_params(colors=MUTED, labelsize=10)
+    y = np.arange(len(g))
+    ax.barh(y, vals, height=0.6, zorder=2,
+            color=[GOLD if v == top else CORAL for v in vals])
+    ax.set_yticks(y)
+    ax.set_yticklabels(g.index, color=INK)
+    ax.set_xticks([])
+    ax.set_xlim(0, top * 1.22)
+    for yi, v, country in zip(y, vals, g.index):
+        fx, fy = fig.transFigure.inverted().transform(
+            ax.transData.transform((v + top * 0.04, yi)))
+        _avatar(fig, fx, fy, 0.052, country)
+        ax.text(v + top * 0.095, yi, int(v), va="center", color=INK,
+                fontsize=10, fontweight="bold")
+    _finish(ax, "NATIONAL FIREPOWER",
+            "2026 World Cup  ·  total goals scored by nation")
+    if save_path:
+        fig.savefig(save_path, dpi=150, facecolor=BG)
+    return ax
