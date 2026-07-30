@@ -1,8 +1,6 @@
 """Aesthetic 2026 World Cup player-stat visualizations, built on matplotlib.
-
-A deep-indigo "midnight pitch" theme with a complementary teal + coral palette.
-Each chart takes a tidy DataFrame from load() and returns an Axes; pass
-save_path= to write a PNG. Named players wear their country's flag.
+Deep-indigo theme; charts take a DataFrame from load(), return an Axes, and
+accept save_path=. Named players wear their country's flag.
 """
 
 from __future__ import annotations
@@ -18,11 +16,11 @@ try:
 except Exception:  # flags degrade gracefully to a plain disc
     _flagpy = None
 
-# ── Palette: complementary teal + coral on a deep indigo night ─────────────
+# ── Palette: coral accent + a warm "firepower" ramp on a deep indigo night ─
 BG, INK, MUTED = "#140a2e", "#ece9f7", "#8b86ad"
 TEAL, CORAL, GRID = "#22d3ee", "#ff8a4c", "#2a2050"
-TEAL_RAMP = mcolors.LinearSegmentedColormap.from_list(
-    "teal", ["#0e5563", "#17a2c4", "#22d3ee", "#a5f3fc"])
+FIRE = mcolors.LinearSegmentedColormap.from_list(
+    "fire", ["#7b2cbf", "#e0245e", "#ff7b00", "#ffd60a"])
 
 # Players always named on the minutes-vs-goals chart.
 REQUIRED = ["Cristiano Ronaldo", "Kylian Mbappé", "Erling Haaland",
@@ -30,7 +28,7 @@ REQUIRED = ["Cristiano Ronaldo", "Kylian Mbappé", "Erling Haaland",
 
 
 def _ax(figsize, polar=False):
-    """A styled figure + axes in the shared midnight-pitch theme."""
+    """A styled figure + axes in the shared theme."""
     fig, ax = plt.subplots(figsize=figsize, subplot_kw={"polar": polar})
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(BG)
@@ -40,7 +38,7 @@ def _ax(figsize, polar=False):
 
 
 def _finish(ax, title, subtitle=None, save_path=None):
-    """Add the editorial headline + teal subtitle, then save/return the axes."""
+    """Editorial headline + teal subtitle, then save/return the axes."""
     ax.set_title(title, color=INK, fontsize=17, fontweight="bold",
                  loc="left", pad=30)
     if subtitle:
@@ -108,12 +106,10 @@ def load(path):
 
 
 def minutes_vs_goals(df, max_avatars=8, save_path=None):
-    """Minutes played (x) vs goals scored (y) for a hand-picked cast.
+    """Minutes played (x) vs goals scored (y) for a curated cast.
 
-    Always names the stars in ``REQUIRED``, then fills the remaining slots (up
-    to ``max_avatars``, to avoid clutter) by splitting them between the most
-    goals in the fewest minutes and the fewest goals in the most minutes. Each
-    player glows coral and wears their country's flag below the chart.
+    Names the REQUIRED stars, then fills up to ``max_avatars`` more slots, split
+    between most goals in fewest minutes and fewest goals in most minutes.
     """
     d = df[df["Min"] > 0].copy()
     d["per90"] = d["Gls"] * 90 / d["Min"]
@@ -173,27 +169,31 @@ def minutes_vs_goals(df, max_avatars=8, save_path=None):
 
 
 def nation_firepower(df, n=12, save_path=None):
-    """Radial bar chart of total goals scored by the top ``n`` nations."""
+    """Radial 'flames': each top-``n`` nation heats from violet to a gold tip.
+
+    Bar length and tip colour both encode goals — the biggest sides burn brightest.
+    """
     g = df.groupby("Country")["Gls"].sum().sort_values(ascending=False).head(n)
-    vals = g.values
-    ax = _ax((8.5, 8.5), polar=True)
+    vals, top = g.values, g.values.max()
+    ax = _ax((9, 9), polar=True)
     theta = np.linspace(0, 2 * np.pi, len(g), endpoint=False)
-    width = 2 * np.pi / len(g) * 0.82
-    colors = [mcolors.to_rgba(CORAL) if v == vals.max()  # leader(s) blaze coral
-              else mcolors.to_rgba(c)
-              for v, c in zip(vals, TEAL_RAMP(0.25 + 0.7 * vals / vals.max()))]
-    ax.bar(theta, vals, width=width, color=colors, edgecolor=BG,
-           linewidth=2, zorder=3)
+    width = 2 * np.pi / len(g) * 0.7
+    for t, v in zip(theta, vals):  # a radius gradient turns each bar into a flame
+        seg = np.linspace(0, v, 40)
+        ax.bar([t] * 39, np.diff(seg), bottom=seg[:-1], width=width,
+               color=FIRE(0.1 + 0.9 * seg[:-1] / top), zorder=3)
+    for s, a in ((260, 0.45), (90, 1.0)):  # glowing hot tips
+        ax.scatter(theta, vals, s=s, color="#fff8d6", alpha=a,
+                   edgecolors="none", zorder=4)
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_ylim(0, vals.max() * 1.2)
+    ax.set(xticks=[], yticks=np.arange(5, top + 1, 5), ylim=(0, top * 1.18))
+    ax.set_yticklabels([])
     ax.spines["polar"].set_visible(False)
-    ax.grid(color=GRID, lw=0.7, alpha=0.5)
+    ax.grid(color=GRID, lw=0.6, alpha=0.35)
     for t, (name, val) in zip(theta, g.items()):
-        color = CORAL if val == vals.max() else INK
-        ax.text(t, val + vals.max() * 0.06, f"{name}\n{int(val)}", ha="center",
-                va="center", color=color, fontsize=9, fontweight="bold")
+        ax.text(t, val + top * 0.09, f"{name}\n{int(val)}", ha="center",
+                va="center", color="#ffd60a" if val == top else INK,
+                fontsize=9, fontweight="bold")
     return _finish(ax, "NATIONAL FIREPOWER",
                    "2026 World Cup  ·  total goals scored by nation", save_path)

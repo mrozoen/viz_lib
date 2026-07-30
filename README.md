@@ -66,9 +66,10 @@ clutter — are split between the **most goals in the fewest minutes** and the
 
 ### 🔥 National Firepower — `nation_firepower(df, n=12)`
 
-A radial bar chart of total goals per nation. Bars run a light-to-deep teal
-ramp by goals, and the leading nation(s) blaze coral so the eye lands on them
-first.
+A radial chart where each nation is a **flame**: the bar heats along its length
+from a violet base to a gold-hot tip, topped with a glowing bead. Bar length
+*and* tip colour both encode goals, so the biggest attacking sides literally
+burn the brightest (France and England, tied at 20).
 
 ![National Firepower](examples/charts/nation_firepower.png)
 
@@ -85,12 +86,12 @@ accept `save_path=` to write the figure to disk.
 
 ## Design notes
 
-- **Complementary palette.** Teal (`#22d3ee`) and coral (`#ff8a4c`) sit opposite
-  each other on the colour wheel, so they pop against the deep indigo
-  background without clashing — and the pair stays distinguishable for
-  colourblind readers.
-- **Colour has one job per chart.** Teal always carries the data; coral is
-  reserved for the standout — the top finishers, the leading nations.
+- **A shared deep-indigo stage.** Both charts sit on the same `#140a2e`
+  background, so they read as one set even though each has its own accent — the
+  scatter glows coral, the radial chart burns through a violet→gold fire ramp.
+- **Colour has one job per chart.** On the scatter, coral marks the players
+  against a calm ground; on the radial chart, a single perceptual fire ramp
+  encodes magnitude (never a rainbow), so hotter always means more goals.
 - **Neon glow, honestly.** The bloom on highlighted marks is drawn by stacking
   translucent copies, not faked with a second axis. Two variables on different
   scales (minutes vs goals) are shown as a scatter, never a dual-axis chart.
