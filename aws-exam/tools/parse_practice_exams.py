@@ -23,7 +23,14 @@ from pathlib import Path
 # A question starts at column 0 with "12. " and runs to the next such line.
 QUESTION_RE = re.compile(r"^(\d+)\.\s+(.*)$")
 OPTION_RE = re.compile(r"^\s*[-*]\s*([A-Z])[.)]\s+(.*)$")
-ANSWER_RE = re.compile(r"correct answer\s*:?\s*([A-Z](?:\s*,\s*[A-Z])*)", re.I)
+# Answer keys appear in two styles across the corpus: "Correct answer: A, C" and
+# "Correct Answer: AC". Accept both. The run may only be joined by spaces, tabs
+# and commas (never a newline), and the trailing (?![A-Za-z]) stops the match
+# running on into the following prose - without it, "Correct answer: A" followed
+# by a line starting "Explanation" parses as answers A and E.
+ANSWER_RE = re.compile(
+    r"correct answer\s*:?[ \t]*([A-E](?:[ \t]*,?[ \t]*[A-E])*)(?![A-Za-z])", re.I
+)
 
 # Topic classification. Order matters: the first matching rule wins, so the more
 # specific patterns are listed before the general ones. Domain ids match the
@@ -127,8 +134,10 @@ def parse_file(path):
                 stem_parts.append(line.strip())
 
         answer_match = ANSWER_RE.search(body)
+        # Split on the letters themselves, not on commas: the corpus writes both
+        # "A, C" and "AC", and a comma split turns the latter into one token.
         answers = (
-            [a.strip() for a in answer_match.group(1).split(",")]
+            re.findall(r"[A-E]", answer_match.group(1).upper())
             if answer_match else []
         )
 
