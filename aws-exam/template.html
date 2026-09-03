@@ -537,7 +537,9 @@
     return picked.length === q.answers.length && q.answers.every(a => picked.includes(a));
   };
   const answeredCount = () => QUESTIONS.filter(isAnswered).length;
-  const graded = () => state.screen === "results" || state.mode === "study";
+  // A question is graded once the exam is submitted, or - in study mode - once this
+  // particular question has a complete answer. Never before it has been answered.
+  const graded = q => state.screen === "results" || (state.mode === "study" && isComplete(q));
 
   function results() {
     const perDomain = EXAM.domains.map(d => {
@@ -730,11 +732,11 @@
 
   function renderExam() {
     const q = QUESTIONS[state.current];
-    const show = graded();
+    const show = graded(q);
     const cells = QUESTIONS.map((item, i) => {
       const cls = ["cell"];
       if (i === state.current) cls.push("now");
-      if (state.mode === "study" && isAnswered(item)) cls.push(isCorrect(item) ? "hit" : "miss");
+      if (state.mode === "study" && isComplete(item)) cls.push(isCorrect(item) ? "hit" : "miss");
       else if (isAnswered(item)) cls.push("done");
       if (state.flags[item.id]) cls.push("flag");
       return `<button class="${cls.join(" ")}" data-goto="${i}" aria-label="Question ${item.id}">${item.id}</button>`;
@@ -751,6 +753,8 @@
             <button class="btn btn-flag" id="flag" aria-pressed="${!!state.flags[q.id]}">
               ${state.flags[q.id] ? "Flagged" : "Flag for review"}
             </button>
+            ${show && state.mode === "study"
+              ? '<button class="btn" id="clear">Clear answer</button>' : ""}
             <span class="grow"></span>
             ${state.current === QUESTIONS.length - 1
               ? '<button class="btn btn-primary" id="submit">Submit exam</button>'
@@ -875,7 +879,7 @@
   /* ---------- actions ---------- */
 
   function pick(q, letter) {
-    if (graded()) return;
+    if (graded(q)) return;
     const picked = selected(q).slice();
     const at = picked.indexOf(letter);
     if (q.type === "multi") {
@@ -947,6 +951,7 @@
     if (hit(".opt") && !hit(".opt").disabled) { pick(q, hit(".opt").dataset.letter); return; }
     if (hit("#prev")) { go(state.current - 1); return; }
     if (hit("#next")) { go(state.current + 1); return; }
+    if (hit("#clear")) { delete state.answers[q.id]; save(); render(); return; }
     if (hit("#flag")) {
       if (state.flags[q.id]) delete state.flags[q.id]; else state.flags[q.id] = true;
       save(); render(); return;
