@@ -1,0 +1,712 @@
+{
+  "exam": {
+    "slug": "clf-c02-drill-d1-d2",
+    "file_slug": "AWS-CLF-C02-Domains-1-2-Drill",
+    "page_title": "Cloud Concepts & Security Drill",
+    "eyebrow": "AWS Certified Cloud Practitioner · CLF-C02 · Focused drill",
+    "heading": "Cloud Concepts & Security",
+    "short_title": "Domains 1 & 2 Drill",
+    "subtitle": "Forty questions drawn only from Domain 1 and Domain 2, held in the same 24:30 ratio the real exam uses between them. Every question names the signal word that gives the answer away, so the pattern sticks.",
+    "title": "AWS Certified Cloud Practitioner (CLF-C02) - Domains 1 & 2 Focused Drill",
+    "certification": "AWS Certified Cloud Practitioner",
+    "exam_code": "CLF-C02",
+    "question_count": 40,
+    "time_limit_minutes": 55,
+    "passing_score": "700 / 1000 (scaled) on the real exam; 70% here",
+    "note": "A focused drill, not a full mock. It covers only Cloud Concepts and Security and Compliance, which together are 54% of the real exam. The two domains appear in the same 24:30 proportion to each other that the official blueprint uses, and the time limit keeps the real exam's pace of about 1 minute 23 seconds per question.",
+    "rules": [
+      "Every explanation names the signal word or phrase in the stem that points to the answer. Read those even on questions you get right.",
+      "This drill deliberately includes the trap pairs: CloudTrail vs Config, GuardDuty vs Inspector vs Macie, KMS vs CloudHSM, Shield vs WAF, and the shared responsibility flip between EC2 and managed services."
+    ],
+    "domains": [
+      {"id": 1, "name": "Cloud Concepts", "weight": 45, "official_weight": 24, "questions": 18},
+      {"id": 2, "name": "Security and Compliance", "weight": 55, "official_weight": 30, "questions": 22}
+    ]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "domain": 1,
+      "topic": "Horizontal vs vertical scaling",
+      "type": "single",
+      "stem": "A company responds to increased demand by adding more Amazon EC2 instances to its web tier rather than moving to a larger instance size. What is this approach called?",
+      "options": {
+        "A": "Vertical scaling",
+        "B": "Horizontal scaling",
+        "C": "Fault tolerance",
+        "D": "Loose coupling"
+      },
+      "answers": ["B"],
+      "signal": "'adding more instances' means horizontal (scale out); 'a larger instance size' means vertical (scale up). AWS best practice favors horizontal scaling because it also improves availability.",
+      "explanation": "Horizontal scaling, or scaling out, adds more instances of a resource. Vertical scaling, or scaling up, replaces a resource with a larger one. The Reliability pillar recommends scaling horizontally so that the failure of any single instance affects a smaller share of the workload.",
+      "distractors": "Vertical scaling is the opposite approach. Fault tolerance and loose coupling are design goals, not scaling directions."
+    },
+    {
+      "id": 2,
+      "domain": 1,
+      "topic": "Stop guessing capacity",
+      "type": "single",
+      "stem": "An on-premises company buys servers sized for its busiest day of the year. For the remaining 360 days most of that hardware sits idle. Which advantage of cloud computing solves this problem?",
+      "options": {
+        "A": "Stop guessing capacity",
+        "B": "Benefit from massive economies of scale",
+        "C": "Go global in minutes",
+        "D": "Increase physical security"
+      },
+      "answers": ["A"],
+      "signal": "'sized for the busiest day' plus 'sits idle' is the capacity-guessing problem. Do not jump to 'economies of scale' just because the question mentions wasted money.",
+      "explanation": "Provisioning for peak demand means paying for idle capacity most of the time, and provisioning for average demand means failing at peak. In the cloud you scale capacity up and down on demand, so the guess disappears.",
+      "distractors": "Economies of scale explain why AWS unit prices are low, not why idle hardware is wasteful. Global reach and physical security are unrelated to this scenario."
+    },
+    {
+      "id": 3,
+      "domain": 1,
+      "topic": "Well-Architected: Security pillar",
+      "type": "single",
+      "stem": "Which design principle belongs to the Security pillar of the AWS Well-Architected Framework?",
+      "options": {
+        "A": "Apply security at all layers",
+        "B": "Measure overall efficiency",
+        "C": "Adopt a consumption model",
+        "D": "Make frequent, small, reversible changes"
+      },
+      "answers": ["A"],
+      "signal": "Security pillar principles read as: identity foundation, traceability, security at all layers, automate, protect data in transit and at rest, prepare for events.",
+      "explanation": "'Apply security at all layers' is a Security pillar principle, describing defense in depth across the network, instance, application and data layers.",
+      "distractors": "'Measure overall efficiency' is Performance Efficiency, 'adopt a consumption model' is Cost Optimization, and 'make frequent, small, reversible changes' is Operational Excellence."
+    },
+    {
+      "id": 4,
+      "domain": 1,
+      "topic": "Well-Architected: Cost Optimization",
+      "type": "single",
+      "stem": "A company wants to attribute AWS spending to individual business units so each team can see what its workloads cost. Which Well-Architected pillar does this practice belong to?",
+      "options": {
+        "A": "Operational Excellence",
+        "B": "Reliability",
+        "C": "Cost Optimization",
+        "D": "Performance Efficiency"
+      },
+      "answers": ["C"],
+      "signal": "'attribute expenditure' and 'adopt a consumption model' are Cost Optimization phrases straight out of the framework.",
+      "explanation": "Cost Optimization includes analyzing and attributing expenditure, adopting a consumption model, measuring overall efficiency, and stopping spending on undifferentiated heavy lifting.",
+      "distractors": "The other pillars address how systems are run, how they survive failure, and how efficiently they use resources, not how spend is allocated."
+    },
+    {
+      "id": 5,
+      "domain": 1,
+      "topic": "Well-Architected: Performance Efficiency",
+      "type": "single",
+      "stem": "A team regularly tests new instance types and database engines to see whether they serve a workload better than the current choice. Which Well-Architected pillar does this reflect?",
+      "options": {
+        "A": "Performance Efficiency",
+        "B": "Sustainability",
+        "C": "Reliability",
+        "D": "Security"
+      },
+      "answers": ["A"],
+      "signal": "'experiment more often' and 'use advanced technologies as a service' are Performance Efficiency principles. The giveaway is comparing resource types for fit.",
+      "explanation": "Performance Efficiency is about using computing resources efficiently and continuing to do so as demand changes and technologies evolve. Experimenting more often is one of its design principles, because in the cloud a test costs minutes rather than a procurement cycle.",
+      "distractors": "Sustainability would frame the same action in terms of energy per unit of work. Reliability and Security address failure and protection respectively."
+    },
+    {
+      "id": 6,
+      "domain": 1,
+      "topic": "AWS Cloud Adoption Framework (CAF)",
+      "type": "single",
+      "stem": "During a cloud migration, an organization must address staff training, new role definitions, and change management. Which AWS Cloud Adoption Framework perspective covers this work?",
+      "options": {
+        "A": "Platform",
+        "B": "People",
+        "C": "Operations",
+        "D": "Governance"
+      },
+      "answers": ["B"],
+      "signal": "Training, culture, roles and org change map to the People perspective. The six CAF perspectives are Business, People, Governance, Platform, Security and Operations.",
+      "explanation": "The People perspective bridges technology and business, covering culture, organizational structure, leadership, and workforce skills during cloud adoption.",
+      "distractors": "Platform covers the architecture and the landing zone, Operations covers running services to meet business needs, and Governance covers managing and measuring the initiative's business outcomes and risk."
+    },
+    {
+      "id": 7,
+      "domain": 1,
+      "topic": "Migration strategies: replatform",
+      "type": "single",
+      "stem": "A company moves a self-managed MySQL database from a data center onto Amazon RDS for MySQL. The application's code is unchanged, but the database is now a managed service. Which migration strategy is this?",
+      "options": {
+        "A": "Rehosting",
+        "B": "Replatforming",
+        "C": "Refactoring",
+        "D": "Retaining"
+      },
+      "answers": ["B"],
+      "signal": "'lift, tinker and shift' — some optimization, no code rewrite. Moving a self-managed engine onto its managed equivalent is the textbook replatform example.",
+      "explanation": "Replatforming makes a few cloud optimizations to gain a tangible benefit, such as moving to a managed database, without changing the application's core architecture.",
+      "distractors": "Rehosting would move the database server as-is onto EC2. Refactoring would re-architect the application. Retaining means leaving it where it is for now."
+    },
+    {
+      "id": 8,
+      "domain": 1,
+      "topic": "Migration strategies: repurchase",
+      "type": "single",
+      "stem": "A company retires its self-hosted CRM application and moves its users to a subscription-based CRM product from AWS Marketplace. Which migration strategy is this?",
+      "options": {
+        "A": "Repurchasing",
+        "B": "Rehosting",
+        "C": "Relocating",
+        "D": "Refactoring"
+      },
+      "answers": ["A"],
+      "signal": "'move to a different product', usually a SaaS subscription, is repurchase — sometimes called 'drop and shop'.",
+      "explanation": "Repurchasing replaces an existing application with a different product, most often a SaaS offering, rather than migrating the original software.",
+      "distractors": "Rehosting and relocating move the existing workload unchanged. Refactoring rewrites it."
+    },
+    {
+      "id": 9,
+      "domain": 1,
+      "topic": "Cloud service models",
+      "type": "single",
+      "stem": "Employees use a web-based email and productivity suite. They manage only their own documents and settings; the vendor handles everything else. Which cloud computing model is this?",
+      "options": {
+        "A": "Infrastructure as a service (IaaS)",
+        "B": "Platform as a service (PaaS)",
+        "C": "Software as a service (SaaS)",
+        "D": "Serverless"
+      },
+      "answers": ["C"],
+      "signal": "'a finished application the user just signs into' is SaaS. If the customer manages the OS it is IaaS; if they deploy code but not the OS it is PaaS.",
+      "explanation": "SaaS delivers a completed product that the provider runs and manages. The customer thinks only about how they use the software.",
+      "distractors": "IaaS gives the customer the operating system, PaaS gives them a managed runtime for their own code, and serverless describes how a service is operated rather than a service model in this taxonomy."
+    },
+    {
+      "id": 10,
+      "domain": 1,
+      "topic": "Fault tolerance vs high availability",
+      "type": "single",
+      "stem": "An application is designed so that the failure of any single component causes no interruption and no loss of function at all, with redundant components already running. Which characteristic does this describe?",
+      "options": {
+        "A": "Elasticity",
+        "B": "Fault tolerance",
+        "C": "Agility",
+        "D": "Scalability"
+      },
+      "answers": ["B"],
+      "signal": "'no interruption at all' is fault tolerance. 'Minimal downtime' or 'recovers quickly' is high availability. The exam separates these two on the words 'no' versus 'minimal'.",
+      "explanation": "Fault tolerance means the system continues operating with no loss of function when a component fails, because redundancy is already in place. High availability accepts brief disruption while the system recovers.",
+      "distractors": "Elasticity and scalability describe capacity changes. Agility describes speed of delivery."
+    },
+    {
+      "id": 11,
+      "domain": 1,
+      "topic": "Agility and the cost of experimentation",
+      "type": "single",
+      "stem": "A startup wants to test five different product ideas this quarter and shut down whichever ones fail, without buying hardware for any of them. Which pair of cloud benefits BEST supports this plan?",
+      "options": {
+        "A": "Increased agility and a variable expense model",
+        "B": "Physical security and regulatory compliance",
+        "C": "Economies of scale and data residency control",
+        "D": "Fault tolerance and disaster recovery"
+      },
+      "answers": ["A"],
+      "signal": "'test and shut down' plus 'without buying hardware' is agility (provision in minutes) combined with paying only for what you use.",
+      "explanation": "Provisioning in minutes lowers the cost of trying an idea, and paying only for what is consumed means an abandoned experiment stops costing money as soon as it is shut down.",
+      "distractors": "The other pairs are real cloud benefits but none of them address the speed and disposability of experiments."
+    },
+    {
+      "id": 12,
+      "domain": 1,
+      "topic": "Benefits of the AWS global infrastructure",
+      "type": "multi",
+      "stem": "Which are benefits of deploying a workload across multiple AWS Availability Zones within a Region? (Choose TWO.)",
+      "options": {
+        "A": "The workload survives the loss of a single data center",
+        "B": "Data is automatically copied to every AWS Region",
+        "C": "Low-latency network links connect the Availability Zones",
+        "D": "AWS assumes responsibility for the customer's application code",
+        "E": "The workload no longer needs any backups"
+      },
+      "answers": ["A", "C"],
+      "signal": "Multi-AZ answers are about surviving a data center failure with low-latency links between zones. Any option promising automatic global replication or the end of backups is a distractor.",
+      "explanation": "Availability Zones are physically separated but connected by high-bandwidth, low-latency links, so a workload spread across them stays available when one zone fails and can still replicate synchronously.",
+      "distractors": "Cross-Region copying happens only when configured. AWS never takes responsibility for customer code, and redundancy is not a substitute for backups."
+    },
+    {
+      "id": 13,
+      "domain": 1,
+      "topic": "Sustainability pillar",
+      "type": "single",
+      "stem": "A company shuts down development and test environments outside working hours and consolidates lightly used workloads onto fewer instances. Which Well-Architected pillar does this MOST directly support, besides Cost Optimization?",
+      "options": {
+        "A": "Reliability",
+        "B": "Sustainability",
+        "C": "Security",
+        "D": "Operational Excellence"
+      },
+      "answers": ["B"],
+      "signal": "'maximize utilization' and 'reduce idle resources' serve Sustainability as well as cost. Sustainability language is about energy and resources per unit of work.",
+      "explanation": "The Sustainability pillar aims to reduce the energy and resources consumed per unit of work. Maximizing utilization and eliminating idle capacity is one of its primary practices, which is why it so often overlaps with Cost Optimization.",
+      "distractors": "Reliability, Security and Operational Excellence are unaffected by consolidating idle instances."
+    },
+    {
+      "id": 14,
+      "domain": 1,
+      "topic": "Operational Excellence",
+      "type": "single",
+      "stem": "A team deploys changes as small, frequent, reversible updates defined entirely in templates, and runs regular game days to rehearse failures. Which Well-Architected pillar are they practicing?",
+      "options": {
+        "A": "Operational Excellence",
+        "B": "Cost Optimization",
+        "C": "Performance Efficiency",
+        "D": "Sustainability"
+      },
+      "answers": ["A"],
+      "signal": "'perform operations as code', 'small reversible changes', 'anticipate failure' and 'learn from all operational failures' are Operational Excellence principles.",
+      "explanation": "Operational Excellence covers running and monitoring systems and continuously improving processes. Defining operations as code and rehearsing failure are two of its design principles.",
+      "distractors": "The other pillars address spend, resource fit, and environmental impact rather than how changes are delivered and rehearsed."
+    },
+    {
+      "id": 15,
+      "domain": 1,
+      "topic": "Cloud deployment models",
+      "type": "single",
+      "stem": "A company builds a new application entirely on AWS managed services, with no on-premises components at any tier. Which deployment model is this?",
+      "options": {
+        "A": "Hybrid",
+        "B": "Cloud-native (all-in cloud)",
+        "C": "Private cloud",
+        "D": "Community cloud"
+      },
+      "answers": ["B"],
+      "signal": "'no on-premises components' rules out hybrid. Hybrid always requires something still running in a data center.",
+      "explanation": "An all-in cloud or cloud-native deployment runs every part of the application in the cloud, often using managed and serverless services from the outset.",
+      "distractors": "Hybrid mixes cloud with on-premises. A private cloud runs on infrastructure dedicated to one organization, typically on-premises."
+    },
+    {
+      "id": 16,
+      "domain": 1,
+      "topic": "Characteristics of cloud computing",
+      "type": "multi",
+      "stem": "Which statements describe characteristics of cloud computing? (Choose TWO.)",
+      "options": {
+        "A": "Resources can be provisioned on demand without human interaction from the provider",
+        "B": "Usage is metered, and customers pay only for what they consume",
+        "C": "Capacity must be reserved a quarter in advance",
+        "D": "Each customer receives dedicated physical hardware by default",
+        "E": "Costs are fixed for the life of the contract"
+      },
+      "answers": ["A", "B"],
+      "signal": "On-demand self-service and measured (metered) service are the standard characteristics. Anything describing advance reservations, dedicated hardware by default, or fixed costs is describing the on-premises model.",
+      "explanation": "On-demand self-service means resources are provisioned automatically through an API or console, and measured service means usage is metered and billed by consumption.",
+      "distractors": "Advance capacity reservation and fixed contracts describe traditional data center procurement. Dedicated hardware is available on AWS but is an exception, not the default."
+    },
+    {
+      "id": 17,
+      "domain": 1,
+      "topic": "AWS Well-Architected Review",
+      "type": "single",
+      "stem": "Before a major launch, a company wants a structured review of one workload against AWS best practices, producing a prioritized list of risks. What should the company do?",
+      "options": {
+        "A": "Open a support case requesting that AWS certify the workload",
+        "B": "Run a Well-Architected Review of the workload using the AWS Well-Architected Tool",
+        "C": "Enable AWS Config rules and treat any noncompliant resource as a risk",
+        "D": "Migrate the workload to a different AWS Region"
+      },
+      "answers": ["B"],
+      "signal": "'review a workload against best practices' plus 'list of risks' is always the Well-Architected Tool. AWS does not certify or approve customer architectures.",
+      "explanation": "The AWS Well-Architected Tool walks a workload through questions for each pillar and returns identified high and medium risks with an improvement plan, at no cost.",
+      "distractors": "AWS does not certify workloads. Config checks resource configuration but does not perform an architectural review, and changing Region reviews nothing."
+    },
+    {
+      "id": 18,
+      "domain": 1,
+      "topic": "Elasticity vs scalability",
+      "type": "single",
+      "stem": "Which statement BEST distinguishes elasticity from scalability?",
+      "options": {
+        "A": "They are different words for the same capability",
+        "B": "Scalability is the ability to grow to handle more load; elasticity is doing so automatically in both directions as demand changes",
+        "C": "Elasticity applies only to storage, and scalability applies only to compute",
+        "D": "Scalability is an AWS service and elasticity is a billing model"
+      },
+      "answers": ["B"],
+      "signal": "Scalability = can grow. Elasticity = grows and shrinks automatically with demand. When a stem stresses releasing resources afterward, the answer is elasticity.",
+      "explanation": "Scalability is the capacity to handle growth, whether by scaling up or out. Elasticity adds the automatic, bidirectional match of supply to demand, including releasing resources when they are no longer needed.",
+      "distractors": "The terms are related but not identical, neither is limited to one resource type, and neither is a service or a billing model."
+    },
+    {
+      "id": 19,
+      "domain": 2,
+      "topic": "Shared responsibility: managed services",
+      "type": "single",
+      "stem": "A company runs a database on Amazon RDS. Who is responsible for patching the operating system underlying the database instance?",
+      "options": {
+        "A": "The customer, using AWS Systems Manager Patch Manager",
+        "B": "AWS",
+        "C": "The customer, by logging in over SSH",
+        "D": "Neither party; the OS never requires patching"
+      },
+      "answers": ["B"],
+      "signal": "The shared responsibility line moves with the service. If the customer has no OS access, AWS patches it. Amazon RDS gives no SSH access, so the OS is AWS's responsibility.",
+      "explanation": "For managed services such as Amazon RDS, Lambda and DynamoDB, AWS operates the underlying infrastructure and operating system. The customer's responsibility narrows to data, access control, and configuration such as encryption settings and security groups.",
+      "distractors": "This is the exact inverse of Amazon EC2, where the customer patches the guest OS. Watch for the service name before answering an OS-patching question."
+    },
+    {
+      "id": 20,
+      "domain": 2,
+      "topic": "Shared responsibility: customer duties",
+      "type": "single",
+      "stem": "Which of the following is ALWAYS the customer's responsibility, regardless of which AWS services are used?",
+      "options": {
+        "A": "Decommissioning physical storage media",
+        "B": "Classifying the company's own data and controlling who can access it",
+        "C": "Maintaining the network infrastructure between Availability Zones",
+        "D": "Patching the hypervisor"
+      },
+      "answers": ["B"],
+      "signal": "Customer data, its classification, and who may access it never transfer to AWS. Anything physical or infrastructure-level is AWS's.",
+      "explanation": "The customer always owns their content, the classification of that content, and the identity and access management decisions around it. This part of the model does not change with the service.",
+      "distractors": "Media decommissioning, inter-AZ networking and hypervisor patching are all part of security 'of' the cloud, which is AWS's responsibility."
+    },
+    {
+      "id": 21,
+      "domain": 2,
+      "topic": "Shared responsibility model",
+      "type": "multi",
+      "stem": "Which tasks does AWS perform as part of its responsibility for security OF the cloud? (Choose TWO.)",
+      "options": {
+        "A": "Controlling physical access to data centers",
+        "B": "Configuring IAM permissions for the customer's users",
+        "C": "Managing the hardware and software of the global infrastructure",
+        "D": "Encrypting the customer's application data",
+        "E": "Choosing which AWS Region a workload runs in"
+      },
+      "answers": ["A", "C"],
+      "signal": "Security OF the cloud = the physical facilities, hardware, and the software that runs AWS services. Security IN the cloud = identity, data, configuration, and Region choice, all customer decisions.",
+      "explanation": "AWS operates, manages and controls the components from the host operating system and virtualization layer down to the physical security of the facilities.",
+      "distractors": "IAM configuration, data encryption and Region selection are all customer decisions and are part of security in the cloud."
+    },
+    {
+      "id": 22,
+      "domain": 2,
+      "topic": "Principle of least privilege",
+      "type": "single",
+      "stem": "A new analyst needs to read objects from one Amazon S3 bucket to build reports. Which approach follows AWS security best practices?",
+      "options": {
+        "A": "Attach the AdministratorAccess policy so the analyst is never blocked",
+        "B": "Grant read-only access to that specific bucket and nothing more",
+        "C": "Share an existing administrator's credentials for the duration of the project",
+        "D": "Add the analyst to the account as a second root user"
+      },
+      "answers": ["B"],
+      "signal": "'only the permissions required to perform the task' is least privilege. Any option offering broad access for convenience is wrong by definition on this exam.",
+      "explanation": "Least privilege means granting only the permissions needed for the task, scoped to the specific resource, and widening them only if a genuine need appears.",
+      "distractors": "Administrator access is far broader than the task requires, shared credentials destroy accountability, and an account has exactly one root user that cannot be duplicated."
+    },
+    {
+      "id": 23,
+      "domain": 2,
+      "topic": "Root user: tasks requiring root",
+      "type": "single",
+      "stem": "Which task can ONLY be performed by the AWS account root user?",
+      "options": {
+        "A": "Creating an Amazon S3 bucket",
+        "B": "Changing the AWS Support plan or closing the AWS account",
+        "C": "Launching an Amazon EC2 instance",
+        "D": "Creating an IAM role"
+      },
+      "answers": ["B"],
+      "signal": "Root-only tasks are account-level administration: changing the support plan, closing the account, changing the account name or email, and restoring IAM user permissions after they are revoked.",
+      "explanation": "A small set of account and billing management tasks require root credentials. Everything operational should be done by an IAM identity with appropriate permissions.",
+      "distractors": "Creating buckets, launching instances and creating roles are all ordinary tasks any suitably permissioned IAM identity can perform."
+    },
+    {
+      "id": 24,
+      "domain": 2,
+      "topic": "IAM roles for cross-account access",
+      "type": "single",
+      "stem": "A company has a production account and an auditing account. Auditors in the auditing account need temporary read access to resources in the production account. What is the recommended way to grant it?",
+      "options": {
+        "A": "Create IAM users in the production account and email the access keys to the auditors",
+        "B": "Create an IAM role in the production account that the auditing account is trusted to assume",
+        "C": "Share the production account's root user credentials with the audit team",
+        "D": "Make the production resources publicly readable during the audit"
+      },
+      "answers": ["B"],
+      "signal": "'cross-account', 'temporary', and 'no long-term credentials' all point to an IAM role that is assumed. Roles issue short-lived credentials; users carry long-lived keys.",
+      "explanation": "A cross-account IAM role with a trust policy naming the other account lets identities there assume the role and receive temporary credentials, with no keys to distribute or rotate.",
+      "distractors": "Distributing access keys creates long-lived credentials in a second account, root credentials must never be shared, and public access exposes data to everyone."
+    },
+    {
+      "id": 25,
+      "domain": 2,
+      "topic": "IAM policy evaluation",
+      "type": "single",
+      "stem": "An IAM user belongs to a group whose policy allows s3:DeleteObject. A separate policy attached directly to the user explicitly denies s3:DeleteObject. What is the result?",
+      "options": {
+        "A": "The user can delete objects, because an explicit allow overrides a deny",
+        "B": "The user cannot delete objects, because an explicit deny always wins",
+        "C": "The result depends on which policy was attached most recently",
+        "D": "The user is prompted to choose which policy applies"
+      },
+      "answers": ["B"],
+      "signal": "In IAM evaluation an explicit deny always overrides any allow, from any policy. There is no ordering, recency or precedence question to reason about.",
+      "explanation": "IAM evaluates all applicable policies together. Access is denied by default, an allow grants access, and an explicit deny anywhere overrides every allow.",
+      "distractors": "Policy attachment order is irrelevant, and IAM never prompts a user to resolve a conflict."
+    },
+    {
+      "id": 26,
+      "domain": 2,
+      "topic": "AWS IAM Identity Center",
+      "type": "single",
+      "stem": "A company with 60 AWS accounts wants its employees to sign in once with corporate credentials and then select which account and role to use. Which service provides this?",
+      "options": {
+        "A": "AWS IAM Identity Center",
+        "B": "Amazon Cognito",
+        "C": "AWS Directory Service for Microsoft Active Directory only",
+        "D": "An IAM user created in each of the 60 accounts"
+      },
+      "answers": ["A"],
+      "signal": "'workforce', 'sign in once', 'multiple accounts' means IAM Identity Center. Amazon Cognito is for your application's end users (customers), not employees.",
+      "explanation": "AWS IAM Identity Center provides single sign-on across all accounts in an organization, using an existing corporate identity source, and presents users with a portal of the accounts and roles available to them.",
+      "distractors": "Cognito handles customer identity for applications. Directory Service supplies a directory but is not itself the multi-account sign-on layer, and per-account IAM users are exactly what this replaces."
+    },
+    {
+      "id": 27,
+      "domain": 2,
+      "topic": "Service control policies",
+      "type": "single",
+      "stem": "An organization wants to guarantee that no account in its Sandbox organizational unit can ever use Amazon EC2, even if a local administrator grants themselves full permissions. What should it use?",
+      "options": {
+        "A": "An IAM policy attached to each user in those accounts",
+        "B": "A service control policy applied to the Sandbox organizational unit",
+        "C": "A security group rule",
+        "D": "An AWS Config rule"
+      },
+      "answers": ["B"],
+      "signal": "'even if a local administrator allows it' or 'maximum permissions' means an SCP. IAM grants permissions; SCPs cap what IAM in that account is able to grant.",
+      "explanation": "Service control policies in AWS Organizations set the permission ceiling for member accounts. An action denied by an SCP cannot be performed no matter what the account's own IAM policies say.",
+      "distractors": "IAM policies can be changed by an account administrator, security groups filter network traffic, and Config reports noncompliance after the fact rather than preventing the action."
+    },
+    {
+      "id": 28,
+      "domain": 2,
+      "topic": "Amazon GuardDuty",
+      "type": "single",
+      "stem": "A security team wants to be alerted when an IAM access key is used from an unusual location or when an EC2 instance starts communicating with a known command-and-control server. Which service should it enable?",
+      "options": {
+        "A": "Amazon Inspector",
+        "B": "Amazon GuardDuty",
+        "C": "AWS Config",
+        "D": "AWS Certificate Manager"
+      },
+      "answers": ["B"],
+      "signal": "'unusual', 'unexpected', 'malicious', 'compromised', 'known bad IP' — behavioral threat detection is GuardDuty. It watches activity, not software versions.",
+      "explanation": "GuardDuty continuously analyzes CloudTrail events, VPC Flow Logs and DNS logs with machine learning and threat intelligence to flag anomalous and malicious behavior.",
+      "distractors": "Inspector looks at software vulnerabilities rather than behavior, Config looks at resource configuration, and ACM manages certificates."
+    },
+    {
+      "id": 29,
+      "domain": 2,
+      "topic": "Amazon Inspector",
+      "type": "single",
+      "stem": "A company must produce a list of unpatched software packages with known CVEs on its running Amazon EC2 instances. Which service does this?",
+      "options": {
+        "A": "Amazon GuardDuty",
+        "B": "Amazon Macie",
+        "C": "Amazon Inspector",
+        "D": "Amazon Detective"
+      },
+      "answers": ["C"],
+      "signal": "'vulnerability', 'CVE', 'unpatched', 'scan' means Inspector. Compare with GuardDuty, which detects behavior, and Macie, which finds sensitive data.",
+      "explanation": "Amazon Inspector continually scans EC2 instances, container images in Amazon ECR, and Lambda functions for known software vulnerabilities and unintended network exposure.",
+      "distractors": "GuardDuty detects malicious activity, Macie classifies sensitive data in S3, and Detective investigates the cause of findings that other services raise."
+    },
+    {
+      "id": 30,
+      "domain": 2,
+      "topic": "Amazon Macie",
+      "type": "single",
+      "stem": "A company must find out whether any customer credit card numbers or national ID numbers have been uploaded to its Amazon S3 buckets. Which service should it use?",
+      "options": {
+        "A": "Amazon Macie",
+        "B": "AWS Config",
+        "C": "Amazon Inspector",
+        "D": "AWS CloudTrail"
+      },
+      "answers": ["A"],
+      "signal": "'sensitive data', 'PII', 'credit card numbers', 'classify' plus 'S3' is always Macie.",
+      "explanation": "Amazon Macie uses machine learning and pattern matching to discover and classify sensitive data in Amazon S3, and reports on the security posture of the buckets holding it.",
+      "distractors": "Config evaluates configuration, Inspector scans for vulnerabilities, and CloudTrail records who called which API."
+    },
+    {
+      "id": 31,
+      "domain": 2,
+      "topic": "Amazon Detective",
+      "type": "single",
+      "stem": "After GuardDuty raises a finding, a security analyst needs to explore the related events and resource behavior over time to determine the root cause. Which service is purpose-built for this investigation?",
+      "options": {
+        "A": "AWS Security Hub",
+        "B": "Amazon Detective",
+        "C": "AWS Trusted Advisor",
+        "D": "Amazon CloudWatch"
+      },
+      "answers": ["B"],
+      "signal": "'investigate', 'root cause', 'after a finding' is Detective. 'Aggregate findings in one place' is Security Hub. Detect, then aggregate, then investigate: GuardDuty, Security Hub, Detective.",
+      "explanation": "Amazon Detective automatically builds a linked data set from CloudTrail, VPC Flow Logs and GuardDuty findings so analysts can visualize and drill into the behavior behind a finding.",
+      "distractors": "Security Hub aggregates and prioritizes findings but does not perform the deep investigation. Trusted Advisor and CloudWatch serve different purposes entirely."
+    },
+    {
+      "id": 32,
+      "domain": 2,
+      "topic": "AWS Security Hub",
+      "type": "single",
+      "stem": "A company wants one place to see security findings from several AWS security services across all of its accounts, with automated checks against the CIS AWS Foundations Benchmark. Which service should it use?",
+      "options": {
+        "A": "Amazon Detective",
+        "B": "AWS Security Hub",
+        "C": "AWS Artifact",
+        "D": "Amazon GuardDuty"
+      },
+      "answers": ["B"],
+      "signal": "'single pane of glass', 'aggregate findings', 'security standard' or a named benchmark means Security Hub.",
+      "explanation": "AWS Security Hub aggregates findings from GuardDuty, Inspector, Macie and partner tools, normalizes them, and runs continuous best-practice checks against security standards.",
+      "distractors": "Detective investigates individual findings, Artifact supplies compliance documents, and GuardDuty produces findings rather than aggregating them."
+    },
+    {
+      "id": 33,
+      "domain": 2,
+      "topic": "AWS WAF",
+      "type": "single",
+      "stem": "A company needs to block requests from IP addresses that exceed 2,000 requests in five minutes, and to filter requests containing malicious SQL fragments. Which service provides these controls?",
+      "options": {
+        "A": "AWS Shield Standard",
+        "B": "Security groups",
+        "C": "AWS WAF",
+        "D": "AWS Network Firewall"
+      },
+      "answers": ["C"],
+      "signal": "Inspecting the content of HTTP requests, rate-based rules, SQL injection, XSS and bad bots are all AWS WAF. Shield handles volumetric DDoS; WAF handles the request itself.",
+      "explanation": "AWS WAF inspects HTTP and HTTPS requests at layer 7 and supports rate-based rules that block source IPs exceeding a request threshold, plus managed rule groups for common exploits.",
+      "distractors": "Shield Standard mitigates network and transport layer DDoS automatically but does not inspect request content. Security groups filter by IP, protocol and port only."
+    },
+    {
+      "id": 34,
+      "domain": 2,
+      "topic": "AWS Shield Standard",
+      "type": "single",
+      "stem": "Which statement about AWS Shield Standard is correct?",
+      "options": {
+        "A": "It must be purchased separately and configured before it protects any resource",
+        "B": "It is enabled automatically for all AWS customers at no additional charge",
+        "C": "It includes 24/7 access to the AWS Shield Response Team",
+        "D": "It protects only Amazon EC2 instances"
+      },
+      "answers": ["B"],
+      "signal": "Shield Standard is free and automatic for everyone. Anything about the Shield Response Team, cost protection, or detailed attack diagnostics belongs to Shield Advanced, which is paid.",
+      "explanation": "AWS Shield Standard is included at no cost for all customers and automatically defends against the most common network and transport layer DDoS attacks.",
+      "distractors": "The Shield Response Team and cost protection are Shield Advanced features. Shield Standard is not limited to EC2."
+    },
+    {
+      "id": 35,
+      "domain": 2,
+      "topic": "AWS KMS vs AWS CloudHSM",
+      "type": "single",
+      "stem": "A regulated customer must manage its encryption keys in single-tenant hardware security modules that it controls exclusively, meeting FIPS 140-2 Level 3. Which service meets this requirement?",
+      "options": {
+        "A": "AWS Key Management Service (AWS KMS)",
+        "B": "AWS CloudHSM",
+        "C": "AWS Secrets Manager",
+        "D": "AWS Certificate Manager"
+      },
+      "answers": ["B"],
+      "signal": "'dedicated', 'single-tenant', 'you control the hardware', 'FIPS 140-2 Level 3' means CloudHSM. Plain 'create and manage keys, integrated with AWS services' means KMS.",
+      "explanation": "AWS CloudHSM provides dedicated, single-tenant hardware security modules in the customer's VPC, where the customer alone controls the keys and users. KMS is multi-tenant and managed by AWS.",
+      "distractors": "KMS is the default choice for most workloads but does not offer dedicated single-tenant HSMs. Secrets Manager stores secrets, and ACM manages certificates."
+    },
+    {
+      "id": 36,
+      "domain": 2,
+      "topic": "AWS Secrets Manager",
+      "type": "single",
+      "stem": "An application currently reads its database password from a plaintext configuration file. The company wants the password stored encrypted, retrieved at runtime, and rotated automatically every 30 days. Which service should it use?",
+      "options": {
+        "A": "AWS Key Management Service (AWS KMS)",
+        "B": "AWS Secrets Manager",
+        "C": "Amazon S3 with default encryption",
+        "D": "AWS Systems Manager Session Manager"
+      },
+      "answers": ["B"],
+      "signal": "The word 'rotate' next to a credential is the Secrets Manager tell. KMS manages the keys that encrypt the secret; it does not store or rotate the secret itself.",
+      "explanation": "AWS Secrets Manager stores secrets encrypted with KMS, serves them to applications through an API call, and provides built-in scheduled rotation for supported databases.",
+      "distractors": "KMS manages encryption keys rather than credentials, S3 is object storage, and Session Manager provides shell access to instances."
+    },
+    {
+      "id": 37,
+      "domain": 2,
+      "topic": "AWS Config vs AWS CloudTrail",
+      "type": "single",
+      "stem": "An engineer needs to see what a security group's inbound rules looked like three weeks ago and how they have changed since. Which service provides this?",
+      "options": {
+        "A": "AWS CloudTrail",
+        "B": "AWS Config",
+        "C": "Amazon CloudWatch Logs",
+        "D": "AWS Trusted Advisor"
+      },
+      "answers": ["B"],
+      "signal": "'what did the resource look like' and 'how has it changed' is Config, which records configuration state over time. 'Who called the API' is CloudTrail. Both are audit services; the stem's noun decides which.",
+      "explanation": "AWS Config records point-in-time configurations of resources and maintains a configuration timeline, so you can view historical state and see exactly what changed.",
+      "distractors": "CloudTrail tells you which identity made the change and when, but not the resulting configuration state over time. CloudWatch Logs stores log data, and Trusted Advisor runs best-practice checks."
+    },
+    {
+      "id": 38,
+      "domain": 2,
+      "topic": "AWS Artifact",
+      "type": "single",
+      "stem": "A healthcare customer needs to accept a Business Associate Addendum (BAA) with AWS and download the current ISO 27001 certification. Where are both of these available?",
+      "options": {
+        "A": "AWS Artifact",
+        "B": "AWS Audit Manager",
+        "C": "AWS Security Hub",
+        "D": "The AWS Support Center"
+      },
+      "answers": ["A"],
+      "signal": "Compliance reports and legal agreements you download from AWS are always AWS Artifact. Audit Manager collects evidence about YOUR workloads; Artifact supplies AWS's own documents.",
+      "explanation": "AWS Artifact provides on-demand access to AWS security and compliance reports, such as SOC and ISO certifications, and to online agreements including the BAA.",
+      "distractors": "Audit Manager automates evidence collection for the customer's own audits, Security Hub aggregates findings, and support cases are not the distribution channel for these documents."
+    },
+    {
+      "id": 39,
+      "domain": 2,
+      "topic": "Encryption in transit and at rest",
+      "type": "multi",
+      "stem": "A company must protect data both while it moves across the network and while it is stored. Which pair of measures addresses these two requirements? (Choose TWO.)",
+      "options": {
+        "A": "Serving the application over HTTPS with a TLS certificate from AWS Certificate Manager",
+        "B": "Enabling server-side encryption on the Amazon S3 buckets holding the data",
+        "C": "Adding a second Availability Zone to the deployment",
+        "D": "Enabling Amazon CloudWatch detailed monitoring",
+        "E": "Placing the instances in a public subnet"
+      },
+      "answers": ["A", "B"],
+      "signal": "'in transit' maps to TLS/HTTPS/ACM/VPN. 'At rest' maps to server-side encryption, EBS/S3/RDS encryption and KMS. Options about availability or monitoring are not encryption at all.",
+      "explanation": "TLS protects data in transit between the client and the application, while server-side encryption protects the stored objects at rest. The exam frequently pairs these two requirements in a single stem.",
+      "distractors": "A second Availability Zone improves availability, detailed monitoring improves observability, and a public subnet is a networking choice; none of them encrypt anything."
+    },
+    {
+      "id": 40,
+      "domain": 2,
+      "topic": "Security groups vs network ACLs",
+      "type": "single",
+      "stem": "A company must block all traffic from one specific malicious IP address to every instance in a subnet. Which control can do this directly?",
+      "options": {
+        "A": "A security group inbound rule that denies the IP address",
+        "B": "A network ACL inbound rule that denies the IP address",
+        "C": "An IAM policy denying the IP address",
+        "D": "An Amazon Route 53 record removing the IP address"
+      },
+      "answers": ["B"],
+      "signal": "The word 'deny' or 'block a specific IP' rules out security groups entirely, because security groups support allow rules only. Deny plus subnet-wide means network ACL.",
+      "explanation": "Network ACLs operate at the subnet level and support both allow and deny rules evaluated in number order, so they can block a specific source IP for every instance in the subnet.",
+      "distractors": "Security groups have no deny rules; they can only permit traffic. IAM controls API access, not packet filtering, and Route 53 is DNS."
+    }
+  ]
+}

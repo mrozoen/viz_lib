@@ -313,6 +313,13 @@
   .rationale p { font-family: var(--serif); font-size: 15.5px; line-height: 1.6; color: var(--ink-2); margin: 0 0 10px; max-width: 68ch; }
   .rationale p:last-child { margin-bottom: 0; }
   .rationale b { color: var(--ink); font-weight: 600; }
+  .rationale p.signal {
+    background: var(--accent-soft);
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-size: 15px;
+  }
+  .rationale p.signal b { color: var(--accent); }
 
   .qfoot {
     display: flex;
@@ -461,8 +468,8 @@
 
 <header class="bar">
   <div class="bar-id">
-    <span class="eyebrow">AWS Certified Cloud Practitioner &middot; CLF-C02</span>
-    <strong id="barTitle">Practice Exam 01</strong>
+    <span class="eyebrow" id="barEyebrow"></span>
+    <strong id="barTitle"></strong>
   </div>
   <div class="bar-spacer"></div>
   <div class="bar-stat" id="answeredStat" hidden>
@@ -481,6 +488,12 @@
 <script>
   const DATA = {
   "exam": {
+    "slug": "clf-c02-mock-01",
+    "page_title": "Cloud Practitioner Mock 01",
+    "eyebrow": "AWS Certified Cloud Practitioner \u00b7 CLF-C02",
+    "heading": "AWS Certified Cloud Practitioner",
+    "short_title": "Practice Exam 01",
+    "subtitle": "A full-length mock exam built to the CLF-C02 exam guide: the same 65-question length, the same four domains, and the same number of questions drawn from each domain as the official blueprint specifies.",
     "title": "AWS Certified Cloud Practitioner (CLF-C02) - Practice Exam 1",
     "certification": "AWS Certified Cloud Practitioner",
     "exam_code": "CLF-C02",
@@ -513,6 +526,10 @@
         "weight": 12,
         "questions": 8
       }
+    ],
+    "file_slug": "AWS-CLF-C02-Practice-Exam-01",
+    "rules": [
+      "The real exam includes 15 unscored questions mixed in with the 50 scored ones. All 65 here are scored so you get feedback on every question."
     ]
   },
   "questions": [
@@ -1706,7 +1723,7 @@
   const DOMAINS = {};
   EXAM.domains.forEach(d => DOMAINS[d.id] = d);
   const DOM_COLOR = id => `var(--d${id})`;
-  const STORE_KEY = "clf-c02-mock-01";
+  const STORE_KEY = `clf-${EXAM.slug}`;
   const PASS_MARK = 0.7;
 
   const state = {
@@ -1811,8 +1828,9 @@
     document.getElementById("answeredCount").textContent = answeredCount();
     document.getElementById("progressFill").style.width =
       (answeredCount() / QUESTIONS.length * 100) + "%";
+    document.getElementById("barEyebrow").textContent = EXAM.eyebrow;
     document.getElementById("barTitle").textContent =
-      state.screen === "results" ? "Results — Practice Exam 01" : "Practice Exam 01";
+      state.screen === "results" ? `Results — ${EXAM.short_title}` : EXAM.short_title;
     if (state.screen === "results") {
       document.getElementById("timerLabel").textContent = "Time used";
       document.getElementById("timer").textContent =
@@ -1834,10 +1852,13 @@
   /* ---------- cover ---------- */
 
   function renderCover() {
+    const hasOfficial = EXAM.domains.some(d => d.official_weight);
+    const officialTotal = EXAM.domains.reduce((n, d) => n + (d.official_weight || 0), 0);
     const rows = EXAM.domains.map(d => `
       <tr>
         <td><span class="swatch" style="background:${DOM_COLOR(d.id)}"></span>${d.id}. ${esc(d.name)}</td>
         <td class="right">${d.weight}%</td>
+        ${hasOfficial ? `<td class="right">${d.official_weight}%</td>` : ""}
         <td class="right">${d.questions}</td>
       </tr>`).join("");
 
@@ -1850,19 +1871,28 @@
     return `
       <section class="cover">
         <div class="cover-head">
-          <span class="eyebrow">Practice Exam 01 &middot; 65 questions &middot; 90 minutes</span>
-          <h1>AWS Certified Cloud Practitioner</h1>
-          <p class="cover-sub">A full-length mock exam built to the CLF-C02 exam guide: the same
-            65-question length, the same four domains, and the same number of questions drawn from
-            each domain as the official blueprint specifies.</p>
+          <span class="eyebrow">${esc(EXAM.short_title)} &middot; ${QUESTIONS.length} questions
+            &middot; ${EXAM.time_limit_minutes} minutes</span>
+          <h1>${esc(EXAM.heading)}</h1>
+          <p class="cover-sub">${esc(EXAM.subtitle)}</p>
         </div>
 
         <div class="panel panel-pad">
           <h2>Exam composition</h2>
           <table class="comp">
-            <thead><tr><th>Domain</th><th class="right">Official weighting</th><th class="right">Questions</th></tr></thead>
+            <thead><tr>
+              <th>Domain</th>
+              <th class="right">${hasOfficial ? "This exam" : "Official weighting"}</th>
+              ${hasOfficial ? '<th class="right">Real exam</th>' : ""}
+              <th class="right">Questions</th>
+            </tr></thead>
             <tbody>${rows}
-              <tr><td><b>Total</b></td><td class="right"><b>100%</b></td><td class="right"><b>${QUESTIONS.length}</b></td></tr>
+              <tr>
+                <td><b>Total</b></td>
+                <td class="right"><b>100%</b></td>
+                ${hasOfficial ? `<td class="right"><b>${officialTotal}%</b></td>` : ""}
+                <td class="right"><b>${QUESTIONS.length}</b></td>
+              </tr>
             </tbody>
           </table>
           <div class="weight-bar">${bars}</div>
@@ -1873,7 +1903,7 @@
           <div class="modes">
             <button class="mode" data-mode="exam" aria-pressed="${state.mode === "exam"}">
               <b>Exam mode</b>
-              <span>90-minute countdown, answers hidden until you submit. Closest to test day.</span>
+              <span>${EXAM.time_limit_minutes}-minute countdown, answers hidden until you submit. Closest to test day.</span>
             </button>
             <button class="mode" data-mode="study" aria-pressed="${state.mode === "study"}">
               <b>Study mode</b>
@@ -1896,9 +1926,8 @@
             <li>Questions marked <b>Choose TWO</b> need exactly two selections and are scored all or nothing.</li>
             <li>Flag anything you want to revisit; flagged questions show a dot in the navigator.</li>
             <li>The real exam scales to 100&ndash;1000 with a pass at 700, roughly 70% of the scored
-              questions. This mock reports plain percentages and marks 70% as the line.</li>
-            <li>The real exam includes 15 unscored questions mixed in with the 50 scored ones. All 65
-              here are scored so you get feedback on every question.</li>
+              questions. This one reports plain percentages and marks 70% as the line.</li>
+            ${(EXAM.rules || []).map(r => `<li>${esc(r)}</li>`).join("")}
           </ul>
         </div>
       </section>`;
@@ -1932,6 +1961,7 @@
         <h3 class="${hit ? "hit" : "miss"}">${hit ? "Correct" : (isAnswered(q) ? "Incorrect" : "Not answered")}
           &middot; ${esc(q.topic)}</h3>
         <p>${esc(q.explanation)}</p>
+        ${q.signal ? `<p class="signal"><b>Signal:</b> ${esc(q.signal)}</p>` : ""}
         <p><b>Why the other options are wrong:</b> ${esc(q.distractors)}</p>
       </div>` : "";
 
@@ -2012,7 +2042,8 @@
           <div class="dom-label">
             <span class="swatch" style="background:${DOM_COLOR(d.id)}"></span>
             ${d.id}. ${esc(d.name)}
-            <span class="w">${d.weight}% of the exam</span>
+            <span class="w">${d.weight}% of this exam${d.official_weight
+              ? ` &middot; ${d.official_weight}% of the real exam` : ""}</span>
           </div>
           <div class="meter">
             <i style="width:${Math.round(d.pct * 100)}%;background:${DOM_COLOR(d.id)}"></i>

@@ -1,5 +1,11 @@
 {
   "exam": {
+    "slug": "clf-c02-mock-01",
+    "page_title": "Cloud Practitioner Mock 01",
+    "eyebrow": "AWS Certified Cloud Practitioner · CLF-C02",
+    "heading": "AWS Certified Cloud Practitioner",
+    "short_title": "Practice Exam 01",
+    "subtitle": "A full-length mock exam built to the CLF-C02 exam guide: the same 65-question length, the same four domains, and the same number of questions drawn from each domain as the official blueprint specifies.",
     "title": "AWS Certified Cloud Practitioner (CLF-C02) - Practice Exam 1",
     "certification": "AWS Certified Cloud Practitioner",
     "exam_code": "CLF-C02",
@@ -32,6 +38,10 @@
         "weight": 12,
         "questions": 8
       }
+    ],
+    "file_slug": "AWS-CLF-C02-Practice-Exam-01",
+    "rules": [
+      "The real exam includes 15 unscored questions mixed in with the 50 scored ones. All 65 here are scored so you get feedback on every question."
     ]
   },
   "questions": [

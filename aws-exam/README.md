@@ -25,28 +25,42 @@ so you get feedback on every question.
 
 | File | What it is |
 | --- | --- |
-| `exam_01.json` | The question bank — the single source of truth. Each question carries its domain, topic, type, options, answers, an explanation, and a note on why the other options are wrong. |
-| `build.py` | Validates the bank and generates the two outputs below. |
-| `template.html` | Page template for the interactive exam; `build.py` inlines the question bank into it. |
-| `AWS-CLF-C02-Practice-Exam-01.md` | Printable exam paper, followed by an answer key, per-question explanations, and a domain scoring sheet. |
-| `AWS-CLF-C02-Practice-Exam-01.html` | Self-contained interactive exam: countdown timer, question navigator, flag-for-review, and per-domain scoring. Open it directly in a browser. |
+| `exam_01.json` | Full-length mock, all four domains. The question bank is the single source of truth: each question carries its domain, topic, type, options, answers, an explanation, and a note on why the other options are wrong. |
+| `exam_02.json` | Focused drill on Domains 1 and 2 only. Adds a `signal` field per question naming the keyword tell in the stem. |
+| `build.py` | Validates a bank and generates its two outputs. |
+| `template.html` | Shared page template for the interactive exam; `build.py` inlines the bank and the page title into it. |
+| `question-targeting-guide.html` | Study guide for Domains 1 and 2: how a CLF-C02 question is built, the signal-word tables, the eight trap pairs, and where keyword matching fails. |
+| `AWS-CLF-C02-Practice-Exam-01.{md,html}` | Generated from `exam_01.json`. |
+| `AWS-CLF-C02-Domains-1-2-Drill.{md,html}` | Generated from `exam_02.json`. |
 
-Both outputs are generated. Edit `exam_01.json` (or `template.html`), never the generated
-files, then rebuild:
+The `.md` output is a printable exam paper with an answer key, per-question explanations and
+a domain scoring sheet. The `.html` output is a self-contained interactive exam — countdown
+timer, question navigator, flag-for-review, exam and study modes, and per-domain scoring.
+Open it directly in a browser; no server needed.
+
+Outputs are generated. Edit the JSON bank (or `template.html`), never the generated files,
+then rebuild:
 
 ```bash
-python3 build.py
+python3 build.py              # exam_01.json, the default
+python3 build.py exam_02.json
 ```
 
-`build.py` fails loudly if the bank drifts out of composition — wrong total, wrong count in
-a domain, weights that do not sum to 100%, a question with no correct answer, or a
-multi-response question that does not have two.
+`build.py` fails loudly if a bank drifts out of composition — wrong total, wrong count in a
+domain, weights that do not sum to 100%, a declared weight that disagrees with the actual
+question count, a question with no correct answer, or a multi-response question that does
+not have two.
 
 ## Adding another exam
 
-Copy `exam_01.json` to `exam_02.json`, replace the questions, and run
-`python3 build.py exam_02.json`. Keep the `exam.domains` block intact so the new exam is
-validated against the same composition.
+Copy a bank, replace the questions, and run `python3 build.py exam_03.json`. The `exam`
+block drives everything: `file_slug` names the output files, `slug` keys the browser's saved
+progress (give every exam a distinct one or two exams will overwrite each other's state),
+and `page_title`, `eyebrow`, `heading`, `short_title` and `subtitle` supply the page copy.
+
+For a focused drill covering a subset of domains, set each domain's `weight` to its share of
+*that* exam and `official_weight` to its share of the real exam. Both outputs then show the
+two side by side.
 
 ## Scoring
 

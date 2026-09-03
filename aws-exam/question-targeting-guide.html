@@ -1,0 +1,1011 @@
+<title>Cloud Practitioner Signal Words</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root {
+    --paper: #eef1f4;
+    --surface: #ffffff;
+    --surface-2: #f6f8fa;
+    --line: #dce2e8;
+    --line-strong: #c3ccd6;
+    --ink: #182430;
+    --ink-2: #445260;
+    --ink-3: #6b7a88;
+    --accent: #b85c0c;
+    --accent-soft: #fbeee0;
+    --on-accent: #ffffff;
+    --ok: #1c6b4f;
+    --ok-soft: #e4f1ea;
+    --bad: #a63a2b;
+    --bad-soft: #f8e8e5;
+    --d1: #b85c0c;
+    --d2: #2a6f7f;
+    --d1-soft: #fbeee0;
+    --d2-soft: #e3eff1;
+    --shadow: 0 1px 2px rgba(24, 36, 48, .06), 0 8px 24px -16px rgba(24, 36, 48, .28);
+
+    --ui: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+
+  :root:not([data-theme="light"]) { color-scheme: light; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #10161c;
+      --surface: #18202a;
+      --surface-2: #1f2833;
+      --line: #2b3742;
+      --line-strong: #3c4a57;
+      --ink: #e6edf3;
+      --ink-2: #a9b7c4;
+      --ink-3: #7d8c9a;
+      --accent: #e08b3e;
+      --accent-soft: #3a2a17;
+      --on-accent: #10161c;
+      --ok: #4fbf8e;
+      --ok-soft: #16302a;
+      --bad: #e88070;
+      --bad-soft: #33201c;
+      --d1: #e08b3e;
+      --d2: #5aa9b8;
+      --d1-soft: #3a2a17;
+      --d2-soft: #173034;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .8);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #10161c;
+    --surface: #18202a;
+    --surface-2: #1f2833;
+    --line: #2b3742;
+    --line-strong: #3c4a57;
+    --ink: #e6edf3;
+    --ink-2: #a9b7c4;
+    --ink-3: #7d8c9a;
+    --accent: #e08b3e;
+    --accent-soft: #3a2a17;
+    --on-accent: #10161c;
+    --ok: #4fbf8e;
+    --ok-soft: #16302a;
+    --bad: #e88070;
+    --bad-soft: #33201c;
+    --d1: #e08b3e;
+    --d2: #5aa9b8;
+    --d1-soft: #3a2a17;
+    --d2-soft: #173034;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -16px rgba(0, 0, 0, .8);
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ui);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  code, .kw {
+    font-family: var(--mono);
+    font-size: .88em;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+    white-space: nowrap;
+  }
+
+  /* ---------- page frame ---------- */
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+    display: grid;
+    grid-template-columns: 196px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .masthead {
+    grid-column: 1 / -1;
+    padding: 52px 0 34px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 40px;
+  }
+  .masthead h1 { font-size: 44px; line-height: 1.05; margin: 12px 0 16px; max-width: 20ch; }
+  .lede {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+  .masthead-meta {
+    display: flex;
+    gap: 26px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-item b { font-family: var(--mono); font-size: 19px; font-weight: 600; }
+
+  /* ---------- table of contents ---------- */
+
+  nav.toc { position: sticky; top: 28px; }
+  nav.toc ol { list-style: none; margin: 12px 0 0; padding: 0; counter-reset: sec; }
+  nav.toc li { counter-increment: sec; margin-bottom: 2px; }
+  nav.toc a {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 6px;
+    padding: 6px 8px 6px 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  nav.toc a::before {
+    content: counter(sec, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    padding-top: 2px;
+  }
+  nav.toc a:hover { color: var(--accent); background: var(--surface-2); }
+
+  /* ---------- sections ---------- */
+
+  main { display: flex; flex-direction: column; gap: 56px; min-width: 0; }
+  section { scroll-margin-top: 24px; }
+  section > h2 {
+    font-size: 26px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-strong);
+    margin-bottom: 22px;
+  }
+  section h3 { font-size: 16px; margin: 30px 0 12px; }
+  section h3:first-of-type { margin-top: 22px; }
+  .prose { font-family: var(--serif); font-size: 17px; line-height: 1.65; color: var(--ink-2); max-width: 66ch; }
+  .prose + .prose { margin-top: 14px; }
+  .prose b, .prose strong { color: var(--ink); font-weight: 600; }
+
+  .domain-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 4px;
+    color: var(--on-accent);
+    margin-bottom: 10px;
+  }
+  .badge-d1 { background: var(--d1); }
+  .badge-d2 { background: var(--d2); }
+
+  /* ---------- tables ---------- */
+
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 560px; }
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { color: var(--ink); }
+  td.answer { font-weight: 600; color: var(--ink); }
+  .quote { font-family: var(--serif); font-style: italic; color: var(--ink); }
+
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 13px;
+    color: var(--ink-3);
+    padding: 0 0 10px;
+  }
+
+  /* ---------- method steps ---------- */
+
+  .steps { display: flex; flex-direction: column; gap: 2px; counter-reset: step; }
+  .step {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    counter-increment: step;
+  }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step::before {
+    content: counter(step);
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .step h4 { font-size: 15.5px; margin-bottom: 5px; }
+  .step p { font-family: var(--serif); font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 62ch; }
+
+  /* ---------- responsibility diagram ---------- */
+
+  .resp {
+    display: grid;
+    grid-template-columns: 148px repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    font-size: 13px;
+  }
+  .resp .col-head {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    text-align: center;
+    padding: 0 4px 8px;
+    align-self: end;
+  }
+  .resp .row-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    padding: 10px 12px 10px 0;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .resp .layer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-align: center;
+  }
+  .resp .you { background: var(--d1-soft); color: var(--d1); border: 1px solid var(--d1); }
+  .resp .aws { background: var(--d2-soft); color: var(--d2); border: 1px solid var(--d2); }
+  .resp-legend { display: flex; gap: 20px; margin-top: 18px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+  .resp-legend div { display: flex; align-items: center; gap: 8px; }
+  .key { width: 14px; height: 14px; border-radius: 3px; flex: none; }
+  .key.you { background: var(--d1-soft); border: 1px solid var(--d1); }
+  .key.aws { background: var(--d2-soft); border: 1px solid var(--d2); }
+
+  /* ---------- trap cards ---------- */
+
+  .traps { display: grid; grid-template-columns: repeat(auto-fit, minmax(292px, 1fr)); gap: 16px; }
+  .trap {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .trap h4 { font-size: 14px; }
+  .trap .pair { display: flex; flex-direction: column; gap: 10px; }
+  .trap .side { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: baseline; }
+  .trap .side b {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .trap .side span { font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
+  .trap .tell {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    border-top: 1px dashed var(--line-strong);
+    padding-top: 11px;
+  }
+  .trap .tell b { color: var(--ink); }
+
+  /* ---------- callout ---------- */
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .callout h4 { font-size: 14.5px; color: var(--accent); }
+  .callout p { font-family: var(--serif); font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 64ch; }
+  .callout.warn { border-left-color: var(--bad); background: var(--bad-soft); }
+  .callout.warn h4 { color: var(--bad); }
+
+  ul.plain { margin: 0; padding-left: 20px; }
+  ul.plain li { font-size: 15px; line-height: 1.6; color: var(--ink-2); margin-bottom: 8px; }
+  ul.plain li:last-child { margin-bottom: 0; }
+  ul.plain b { color: var(--ink); font-weight: 600; }
+
+  .closing {
+    border-top: 2px solid var(--ink);
+    padding-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    nav.toc { position: static; margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+    nav.toc ol { columns: 2; column-gap: 24px; }
+    .masthead h1 { font-size: 34px; }
+    .resp { grid-template-columns: 104px repeat(3, minmax(0, 1fr)); font-size: 12px; }
+    .resp .row-label { font-size: 11.5px; padding-right: 8px; }
+    .resp .layer { font-size: 10px; padding: 10px 4px; }
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 0 16px 64px; }
+    .masthead h1 { font-size: 28px; }
+    .lede { font-size: 17px; }
+    nav.toc ol { columns: 1; }
+    section > h2 { font-size: 21px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="eyebrow">AWS Certified Cloud Practitioner &middot; CLF-C02 &middot; Domains 1 and 2</span>
+    <h1>Reading the question before you know the answer</h1>
+    <p class="lede">Cloud Concepts and Security and Compliance are 54% of the exam, and both are
+      written from a small, repeating vocabulary. This is a field guide to that vocabulary: the
+      phrases that appear in the stem, what each one is really asking, and where the pattern breaks
+      down.</p>
+    <div class="masthead-meta">
+      <div class="meta-item">
+        <span class="eyebrow">Domain 1 weight</span>
+        <b>24%</b>
+      </div>
+      <div class="meta-item">
+        <span class="eyebrow">Domain 2 weight</span>
+        <b>30%</b>
+      </div>
+      <div class="meta-item">
+        <span class="eyebrow">Combined</span>
+        <b>54%</b>
+      </div>
+      <div class="meta-item">
+        <span class="eyebrow">Questions on a 65-item exam</span>
+        <b>~35</b>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Contents">
+    <span class="eyebrow">Contents</span>
+    <ol>
+      <li><a href="#anatomy">How a question is built</a></li>
+      <li><a href="#method">The five-step read</a></li>
+      <li><a href="#d1-signals">Domain 1 signal words</a></li>
+      <li><a href="#pillars">Pillar and framework cues</a></li>
+      <li><a href="#responsibility">The responsibility line</a></li>
+      <li><a href="#d2-verbs">Domain 2 by verb</a></li>
+      <li><a href="#identity">Identity and access cues</a></li>
+      <li><a href="#traps">The eight trap pairs</a></li>
+      <li><a href="#distractors">Spotting a wrong option</a></li>
+      <li><a href="#limits">Where this fails</a></li>
+      <li><a href="#drill">How to drill it</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="anatomy">
+      <h2>How a question is built</h2>
+      <p class="prose">Almost every CLF-C02 question has three parts, and only two of them matter.
+        There is a <b>scenario</b> — a company, an industry, some numbers — which is usually flavor.
+        There is <b>the ask</b>, almost always the final sentence. And there is a <b>qualifier</b>:
+        MOST, BEST, LEAST, ALWAYS, or an instruction to choose two.</p>
+      <p class="prose">The scenario exists to make you retrieve the concept in context. It rarely
+        changes the answer. When a question opens with three sentences about a retailer's holiday
+        traffic and ends with <span class="quote">"Which cloud characteristic does this
+        describe?"</span>, the retailer is irrelevant — only the words "scale up and back down"
+        matter.</p>
+      <div class="callout">
+        <h4>The single highest-value habit</h4>
+        <p>Read the last sentence first, then the options, then go back for the scenario only if you
+          still need it. This costs nothing and stops you building an elaborate mental model of a
+          company that turns out not to be part of the question.</p>
+      </div>
+    </section>
+
+    <section id="method">
+      <h2>The five-step read</h2>
+      <div class="steps">
+        <div class="step">
+          <div>
+            <h4>Read the ask, not the story</h4>
+            <p>Jump to the last sentence. Identify whether it wants a concept name, a service name,
+              a responsibility owner, or a recommended action. These four question shapes cover
+              nearly all of Domains 1 and 2.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h4>Name the answer before you look</h4>
+            <p>Say the answer to yourself before reading the options. If you can name it, you find
+              it in the list and move on in ten seconds. If you cannot, you now know you are
+              guessing and should flag the question rather than burn three minutes on it.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h4>Eliminate by category</h4>
+            <p>Most wrong options are real AWS services doing the wrong <i>kind</i> of job. If the
+              question asks about data at rest and an option is a networking service, it is gone
+              without further thought. Two eliminations turn a 25% guess into a coin flip.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h4>Match the signal word</h4>
+            <p>Find the phrase in the stem that maps to exactly one concept or service — the tables
+              below are that map. On a well-written question there is exactly one, and it is
+              usually a noun or a verb, not an adjective.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h4>Check the qualifier and the count</h4>
+            <p>Re-read the ask for MOST, BEST or LEAST — these change which of two defensible
+              answers is correct. If it says choose two, select exactly two: a single selection
+              scores zero, and so does three.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="d1-signals">
+      <span class="domain-badge badge-d1">Domain 1 &middot; Cloud Concepts</span>
+      <h2>Domain 1 signal words</h2>
+      <p class="prose">Domain 1 is a vocabulary test wearing a business costume. The same dozen
+        concepts recur, and each has phrasing that belongs to it and to nothing else.</p>
+
+      <h3>Benefits and economics</h3>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>If the stem says</th><th>It is asking about</th><th class="answer">Answer direction</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="quote">no upfront investment, pay only for what you use</span></td>
+              <td>How you are billed</td>
+              <td class="answer">Trade capital expense for variable expense</td>
+            </tr>
+            <tr>
+              <td><span class="quote">sized for the busiest day, idle the rest of the year</span></td>
+              <td>Capacity planning waste</td>
+              <td class="answer">Stop guessing capacity</td>
+            </tr>
+            <tr>
+              <td><span class="quote">AWS keeps lowering prices as it grows</span></td>
+              <td>Why unit prices fall</td>
+              <td class="answer">Massive economies of scale</td>
+            </tr>
+            <tr>
+              <td><span class="quote">weeks of procurement reduced to minutes</span>, <span class="quote">try an idea cheaply</span></td>
+              <td>Speed of delivery</td>
+              <td class="answer">Increased agility / speed</td>
+            </tr>
+            <tr>
+              <td><span class="quote">expand to users in another continent quickly</span></td>
+              <td>Geographic reach</td>
+              <td class="answer">Go global in minutes (deploy to more Regions)</td>
+            </tr>
+            <tr>
+              <td><span class="quote">stop running and maintaining data centers</span></td>
+              <td>Undifferentiated heavy lifting</td>
+              <td class="answer">Focus on what differentiates the business</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The four words people mix up</h3>
+      <div class="table-scroll">
+        <table>
+          <caption>These four appear as options in each other's questions almost every time.</caption>
+          <thead>
+            <tr><th>Term</th><th>Signal in the stem</th><th class="answer">The distinguishing word</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Elasticity</b></td>
+              <td>Adds capacity for a spike, then <i>releases</i> it afterward</td>
+              <td class="answer">Automatic, and in both directions</td>
+            </tr>
+            <tr>
+              <td><b>Scalability</b></td>
+              <td>Can grow to handle more load</td>
+              <td class="answer">Growth only — no mention of shrinking</td>
+            </tr>
+            <tr>
+              <td><b>High availability</b></td>
+              <td><i>Minimal</i> downtime, recovers, survives an AZ loss</td>
+              <td class="answer">"Minimal" — some interruption is allowed</td>
+            </tr>
+            <tr>
+              <td><b>Fault tolerance</b></td>
+              <td><i>No</i> interruption at all, redundancy already running</td>
+              <td class="answer">"No loss of function" — zero interruption</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose">Two more that pair off the same way: <b>horizontal scaling</b> is "add more
+        instances", <b>vertical scaling</b> is "move to a larger instance". AWS prefers horizontal,
+        so if a question asks which is the better practice and both appear, horizontal wins.</p>
+
+      <h3>Migration strategies</h3>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Strategy</th><th>Signal in the stem</th><th class="answer">Nickname</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Rehost</b></td><td>Moved as-is, no changes to the application</td><td class="answer">Lift and shift</td></tr>
+            <tr><td><b>Replatform</b></td><td>A few optimizations, e.g. self-managed database onto Amazon RDS</td><td class="answer">Lift, tinker and shift</td></tr>
+            <tr><td><b>Refactor</b></td><td>Re-architected, code changed, often to microservices or serverless</td><td class="answer">Re-architect</td></tr>
+            <tr><td><b>Repurchase</b></td><td>Replaced with a different product, usually SaaS</td><td class="answer">Drop and shop</td></tr>
+            <tr><td><b>Retire</b></td><td>Switched off; nobody uses it</td><td class="answer">&mdash;</td></tr>
+            <tr><td><b>Retain</b></td><td>Left where it is, revisit later</td><td class="answer">Do nothing, for now</td></tr>
+            <tr><td><b>Relocate</b></td><td>Moved wholesale, e.g. VMware workloads, without conversion</td><td class="answer">Hypervisor-level move</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Service and deployment models</h3>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Signal</th><th class="answer">Model</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>The customer chooses and patches the operating system</td><td class="answer">IaaS (e.g. Amazon EC2)</td></tr>
+            <tr><td>The customer deploys code; AWS runs the OS and runtime</td><td class="answer">PaaS (e.g. Elastic Beanstalk)</td></tr>
+            <tr><td>The user just signs in and uses a finished application</td><td class="answer">SaaS</td></tr>
+            <tr><td>Some components remain in the company's data center</td><td class="answer">Hybrid deployment</td></tr>
+            <tr><td>Nothing remains on-premises</td><td class="answer">All-in cloud / cloud-native</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="pillars">
+      <span class="domain-badge badge-d1">Domain 1 &middot; Frameworks</span>
+      <h2>Pillar and framework cues</h2>
+      <p class="prose">The Well-Architected Framework's six pillars supply a steady stream of
+        questions, and each pillar has phrases lifted straight from AWS's own wording. Learn the
+        phrases, not the summaries.</p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Pillar</th><th>Phrases that belong to it</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Operational Excellence</b></td>
+              <td>Perform operations as code &middot; make frequent, small, reversible changes &middot;
+                anticipate failure &middot; learn from all operational failures &middot; run and monitor systems</td>
+            </tr>
+            <tr>
+              <td><b>Security</b></td>
+              <td>Strong identity foundation &middot; apply security at all layers &middot; enable traceability &middot;
+                protect data in transit and at rest &middot; automate security best practices &middot; least privilege</td>
+            </tr>
+            <tr>
+              <td><b>Reliability</b></td>
+              <td>Automatically recover from failure &middot; test recovery procedures &middot; scale horizontally &middot;
+                stop guessing capacity &middot; manage change through automation</td>
+            </tr>
+            <tr>
+              <td><b>Performance Efficiency</b></td>
+              <td>Democratize advanced technologies &middot; go global in minutes &middot; use serverless
+                architectures &middot; experiment more often &middot; consider mechanical sympathy (right tool for the job)</td>
+            </tr>
+            <tr>
+              <td><b>Cost Optimization</b></td>
+              <td>Adopt a consumption model &middot; measure overall efficiency &middot; analyze and attribute
+                expenditure &middot; stop spending on undifferentiated heavy lifting</td>
+            </tr>
+            <tr>
+              <td><b>Sustainability</b></td>
+              <td>Maximize utilization &middot; reduce the resources needed per unit of work &middot; anticipate and
+                adopt more efficient offerings &middot; reduce downstream impact</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn">
+        <h4>The framework mix-up that costs marks</h4>
+        <p>Pillars belong to the <b>Well-Architected Framework</b>; perspectives belong to the
+          <b>Cloud Adoption Framework</b>. A question naming one will usually offer options from the
+          other. The six CAF perspectives are Business, People, Governance, Platform, Security and
+          Operations — note that only Security appears in both lists.</p>
+      </div>
+      <p class="prose">CAF questions are about organizational readiness, not architecture. Training
+        and culture is <b>People</b>. Risk, measurement and business outcomes is <b>Governance</b>.
+        The landing zone and infrastructure design is <b>Platform</b>. Day-to-day running of
+        services is <b>Operations</b>.</p>
+    </section>
+
+    <section id="responsibility">
+      <span class="domain-badge badge-d2">Domain 2 &middot; Shared responsibility</span>
+      <h2>The responsibility line</h2>
+      <p class="prose">Shared responsibility is the most-tested single idea in Domain 2, and the
+        exam tests it in a specific way: it asks the <i>same</i> task about <i>different</i>
+        services, because the dividing line moves as the service becomes more managed.</p>
+
+      <div class="table-scroll" style="padding: 26px 22px; border-radius: 9px;">
+        <div class="resp" role="img" aria-label="Layer diagram showing that on Amazon EC2 the customer owns the guest OS and runtime, while on Amazon RDS and AWS Lambda those layers belong to AWS. Data, access control and configuration always belong to the customer; virtualization, hardware and facilities always belong to AWS.">
+          <div></div>
+          <div class="col-head">Amazon EC2</div>
+          <div class="col-head">Amazon RDS</div>
+          <div class="col-head">AWS Lambda</div>
+
+          <div class="row-label">Your data &amp; who may access it</div>
+          <div class="layer you">You</div>
+          <div class="layer you">You</div>
+          <div class="layer you">You</div>
+
+          <div class="row-label">IAM, encryption choice, network config</div>
+          <div class="layer you">You</div>
+          <div class="layer you">You</div>
+          <div class="layer you">You</div>
+
+          <div class="row-label">Application code</div>
+          <div class="layer you">You</div>
+          <div class="layer you">You</div>
+          <div class="layer you">You</div>
+
+          <div class="row-label">Runtime &amp; platform</div>
+          <div class="layer you">You</div>
+          <div class="layer aws">AWS</div>
+          <div class="layer aws">AWS</div>
+
+          <div class="row-label">Guest OS &amp; patching</div>
+          <div class="layer you">You</div>
+          <div class="layer aws">AWS</div>
+          <div class="layer aws">AWS</div>
+
+          <div class="row-label">Virtualization</div>
+          <div class="layer aws">AWS</div>
+          <div class="layer aws">AWS</div>
+          <div class="layer aws">AWS</div>
+
+          <div class="row-label">Hardware &amp; facilities</div>
+          <div class="layer aws">AWS</div>
+          <div class="layer aws">AWS</div>
+          <div class="layer aws">AWS</div>
+        </div>
+        <div class="resp-legend">
+          <div><span class="key you"></span><span>Customer &mdash; security <b>in</b> the cloud</span></div>
+          <div><span class="key aws"></span><span>AWS &mdash; security <b>of</b> the cloud</span></div>
+        </div>
+      </div>
+
+      <h3>The rules that follow from it</h3>
+      <ul class="plain">
+        <li><b>If you can configure it, you own it.</b> Security groups, IAM, bucket policies,
+          encryption settings and Region choice are always yours, on every service.</li>
+        <li><b>If you cannot see it, AWS owns it.</b> Hypervisor, hardware, physical facilities and
+          media decommissioning are never the customer's.</li>
+        <li><b>Your data is always yours.</b> Content, its classification, and who may access it
+          never transfer to AWS, under any service.</li>
+        <li><b>OS patching is the trick question.</b> Customer on EC2, AWS on RDS, Lambda, Fargate
+          and DynamoDB. Read the service name before you answer.</li>
+        <li><b>Nothing is "shared equally".</b> An option saying responsibility is split evenly for
+          a specific task is a distractor.</li>
+      </ul>
+    </section>
+
+    <section id="d2-verbs">
+      <span class="domain-badge badge-d2">Domain 2 &middot; Services</span>
+      <h2>Domain 2 by verb</h2>
+      <p class="prose">The security services are easiest to separate by the verb in the stem and the
+        <i>noun they act on</i>. Nearly every service-selection question in this domain reduces to
+        one row of this table.</p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>The stem's verb</th><th>Acting on</th><th class="answer">Service</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Detect something <i>malicious, unusual, compromised</i></td><td>Account and network behavior</td><td class="answer">Amazon GuardDuty</td></tr>
+            <tr><td>Scan for <i>vulnerabilities, CVEs, unpatched software</i></td><td>EC2, ECR images, Lambda</td><td class="answer">Amazon Inspector</td></tr>
+            <tr><td>Discover and classify <i>sensitive data, PII</i></td><td>Amazon S3</td><td class="answer">Amazon Macie</td></tr>
+            <tr><td>Block <i>SQL injection, XSS, bad bots</i>, rate-limit an IP</td><td>HTTP requests (layer 7)</td><td class="answer">AWS WAF</td></tr>
+            <tr><td>Absorb a <i>DDoS attack</i></td><td>Network and transport layers</td><td class="answer">AWS Shield</td></tr>
+            <tr><td>Aggregate findings, check against a <i>standard or benchmark</i></td><td>Many services, many accounts</td><td class="answer">AWS Security Hub</td></tr>
+            <tr><td><i>Investigate</i> the root cause of a finding</td><td>Linked events over time</td><td class="answer">Amazon Detective</td></tr>
+            <tr><td>Find out <i>who called</i> an API, when, from where</td><td>Account API activity</td><td class="answer">AWS CloudTrail</td></tr>
+            <tr><td>See <i>what a resource looked like</i> and how it changed</td><td>Resource configuration</td><td class="answer">AWS Config</td></tr>
+            <tr><td>Download a <i>compliance report</i> or sign an agreement</td><td>AWS's own certifications</td><td class="answer">AWS Artifact</td></tr>
+            <tr><td>Collect <i>evidence</i> continuously for your own audit</td><td>Your workloads</td><td class="answer">AWS Audit Manager</td></tr>
+            <tr><td>Create and control <i>encryption keys</i></td><td>Keys, multi-tenant and managed</td><td class="answer">AWS KMS</td></tr>
+            <tr><td>Keys in <i>dedicated, single-tenant</i> hardware, FIPS 140-2 Level 3</td><td>Your own HSM cluster</td><td class="answer">AWS CloudHSM</td></tr>
+            <tr><td>Store and <i>rotate</i> a credential</td><td>Database passwords, API keys</td><td class="answer">AWS Secrets Manager</td></tr>
+            <tr><td>Provision and renew <i>TLS/SSL certificates</i></td><td>HTTPS endpoints</td><td class="answer">AWS Certificate Manager</td></tr>
+            <tr><td>Centrally manage rules <i>across accounts</i></td><td>WAF, Shield, security groups</td><td class="answer">AWS Firewall Manager</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <h4>The four-stage frame</h4>
+        <p>If a question describes a security workflow rather than a single task, order the services
+          by stage: GuardDuty, Inspector and Macie <b>detect</b>; Security Hub <b>aggregates</b>;
+          Detective <b>investigates</b>; Artifact and Audit Manager <b>prove</b> it to an auditor.
+          Each stage has exactly one right answer, so identifying the stage identifies the service.</p>
+      </div>
+    </section>
+
+    <section id="identity">
+      <span class="domain-badge badge-d2">Domain 2 &middot; Identity</span>
+      <h2>Identity and access cues</h2>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Signal</th><th class="answer">Answer</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>An application on EC2 needs access &middot; temporary credentials &middot; cross-account</td><td class="answer">IAM role</td></tr>
+            <tr><td>Employees, existing corporate directory, many accounts, single sign-on</td><td class="answer">AWS IAM Identity Center</td></tr>
+            <tr><td>Your application's own end users signing up on a mobile app</td><td class="answer">Amazon Cognito</td></tr>
+            <tr><td>Maximum permissions for an account or OU, cannot be exceeded locally</td><td class="answer">Service control policy (SCP)</td></tr>
+            <tr><td>Who can do what inside a single account</td><td class="answer">IAM identity-based policy</td></tr>
+            <tr><td>An allow and a deny both apply</td><td class="answer">Explicit deny always wins</td></tr>
+            <tr><td>Change the support plan, close the account, change the account email</td><td class="answer">Root user only</td></tr>
+            <tr><td>Only the permissions needed, nothing more</td><td class="answer">Least privilege</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose">Root user questions have a fixed answer shape: enable MFA, lock the
+        credentials away, create separate identities for daily work, and never generate root access
+        keys. Any option that involves using, sharing or automating with root is wrong.</p>
+
+      <h3>Security groups versus network ACLs</h3>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th></th><th>Security group</th><th>Network ACL</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Operates at</b></td><td>Instance (network interface)</td><td>Subnet</td></tr>
+            <tr><td><b>State</b></td><td>Stateful — return traffic allowed automatically</td><td>Stateless — inbound and outbound both needed</td></tr>
+            <tr><td><b>Rules</b></td><td>Allow only</td><td>Allow <i>and</i> deny, evaluated in number order</td></tr>
+            <tr><td><b>Tell in the stem</b></td><td>"permit traffic from"</td><td>"block", "deny", "an entire subnet"</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prose">The word <b>deny</b> is decisive. Security groups have no deny rules at all,
+        so any question about blocking a specific address is a network ACL question.</p>
+    </section>
+
+    <section id="traps">
+      <h2>The eight trap pairs</h2>
+      <p class="prose">These pairs are deliberately placed as each other's distractors. If you can
+        state the difference in one sentence each, you have covered a large share of the marks in
+        both domains.</p>
+      <div class="traps">
+
+        <div class="trap">
+          <h4>CloudTrail vs Config</h4>
+          <div class="pair">
+            <div class="side"><b>CloudTrail</b><span>Who called which API, when, from what IP.</span></div>
+            <div class="side"><b>Config</b><span>What a resource's configuration was, and how it changed over time.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> a stem about a <i>person or identity</i> is CloudTrail; a stem
+            about a <i>resource's settings</i> is Config.</p>
+        </div>
+
+        <div class="trap">
+          <h4>GuardDuty vs Inspector vs Macie</h4>
+          <div class="pair">
+            <div class="side"><b>GuardDuty</b><span>Malicious or unusual behavior.</span></div>
+            <div class="side"><b>Inspector</b><span>Vulnerable software versions.</span></div>
+            <div class="side"><b>Macie</b><span>Sensitive data sitting in S3.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> behavior, software, or data — the stem names exactly one.</p>
+        </div>
+
+        <div class="trap">
+          <h4>Shield vs WAF</h4>
+          <div class="pair">
+            <div class="side"><b>Shield</b><span>Volume of traffic — DDoS mitigation.</span></div>
+            <div class="side"><b>WAF</b><span>Content of requests — injection, scripting, bots, rate limits.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> Shield Advanced adds the Shield Response Team and cost
+            protection. Shield Standard is free and automatic for everyone.</p>
+        </div>
+
+        <div class="trap">
+          <h4>KMS vs CloudHSM vs Secrets Manager</h4>
+          <div class="pair">
+            <div class="side"><b>KMS</b><span>Managed keys, integrated everywhere, multi-tenant.</span></div>
+            <div class="side"><b>CloudHSM</b><span>Dedicated single-tenant hardware, FIPS 140-2 Level 3.</span></div>
+            <div class="side"><b>Secrets Manager</b><span>The credential itself, with rotation.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> "dedicated" or "single-tenant" is CloudHSM; "rotate" is
+            Secrets Manager; everything else is KMS.</p>
+        </div>
+
+        <div class="trap">
+          <h4>Security Hub vs Detective</h4>
+          <div class="pair">
+            <div class="side"><b>Security Hub</b><span>One dashboard of findings, plus standards checks.</span></div>
+            <div class="side"><b>Detective</b><span>Drill into one finding to establish root cause.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> "single pane of glass" is Security Hub; "investigate" is
+            Detective.</p>
+        </div>
+
+        <div class="trap">
+          <h4>IAM Identity Center vs Cognito</h4>
+          <div class="pair">
+            <div class="side"><b>Identity Center</b><span>Your employees, signing in to AWS accounts.</span></div>
+            <div class="side"><b>Cognito</b><span>Your customers, signing in to your application.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> whose users are they — the company's staff, or the product's
+            end users?</p>
+        </div>
+
+        <div class="trap">
+          <h4>Pillar vs perspective</h4>
+          <div class="pair">
+            <div class="side"><b>Pillar</b><span>Well-Architected Framework: six pillars, architecture.</span></div>
+            <div class="side"><b>Perspective</b><span>Cloud Adoption Framework: six perspectives, organization.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> Reliability, Cost Optimization and Sustainability are never
+            CAF answers; Business, People and Platform are never pillars.</p>
+        </div>
+
+        <div class="trap">
+          <h4>High availability vs fault tolerance</h4>
+          <div class="pair">
+            <div class="side"><b>HA</b><span>Minimal downtime; recovers quickly.</span></div>
+            <div class="side"><b>FT</b><span>No downtime and no loss of function at all.</span></div>
+          </div>
+          <p class="tell"><b>Tell:</b> the words "minimal" and "no" are doing the work. Fault
+            tolerance costs more and is rarer.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="distractors">
+      <h2>Spotting a wrong option</h2>
+      <p class="prose">Wrong options on this exam are written to a small number of recipes. Learning
+        the recipes lets you eliminate without knowing the right answer.</p>
+      <ul class="plain">
+        <li><b>Absolutes.</b> "All", "never", "eliminates the need to", "guarantees", "100%",
+          "automatically for every". Cloud answers are almost never absolute. An option promising
+          that AWS guarantees your compliance, or that a service removes all responsibility, is
+          nearly always wrong.</li>
+        <li><b>Category errors.</b> A real service that does the wrong kind of job — a networking
+          service answering a data-at-rest question. This is the most common wrong option, and the
+          fastest to eliminate.</li>
+        <li><b>Right idea, wrong layer.</b> Two options both address the problem, but one operates
+          where the stem is pointing and the other does not. WAF and Shield both defend a web app;
+          only one inspects request content.</li>
+        <li><b>Two options that say the same thing.</b> If two choices are paraphrases of each
+          other, neither is the answer — a single-answer question cannot have two correct options.</li>
+        <li><b>Doing it the hard way.</b> An option describing manual work that an AWS service
+          automates is a distractor. The exam always prefers the managed service.</li>
+        <li><b>Security answers that reduce security.</b> Making a bucket public, sharing
+          credentials, using root, or attaching AdministratorAccess for convenience are never
+          correct, regardless of how the scenario is framed.</li>
+      </ul>
+      <p class="prose">Conversely, one absolute <i>is</i> reliably true and shows up as a correct
+        answer: in IAM policy evaluation, an explicit deny always overrides any allow.</p>
+    </section>
+
+    <section id="limits">
+      <h2>Where this fails</h2>
+      <div class="callout warn">
+        <h4>Signal words are a tiebreaker, not a substitute</h4>
+        <p>Expect roughly one question in six to plant a keyword that points at the wrong answer.
+          Use the signal to decide between options you already understand — never to answer a
+          question about a service you cannot describe.</p>
+      </div>
+      <p class="prose">The failure mode is always the same: a word that usually belongs to one
+        service appears in a question about another. Three that catch people out:</p>
+      <ul class="plain">
+        <li><b>"Encrypt" pointing away from KMS.</b> A stem about storing and rotating a database
+          password mentions encryption throughout, but the answer is Secrets Manager. KMS supplies
+          the key; it does not hold the secret.</li>
+        <li><b>"Audit" pointing away from CloudTrail.</b> An auditor asking what a security group
+          looked like last month is a Config question, even though the word audit suggests
+          CloudTrail.</li>
+        <li><b>"Latency" and "global" crossing domains.</b> In Domain 1, "expand to new countries
+          quickly" is the benefit of going global in minutes. In Domain 3, "reduce latency for
+          worldwide viewers" is Amazon CloudFront. Same vocabulary, different domain, different
+          answer type — the ask tells you which is wanted.</li>
+      </ul>
+      <p class="prose">If the signal and your understanding disagree, trust your understanding. The
+        signal exists to break ties and to speed up the questions you already know.</p>
+    </section>
+
+    <section id="drill">
+      <h2>How to drill it</h2>
+      <ul class="plain">
+        <li><b>Take the Domains 1 and 2 drill in study mode.</b> Before selecting an option, say
+          out loud which word in the stem you are answering. Then check the Signal note in the
+          explanation against what you said.</li>
+        <li><b>Grade the reason, not the answer.</b> A question you got right for the wrong reason
+          is a question you will get wrong on test day. Mark it as missed anyway.</li>
+        <li><b>Rebuild the trap pairs from memory.</b> Cover the cards above and write the
+          one-sentence difference for each of the eight. Any pair you cannot write out is your next
+          hour of study.</li>
+        <li><b>Then re-take the full 65-question exam.</b> Domains 1 and 2 improving in isolation
+          is not the goal; the goal is the combined score under time pressure, with Domain 3 and 4
+          questions interleaved to break your rhythm.</li>
+        <li><b>Aim for 85% on the drill</b> before booking the real thing. The pass mark is around
+          70%, and a practice score sitting right on the line usually is not a pass on the day.</li>
+      </ul>
+      <div class="closing">
+        <p class="prose">One last habit worth building: on the real exam you have about 83 seconds
+          per question, and most Domain 1 and 2 questions should take half that. The time you bank
+          on vocabulary questions is what you spend on the Domain 3 service-selection questions that
+          genuinely need thinking about.</p>
+      </div>
+    </section>
+
+  </main>
+</div>

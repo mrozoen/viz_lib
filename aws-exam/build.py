@@ -44,7 +44,16 @@ def validate(data):
             )
 
     if sum(d["weight"] for d in exam["domains"]) != 100:
-        errors.append("domain weights do not sum to 100%")
+        errors.append("domain weights do not sum to 100% of this exam")
+
+    for domain in exam["domains"]:
+        share = round(domain["questions"] / exam["question_count"] * 100)
+        if abs(share - domain["weight"]) > 1:
+            errors.append(
+                f"domain {domain['id']} ({domain['name']}): declared weight "
+                f"{domain['weight']}% but {domain['questions']}/{exam['question_count']} "
+                f"questions is {share}%"
+            )
 
     for q in questions:
         if not q["answers"]:
@@ -75,11 +84,20 @@ def render_markdown(data):
     w(exam["note"] + "\n")
 
     w("## Exam composition\n")
-    w("| Domain | Official weighting | Questions in this exam |")
-    w("| --- | --- | --- |")
-    for d in exam["domains"]:
-        w(f"| {d['id']}. {d['name']} | {d['weight']}% | {d['questions']} |")
-    w(f"| **Total** | **100%** | **{exam['question_count']}** |\n")
+    official = any(d.get("official_weight") for d in exam["domains"])
+    if official:
+        w("| Domain | Share of this exam | Share of the real exam | Questions |")
+        w("| --- | --- | --- | --- |")
+        for d in exam["domains"]:
+            w(f"| {d['id']}. {d['name']} | {d['weight']}% | {d['official_weight']}% | {d['questions']} |")
+        total = sum(d["official_weight"] for d in exam["domains"])
+        w(f"| **Total** | **100%** | **{total}%** | **{exam['question_count']}** |\n")
+    else:
+        w("| Domain | Official weighting | Questions in this exam |")
+        w("| --- | --- | --- |")
+        for d in exam["domains"]:
+            w(f"| {d['id']}. {d['name']} | {d['weight']}% | {d['questions']} |")
+        w(f"| **Total** | **100%** | **{exam['question_count']}** |\n")
 
     w("Answer every question. Questions that say *Choose TWO* require exactly two")
     w("selections and are scored all-or-nothing, exactly as on the real exam.\n")
@@ -111,6 +129,8 @@ def render_markdown(data):
         for letter in q["answers"]:
             w(f"> {letter}. {q['options'][letter]}\n")
         w(q["explanation"] + "\n")
+        if q.get("signal"):
+            w(f"> **Signal:** {q['signal']}\n")
         w(f"**Why the other options are wrong:** {q['distractors']}\n")
 
     w("---\n")
@@ -130,15 +150,18 @@ def render_markdown(data):
 
 def render_html(data, template):
     payload = json.dumps(data, indent=2)
-    if "/*__EXAM_DATA__*/" not in template:
-        raise SystemExit("template.html is missing the /*__EXAM_DATA__*/ placeholder")
-    return template.replace("/*__EXAM_DATA__*/", payload)
+    for placeholder in ("/*__EXAM_DATA__*/", "__PAGE_TITLE__"):
+        if placeholder not in template:
+            raise SystemExit(f"template.html is missing the {placeholder} placeholder")
+    return (template
+            .replace("__PAGE_TITLE__", data["exam"]["page_title"])
+            .replace("/*__EXAM_DATA__*/", payload))
 
 
 def main():
     source = Path(sys.argv[1] if len(sys.argv) > 1 else HERE / "exam_01.json")
     data = load(source)
-    slug = "AWS-CLF-C02-Practice-Exam-01"
+    slug = data["exam"]["file_slug"]
 
     md_path = HERE / f"{slug}.md"
     md_path.write_text(render_markdown(data) + "\n")
