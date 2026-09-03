@@ -1,0 +1,642 @@
+<title>CLF-C02 Review Packet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root {
+    --paper: #eef1f4;
+    --surface: #ffffff;
+    --surface-2: #f6f8fa;
+    --line: #dce2e8;
+    --line-strong: #c3ccd6;
+    --ink: #182430;
+    --ink-2: #445260;
+    --ink-3: #6b7a88;
+    --accent: #b85c0c;
+    --accent-soft: #fbeee0;
+    --on-accent: #ffffff;
+    --ok: #1c6b4f;
+    --ok-soft: #e4f1ea;
+    --bad: #a63a2b;
+    --bad-soft: #f8e8e5;
+    --shadow: 0 1px 2px rgba(24, 36, 48, .06), 0 8px 24px -16px rgba(24, 36, 48, .28);
+    --ui: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  :root:not([data-theme="light"]) { color-scheme: light; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #10161c; --surface: #18202a; --surface-2: #1f2833;
+      --line: #2b3742; --line-strong: #3c4a57;
+      --ink: #e6edf3; --ink-2: #a9b7c4; --ink-3: #7d8c9a;
+      --accent: #e08b3e; --accent-soft: #3a2a17; --on-accent: #10161c;
+      --ok: #4fbf8e; --ok-soft: #16302a; --bad: #e88070; --bad-soft: #33201c;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #10161c; --surface: #18202a; --surface-2: #1f2833;
+    --line: #2b3742; --line-strong: #3c4a57;
+    --ink: #e6edf3; --ink-2: #a9b7c4; --ink-3: #7d8c9a;
+    --accent: #e08b3e; --accent-soft: #3a2a17; --on-accent: #10161c;
+    --ok: #4fbf8e; --ok-soft: #16302a; --bad: #e88070; --bad-soft: #33201c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--ui); font-size: 16px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+  }
+  code {
+    font-family: var(--mono); font-size: .87em; background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px;
+  }
+
+  .wrap { max-width: 840px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ---------- masthead ---------- */
+  /* No bottom rule: the first .part divider immediately below supplies one. */
+  .masthead { padding: 50px 0 4px; }
+  .masthead h1 { font-size: 40px; line-height: 1.06; margin: 12px 0 15px; max-width: 17ch; }
+  .lede { font-family: var(--serif); font-size: 18.5px; line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
+  .runs { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+  .run {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 15px; display: flex; flex-direction: column; gap: 1px; box-shadow: var(--shadow);
+  }
+  .run b { font-family: var(--mono); font-size: 18px; font-weight: 600; }
+  .run span { font-size: 11.5px; color: var(--ink-3); }
+
+  /* ---------- part dividers ---------- */
+  .part {
+    margin: 56px 0 30px; padding: 22px 0 0; border-top: 2px solid var(--ink);
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .part .n { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; color: var(--accent); text-transform: uppercase; }
+  .part h2 { font-size: 27px; }
+  .part p { font-family: var(--serif); font-size: 16.5px; line-height: 1.6; color: var(--ink-2); max-width: 62ch; margin-top: 4px; }
+
+  /* ---------- concept blocks ---------- */
+  .concept {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 22px 24px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+  .concept-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .concept-head h3 { font-size: 17px; }
+  .hits {
+    font-family: var(--mono); font-size: 11px; padding: 3px 8px; border-radius: 99px;
+    background: var(--bad-soft); color: var(--bad); white-space: nowrap;
+  }
+  .concept p { font-family: var(--serif); font-size: 16.5px; line-height: 1.62; color: var(--ink-2); max-width: 64ch; }
+  .concept p + p { margin-top: 11px; }
+  .concept b { color: var(--ink); font-weight: 600; }
+
+  .yourmiss {
+    margin-top: 14px; padding: 12px 15px; border-radius: 7px;
+    background: var(--surface-2); border-left: 3px solid var(--bad);
+    font-size: 14px; line-height: 1.55; color: var(--ink-2);
+  }
+  .yourmiss b { color: var(--ink); }
+  .fix {
+    margin-top: 12px; padding: 12px 15px; border-radius: 7px;
+    background: var(--ok-soft); border-left: 3px solid var(--ok);
+    font-size: 14.5px; line-height: 1.55; color: var(--ink-2);
+  }
+  .fix b { color: var(--ok); }
+
+  .three { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 14px; }
+  .bucket { border: 1px solid var(--line-strong); border-radius: 8px; padding: 13px 15px; }
+  .bucket h4 { font-size: 12px; margin-bottom: 8px; font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .bucket ul { margin: 0; padding-left: 16px; }
+  .bucket li { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); margin-bottom: 5px; }
+  .bucket li:last-child { margin-bottom: 0; }
+
+  /* ---------- tables ---------- */
+  .table-scroll {
+    overflow-x: auto; border: 1px solid var(--line); border-radius: 9px;
+    background: var(--surface); box-shadow: var(--shadow); margin-bottom: 20px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 500px; }
+  th {
+    text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--ink-3); font-weight: 500; padding: 12px 16px;
+    background: var(--surface-2); border-bottom: 1px solid var(--line); white-space: nowrap;
+  }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
+  tr:last-child td { border-bottom: 0; }
+  td.sig { font-family: var(--serif); color: var(--ink); }
+  td.ans { font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .group-head td {
+    background: var(--surface-2); font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .11em; text-transform: uppercase; color: var(--accent); padding: 9px 16px;
+  }
+
+  /* ---------- practice questions ---------- */
+  .q {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+    padding: 18px 22px; margin-bottom: 13px; box-shadow: var(--shadow);
+  }
+  .q-head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 11px; }
+  .q-num { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+  .q-stem { font-family: var(--serif); font-size: 16.5px; line-height: 1.5; color: var(--ink); }
+  .two-tag {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+    border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 2px 7px;
+    white-space: nowrap; align-self: center;
+  }
+  .opts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .opts li {
+    display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px;
+    font-family: var(--serif); font-size: 15.5px; line-height: 1.42; color: var(--ink-2);
+  }
+  .opts .l { font-family: var(--mono); font-size: 12px; color: var(--ink-3); font-weight: 500; }
+
+  /* ---------- answer key ---------- */
+  .key-row {
+    display: grid; grid-template-columns: 40px 74px minmax(0, 1fr);
+    gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--line); align-items: baseline;
+  }
+  .key-row:last-child { border-bottom: 0; }
+  .key-row .kn { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink-3); }
+  .key-row .ka { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--ok); }
+  .key-row .kw { font-size: 14.5px; line-height: 1.55; color: var(--ink-2); }
+  .key-row .kw b { color: var(--ink); font-weight: 600; }
+  .key-wrap {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 6px 24px; box-shadow: var(--shadow);
+  }
+
+  .callout {
+    border-left: 3px solid var(--accent); background: var(--accent-soft);
+    border-radius: 0 8px 8px 0; padding: 16px 22px; margin: 20px 0;
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .callout h4 { font-size: 14.5px; color: var(--accent); }
+  .callout p { font-family: var(--serif); font-size: 16px; line-height: 1.58; color: var(--ink-2); max-width: 62ch; }
+  .callout.warn { border-left-color: var(--bad); background: var(--bad-soft); }
+  .callout.warn h4 { color: var(--bad); }
+
+  ul.plain { margin: 12px 0 0; padding-left: 20px; }
+  ul.plain li { font-size: 15.5px; line-height: 1.6; color: var(--ink-2); margin-bottom: 8px; }
+  ul.plain b { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 620px) {
+    .wrap { padding: 0 16px 64px; }
+    .masthead h1 { font-size: 28px; }
+    .part h2 { font-size: 22px; }
+    .key-row { grid-template-columns: 32px 62px minmax(0, 1fr); gap: 9px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="eyebrow">AWS Certified Cloud Practitioner &middot; CLF-C02 &middot; Personal review</span>
+    <h1>The 48 marks you have given away</h1>
+    <p class="lede">Built from every question you missed across practice exams 9, 17 and 20 &mdash;
+      grouped by what actually went wrong, not by domain. Three parts: the concepts, the signals that
+      give the answer away, and thirty problems drilling exactly these mistakes.</p>
+    <div class="runs">
+      <div class="run"><b>72%</b><span>Exam 9 &middot; 36/50</span></div>
+      <div class="run"><b>64%</b><span>Exam 17 &middot; 32/50</span></div>
+      <div class="run"><b>68%</b><span>Exam 20 &middot; 34/50</span></div>
+      <div class="run"><b>71%</b><span>single-answer</span></div>
+      <div class="run"><b>56%</b><span>choose two</span></div>
+    </div>
+  </header>
+
+  <div class="part">
+    <span class="n">Part One</span>
+    <h2>The seven things costing you marks</h2>
+    <p>Ordered by how many marks each has taken from you. Every "you answered" line below is a real
+      answer you gave.</p>
+  </div>
+
+  <div class="concept">
+    <div class="concept-head">
+      <h3>1. The shared responsibility line</h3>
+      <span class="hits">9 misses</span>
+    </div>
+    <p>Your single biggest leak, and the error is consistent in one direction: <b>you hand things to
+      AWS that belong to you</b>. Encryption, VPC configuration, application scaling and guest OS
+      patching are all yours.</p>
+    <p>The whole model reduces to one test: <b>if you can configure it or see it, you own it. If it
+      sits below the hypervisor, AWS owns it.</b> Then two exceptions to memorise.</p>
+
+    <div class="three">
+      <div class="bucket">
+        <h4 style="color:var(--ink-2)">Always yours</h4>
+        <ul>
+          <li>Guest OS patching <em>on EC2</em></li>
+          <li>All encryption decisions</li>
+          <li>Security groups &amp; NACLs</li>
+          <li>IAM users, roles, policies</li>
+          <li>Your application &amp; its scaling</li>
+          <li>Your data and who sees it</li>
+          <li>Training <em>your</em> staff</li>
+        </ul>
+      </div>
+      <div class="bucket">
+        <h4 style="color:var(--ink-2)">Always AWS</h4>
+        <ul>
+          <li>Hypervisor &amp; host firmware</li>
+          <li>Hardware &amp; facilities</li>
+          <li>Physical media destruction</li>
+          <li>Edge location management</li>
+          <li>Networking infrastructure</li>
+          <li>Training <em>their</em> staff</li>
+          <li>OS patching on managed services</li>
+        </ul>
+      </div>
+      <div class="bucket">
+        <h4 style="color:var(--accent)">Shared &mdash; only 3</h4>
+        <ul>
+          <li>Patch management</li>
+          <li>Configuration management</li>
+          <li>Awareness and training</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="yourmiss">
+      <b>You answered:</b> "encrypting data in transit" as AWS's job &middot; "configuring Amazon VPC"
+      as AWS's job &middot; "patching guest operating systems" as AWS's job &middot; "scaling the web
+      application" as AWS's job &middot; patch management as AWS-only &middot; configuration management
+      as customer-only.
+    </div>
+    <div class="fix">
+      <b>The exception that decides half these questions:</b> OS patching flips with the service. On
+      <b>EC2 it is yours</b>; on <b>RDS, Lambda, Fargate and DynamoDB it is AWS's</b>. Always read the
+      service name in the stem before answering an OS question.
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-head">
+      <h3>2. The four monitoring and audit services</h3>
+      <span class="hits">8 misses</span>
+    </div>
+    <p>These four answer four different questions, and you have swapped them in every possible
+      direction &mdash; including choosing CloudWatch where it was wrong and missing it three times
+      where it was right.</p>
+
+    <div class="table-scroll" style="margin-top:14px">
+      <table>
+        <thead><tr><th>Service</th><th>Answers the question</th><th>Never</th></tr></thead>
+        <tbody>
+          <tr><td class="ans">CloudWatch</td><td class="sig">How much? How many? Alert me when a number crosses a line.</td><td>Who did it</td></tr>
+          <tr><td class="ans">CloudTrail</td><td class="sig">Who called which API, when, from which IP?</td><td>Network packets</td></tr>
+          <tr><td class="ans">AWS Config</td><td class="sig">What did this resource look like, and how has it changed?</td><td>Who changed it</td></tr>
+          <tr><td class="ans">VPC Flow Logs</td><td class="sig">What network traffic entered and left the VPC?</td><td>API calls</td></tr>
+          <tr><td class="ans">Trusted Advisor</td><td class="sig">Check my account against best practice &mdash; open security groups, unused resources, limits.</td><td>Live metrics</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="yourmiss">
+      <b>You answered:</b> Cost and Usage report, then AWS Config, for "monitor CPU" &mdash; both are
+      CloudWatch &middot; QuickSight for a billing alarm &mdash; also CloudWatch &middot; CloudTrail for
+      VPC traffic &mdash; that is Flow Logs &middot; Inspector, then CloudTrail, for "identifies
+      unrestricted security groups" &mdash; both times it was Trusted Advisor.
+    </div>
+    <div class="fix">
+      <b>CPU, memory, disk, network throughput, billing thresholds, alarms &mdash; all CloudWatch.</b>
+      If the stem contains a number you would plot on a graph, it is CloudWatch. You have missed this
+      three times across three exams; it is your most repeated single error.
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-head">
+      <h3>3. Choose TWO technique</h3>
+      <span class="hits">14 misses, every one half-right</span>
+    </div>
+    <p>On <b>all fourteen</b> multi-response questions you have missed, you got exactly one of the two
+      answers right. Never zero. That is not knowledge &mdash; you find the obvious answer, then pick a
+      partner that <em>sounds</em> like it belongs with it.</p>
+    <p>Your second picks: Data Pipeline for deployment, CodeDeploy as compute, EC2 as an edge service,
+      S3 as auto-scalable, "AWS manages all security", ELB across Regions, resource groups as global
+      infrastructure. Every one of them dies instantly when read on its own.</p>
+    <div class="fix">
+      <b>The procedure:</b> read all five options. Mark each one true or false <em>by itself</em>,
+      without looking at the others. Then pick the two you marked true. Never ask "which two go
+      together" &mdash; that is the question that makes a good decoy attractive.
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-head">
+      <h3>4. The three cost tools</h3>
+      <span class="hits">4 misses</span>
+    </div>
+    <p>You have got this trio wrong in both directions, which means it is genuinely muddled rather
+      than one bad fact.</p>
+    <div class="table-scroll" style="margin-top:14px">
+      <table>
+        <thead><tr><th>Tool</th><th>Used when</th><th>Tell</th></tr></thead>
+        <tbody>
+          <tr><td class="ans">Pricing / TCO Calculator</td><td class="sig">Before you are on AWS. Estimating or comparing against on-premises.</td><td class="sig">"migrating", "estimate", "compare to on-premises"</td></tr>
+          <tr><td class="ans">Cost Explorer</td><td class="sig">You are on AWS. Visualise and forecast what you have spent.</td><td class="sig">"over time", "visualize", "trends", "forecast"</td></tr>
+          <tr><td class="ans">AWS Budgets</td><td class="sig">Set a threshold and be told when you cross it.</td><td class="sig">"alert", "notify", "exceeds", "threshold"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="fix">
+      <b>The deciding question: are they on AWS yet?</b> If the company is still on-premises and
+      considering a move, it cannot be Cost Explorer &mdash; there is no spend to explore.
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-head">
+      <h3>5. Hybrid connectivity</h3>
+      <span class="hits">5 misses</span>
+    </div>
+    <p>You reach for Direct Connect too readily. It is a specific product: a <b>dedicated physical
+      line</b> that does not touch the public internet.</p>
+    <ul class="plain">
+      <li><b>AWS Direct Connect</b> &mdash; dedicated, private, consistent performance, does <em>not</em> use the internet.</li>
+      <li><b>AWS VPN</b> &mdash; encrypted tunnel <em>over</em> the public internet. Cheaper, faster to set up.</li>
+      <li><b>AWS Storage Gateway</b> &mdash; extends on-premises <em>storage</em> into AWS.</li>
+      <li><b>Amazon VPC</b> &mdash; the isolated network in AWS where hybrid connections terminate.</li>
+    </ul>
+    <div class="yourmiss">
+      <b>You answered:</b> Direct Connect for "securely connect over the public internet" &mdash; the
+      one thing Direct Connect does not do &middot; Direct Connect for "network connectivity in a
+      hybrid architecture" where the key wanted VPC &middot; EBS and Route 53 in the "extend
+      on-premises" question, which is always Direct Connect plus Storage Gateway.
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-head">
+      <h3>6. Global infrastructure and the edge</h3>
+      <span class="hits">6 misses</span>
+    </div>
+    <p>Two vocabulary facts settle most of these.</p>
+    <ul class="plain">
+      <li><b>The global infrastructure is Regions, Availability Zones and edge locations.</b> Nothing
+        else. Not resource groups, not security groups, not AMIs.</li>
+      <li><b>High availability always means multiple Availability Zones.</b> Not multiple Regions, not
+        a VPC, not global reach.</li>
+      <li><b>Edge locations serve CloudFront, Route 53, AWS Shield, AWS WAF and Global Accelerator.</b>
+        EC2 and RDS run in Availability Zones, never at the edge.</li>
+      <li><b>Global services:</b> IAM, Route 53, CloudFront, Organizations. Everything else, S3
+        included, is regional.</li>
+    </ul>
+    <div class="fix">
+      <b>High availability vs fault tolerance:</b> HA means <em>minimal</em> downtime &mdash; it
+      recovers. Fault tolerance means <em>no</em> loss of function at all. The words "minimal" and
+      "no" are doing the work in the stem.
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="concept-head">
+      <h3>7. Distractor recipes you keep falling for</h3>
+      <span class="hits">4 misses</span>
+    </div>
+    <ul class="plain">
+      <li><b>The absolute.</b> "AWS manages all security in the cloud" &mdash; you picked this. Any
+        option containing <em>all</em>, <em>never</em>, <em>eliminates</em>, <em>guarantees</em> or
+        <em>no need to</em> is almost always wrong.</li>
+      <li><b>Doing it the hard way.</b> You chose "build a service to monitor S3 uploads and remove
+        public ones" over "enable S3 Block Public Access". When AWS ships a switch for the exact
+        requirement, custom tooling is never the answer.</li>
+      <li><b>The wrong service in the stem.</b> You chose the RDS console to patch databases running
+        <em>on EC2</em>. Read the service named in the scenario before you read the options.</li>
+      <li><b>The factually false option.</b> "ELB can distribute traffic to multiple AWS Regions" is
+        simply untrue &mdash; ELB is regional. You picked it twice, on the same question, five exams
+        apart.</li>
+    </ul>
+  </div>
+
+  <div class="part">
+    <span class="n">Part Two</span>
+    <h2>Signals that give the answer away</h2>
+    <p>Phrases on the left have appeared in the questions you missed or in the wider question bank.
+      Use them to break a tie between options you already half-know &mdash; never to overrule
+      something you actually understand.</p>
+  </div>
+
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>When the stem says</th><th>The answer is</th></tr></thead>
+      <tbody>
+        <tr class="group-head"><td colspan="2">Monitoring, audit and governance</td></tr>
+        <tr><td class="sig">CPU utilization &middot; metrics &middot; billing alarm &middot; notify when a value exceeds</td><td class="ans">Amazon CloudWatch</td></tr>
+        <tr><td class="sig">who made the call &middot; API call history &middot; account activity &middot; from what IP</td><td class="ans">AWS CloudTrail</td></tr>
+        <tr><td class="sig">how a resource changed &middot; configuration over time &middot; compliance of a resource</td><td class="ans">AWS Config</td></tr>
+        <tr><td class="sig">traffic in and out of the VPC &middot; network packets accepted or rejected</td><td class="ans">VPC Flow Logs</td></tr>
+        <tr><td class="sig">unrestricted access &middot; open security groups &middot; best-practice checks &middot; service limits</td><td class="ans">AWS Trusted Advisor</td></tr>
+
+        <tr class="group-head"><td colspan="2">Security services</td></tr>
+        <tr><td class="sig">malicious &middot; unauthorized &middot; unusual &middot; compromised &middot; threat detection</td><td class="ans">Amazon GuardDuty</td></tr>
+        <tr><td class="sig">vulnerabilities &middot; CVEs &middot; unpatched software &middot; scan instances</td><td class="ans">Amazon Inspector</td></tr>
+        <tr><td class="sig">sensitive data &middot; PII &middot; classify &middot; in S3</td><td class="ans">Amazon Macie</td></tr>
+        <tr><td class="sig">SQL injection &middot; cross-site scripting &middot; filter web requests &middot; rate limit an IP</td><td class="ans">AWS WAF</td></tr>
+        <tr><td class="sig">DDoS &middot; always-on detection &middot; inline mitigation</td><td class="ans">AWS Shield</td></tr>
+        <tr><td class="sig">compliance reports &middot; SOC &middot; PCI &middot; ISO &middot; download &middot; agreements</td><td class="ans">AWS Artifact</td></tr>
+        <tr><td class="sig">AWS resources involved in abuse &middot; report abuse &middot; contact FIRST</td><td class="ans">AWS Abuse team</td></tr>
+        <tr><td class="sig">bucket must never be public &middot; block public objects</td><td class="ans">S3 Block Public Access</td></tr>
+
+        <tr class="group-head"><td colspan="2">Identity</td></tr>
+        <tr><td class="sig">application on EC2 needs access &middot; temporary credentials &middot; cross-account</td><td class="ans">IAM role</td></tr>
+        <tr><td class="sig">create users and groups &middot; at no charge</td><td class="ans">AWS IAM</td></tr>
+        <tr><td class="sig">employees &middot; corporate directory &middot; sign in once &middot; many accounts</td><td class="ans">IAM Identity Center</td></tr>
+        <tr><td class="sig">maximum permissions &middot; cannot be exceeded even by an admin</td><td class="ans">Service control policy</td></tr>
+        <tr><td class="sig">best practice for IAM</td><td class="ans">Strong password policy, rotate keys, MFA, least privilege</td></tr>
+
+        <tr class="group-head"><td colspan="2">Connectivity and delivery</td></tr>
+        <tr><td class="sig">dedicated &middot; private &middot; consistent performance &middot; not over the internet</td><td class="ans">AWS Direct Connect</td></tr>
+        <tr><td class="sig">encrypted &middot; over the public internet &middot; secure tunnel</td><td class="ans">AWS VPN</td></tr>
+        <tr><td class="sig">extend on-premises storage into AWS</td><td class="ans">AWS Storage Gateway</td></tr>
+        <tr><td class="sig">cache static content closer to users &middot; global viewers &middot; reduce latency</td><td class="ans">Amazon CloudFront</td></tr>
+        <tr><td class="sig">route to healthy <em>regional</em> endpoints &middot; static anycast IPs</td><td class="ans">AWS Global Accelerator</td></tr>
+        <tr><td class="sig">isolated section of the cloud &middot; private subnet &middot; provides NACLs</td><td class="ans">Amazon VPC</td></tr>
+
+        <tr class="group-head"><td colspan="2">Cost and billing</td></tr>
+        <tr><td class="sig">before migrating &middot; compare with on-premises &middot; estimate a proposed architecture</td><td class="ans">Pricing / TCO Calculator</td></tr>
+        <tr><td class="sig">visualize spend over time &middot; break down by service &middot; forecast</td><td class="ans">AWS Cost Explorer</td></tr>
+        <tr><td class="sig">alert me when spending exceeds &middot; threshold</td><td class="ans">AWS Budgets</td></tr>
+        <tr><td class="sig">one bill &middot; volume discounts &middot; many accounts &middot; central governance</td><td class="ans">AWS Organizations</td></tr>
+        <tr><td class="sig">try third-party software &middot; buy software &middot; 1-Click deploy</td><td class="ans">AWS Marketplace</td></tr>
+        <tr><td class="sig">per-core or per-socket software licence</td><td class="ans">Dedicated Hosts</td></tr>
+
+        <tr class="group-head"><td colspan="2">Concepts</td></tr>
+        <tr><td class="sig">spike then release &middot; match supply to demand automatically</td><td class="ans">Elasticity</td></tr>
+        <tr><td class="sig">add more instances</td><td class="ans">Horizontal scaling</td></tr>
+        <tr><td class="sig">survives a failure &middot; minimal downtime &middot; multiple AZs</td><td class="ans">High availability</td></tr>
+        <tr><td class="sig">no interruption at all &middot; redundancy already running</td><td class="ans">Fault tolerance</td></tr>
+        <tr><td class="sig">reduce interdependencies &middot; failure does not cascade</td><td class="ans">Loose coupling</td></tr>
+        <tr><td class="sig">no upfront &middot; pay only for what you use</td><td class="ans">Reduces capital expenditure</td></tr>
+        <tr><td class="sig">prices keep falling as AWS grows</td><td class="ans">Economies of scale</td></tr>
+        <tr><td class="sig">shared file system &middot; many EC2 instances at once</td><td class="ans">Amazon EFS</td></tr>
+        <tr><td class="sig">managed NoSQL &middot; key-value &middot; single-digit millisecond</td><td class="ans">Amazon DynamoDB</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="part">
+    <span class="n">Part Three</span>
+    <h2>Thirty problems</h2>
+    <p>Every question below targets something you have actually missed. Eight are Choose TWO &mdash;
+      use the standalone true/false method on all of them. Answer key at the back.</p>
+  </div>
+
+  <div class="q"><div class="q-head"><span class="q-num">1</span><span class="q-stem">A company runs a MySQL database on an Amazon EC2 instance. Who is responsible for applying operating system security patches?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS</span></li><li><span class="l">B</span><span>The customer</span></li><li><span class="l">C</span><span>Shared between AWS and the customer</span></li><li><span class="l">D</span><span>The database vendor</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">2</span><span class="q-stem">A company runs a MySQL database on Amazon RDS. Who is responsible for applying operating system security patches?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS</span></li><li><span class="l">B</span><span>The customer</span></li><li><span class="l">C</span><span>The customer's database administrator</span></li><li><span class="l">D</span><span>Nobody; managed databases are not patched</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">3</span><span class="q-stem">Which is a <em>shared</em> control under the AWS shared responsibility model?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Physical security of data centers</span></li><li><span class="l">B</span><span>Configuration management</span></li><li><span class="l">C</span><span>Data center auditing</span></li><li><span class="l">D</span><span>Hypervisor maintenance</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">4</span><span class="q-stem">Which tasks are the customer's responsibility?</span><span class="two-tag">Choose two</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Decommissioning storage media at end of life</span></li><li><span class="l">B</span><span>Encrypting application data before it is stored</span></li><li><span class="l">C</span><span>Maintaining the network infrastructure between Availability Zones</span></li><li><span class="l">D</span><span>Configuring security groups for EC2 instances</span></li><li><span class="l">E</span><span>Applying firmware updates to physical hosts</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">5</span><span class="q-stem">An application on EC2 sends data to a client over HTTPS. Who is responsible for ensuring that traffic is encrypted?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS, automatically for all traffic</span></li><li><span class="l">B</span><span>The customer, by configuring TLS on the application or load balancer</span></li><li><span class="l">C</span><span>AWS Certificate Manager, with no customer action</span></li><li><span class="l">D</span><span>The internet service provider</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">6</span><span class="q-stem">A company hosts containers on Amazon EC2. Which task belongs to AWS?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Scaling the containerized application</span></li><li><span class="l">B</span><span>Patching the container images</span></li><li><span class="l">C</span><span>Maintaining the hardware in the facilities that run the AWS Cloud</span></li><li><span class="l">D</span><span>Configuring the instance's security group</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">7</span><span class="q-stem">An operations team needs an alert when average CPU utilization on a group of EC2 instances exceeds 75% for ten minutes. Which service should they use?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS Config</span></li><li><span class="l">B</span><span>AWS CloudTrail</span></li><li><span class="l">C</span><span>Amazon CloudWatch</span></li><li><span class="l">D</span><span>AWS Cost and Usage report</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">8</span><span class="q-stem">A finance team wants an alarm when the estimated monthly AWS charges pass a set dollar figure. Which service raises that alarm?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Amazon QuickSight</span></li><li><span class="l">B</span><span>Amazon CloudWatch</span></li><li><span class="l">C</span><span>AWS Trusted Advisor</span></li><li><span class="l">D</span><span>Amazon Inspector</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">9</span><span class="q-stem">An auditor asks which IAM user terminated a production EC2 instance last Thursday, and from what IP address. Which service has this?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS Config</span></li><li><span class="l">B</span><span>Amazon CloudWatch</span></li><li><span class="l">C</span><span>VPC Flow Logs</span></li><li><span class="l">D</span><span>AWS CloudTrail</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">10</span><span class="q-stem">An engineer needs to see the inbound rules a security group had three weeks ago and every change since. Which service provides this?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS Config</span></li><li><span class="l">B</span><span>AWS CloudTrail</span></li><li><span class="l">C</span><span>Amazon CloudWatch Logs</span></li><li><span class="l">D</span><span>AWS Trusted Advisor</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">11</span><span class="q-stem">A security team wants a record of which network traffic was accepted and rejected by the network interfaces in a VPC. What should they enable?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS CloudTrail</span></li><li><span class="l">B</span><span>VPC Flow Logs</span></li><li><span class="l">C</span><span>AWS Config</span></li><li><span class="l">D</span><span>Amazon Detective</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">12</span><span class="q-stem">A company wants an automated check that flags any security group allowing unrestricted access from the internet. Which service performs this check?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Amazon Inspector</span></li><li><span class="l">B</span><span>AWS CloudTrail</span></li><li><span class="l">C</span><span>AWS Trusted Advisor</span></li><li><span class="l">D</span><span>Amazon Macie</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">13</span><span class="q-stem">A company still running entirely on-premises wants to know whether moving to AWS would cost less. Which tool should it use?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS Cost Explorer</span></li><li><span class="l">B</span><span>AWS Budgets</span></li><li><span class="l">C</span><span>The AWS Pricing / TCO Calculator</span></li><li><span class="l">D</span><span>AWS Cost and Usage report</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">14</span><span class="q-stem">A manager wants to see the last twelve months of AWS spending broken down by service, with a forecast of next month. Which tool?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS Budgets</span></li><li><span class="l">B</span><span>AWS Cost Explorer</span></li><li><span class="l">C</span><span>AWS Pricing Calculator</span></li><li><span class="l">D</span><span>AWS Trusted Advisor</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">15</span><span class="q-stem">A team must be emailed as soon as forecast spending will exceed $5,000 this month. Which tool?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS Cost Explorer</span></li><li><span class="l">B</span><span>AWS Budgets</span></li><li><span class="l">C</span><span>AWS Pricing Calculator</span></li><li><span class="l">D</span><span>Amazon CloudWatch Logs</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">16</span><span class="q-stem">A company needs a connection to AWS that does not traverse the public internet and offers consistent performance. Which service?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS VPN</span></li><li><span class="l">B</span><span>AWS Direct Connect</span></li><li><span class="l">C</span><span>Amazon VPC peering</span></li><li><span class="l">D</span><span>AWS Transit Gateway</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">17</span><span class="q-stem">A small company wants an encrypted connection from its office to its VPC, set up this week, using its existing internet connection. Which service?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS Direct Connect</span></li><li><span class="l">B</span><span>AWS VPN</span></li><li><span class="l">C</span><span>Amazon CloudFront</span></li><li><span class="l">D</span><span>AWS Storage Gateway</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">18</span><span class="q-stem">Which services help extend an on-premises architecture into the AWS Cloud?</span><span class="two-tag">Choose two</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Amazon EBS</span></li><li><span class="l">B</span><span>AWS Direct Connect</span></li><li><span class="l">C</span><span>Amazon Route 53</span></li><li><span class="l">D</span><span>AWS Storage Gateway</span></li><li><span class="l">E</span><span>Amazon CloudFront</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">19</span><span class="q-stem">Which AWS service provides inbound and outbound network ACLs to control traffic to EC2 instances?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS IAM</span></li><li><span class="l">B</span><span>Amazon API Gateway</span></li><li><span class="l">C</span><span>Amazon VPC</span></li><li><span class="l">D</span><span>AWS Firewall Manager</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">20</span><span class="q-stem">A website hosted in Ireland is slow for users in Australia. The content is mostly static images and video. What should be added?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Amazon ElastiCache</span></li><li><span class="l">B</span><span>Amazon CloudFront</span></li><li><span class="l">C</span><span>Amazon EFS</span></li><li><span class="l">D</span><span>AWS Direct Connect</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">21</span><span class="q-stem">Which services make use of AWS edge locations?</span><span class="two-tag">Choose two</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Amazon EC2</span></li><li><span class="l">B</span><span>Amazon CloudFront</span></li><li><span class="l">C</span><span>Amazon RDS</span></li><li><span class="l">D</span><span>AWS Shield</span></li><li><span class="l">E</span><span>Amazon EBS</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">22</span><span class="q-stem">Which are components of the AWS global infrastructure?</span><span class="two-tag">Choose two</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Resource groups</span></li><li><span class="l">B</span><span>Availability Zones</span></li><li><span class="l">C</span><span>Security groups</span></li><li><span class="l">D</span><span>AWS Regions</span></li><li><span class="l">E</span><span>Amazon Machine Images</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">23</span><span class="q-stem">Which AWS services are global rather than regional?</span><span class="two-tag">Choose two</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Amazon S3</span></li><li><span class="l">B</span><span>Amazon Route 53</span></li><li><span class="l">C</span><span>Amazon EC2</span></li><li><span class="l">D</span><span>AWS IAM</span></li><li><span class="l">E</span><span>Amazon RDS</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">24</span><span class="q-stem">A user wants an application to stay reachable if one data center fails. What should they do?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Deploy across multiple Availability Zones in one Region</span></li><li><span class="l">B</span><span>Deploy in a single Availability Zone using Reserved Instances</span></li><li><span class="l">C</span><span>Place the application in a VPC</span></li><li><span class="l">D</span><span>Deploy to multiple Regions in the same Availability Zone</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">25</span><span class="q-stem">An application is designed so that redundant components are already running and a single component failure causes no loss of function at all. This is:</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>High availability</span></li><li><span class="l">B</span><span>Fault tolerance</span></li><li><span class="l">C</span><span>Elasticity</span></li><li><span class="l">D</span><span>Agility</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">26</span><span class="q-stem">Moving from buying servers to paying only for consumed AWS resources means the company:</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>reduces capital expenditure</span></li><li><span class="l">B</span><span>reduces operational expenditure</span></li><li><span class="l">C</span><span>eliminates all IT costs</span></li><li><span class="l">D</span><span>increases capital expenditure</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">27</span><span class="q-stem">Which of these is a genuine benefit of the AWS Cloud?</span><span class="two-tag">Choose two</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>AWS manages all security in the cloud on your behalf</span></li><li><span class="l">B</span><span>There are no upfront commitments</span></li><li><span class="l">C</span><span>Resources can be provisioned on demand</span></li><li><span class="l">D</span><span>Storage is free and unlimited</span></li><li><span class="l">E</span><span>Customers control the physical hardware</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">28</span><span class="q-stem">A company with customers worldwide wants lower latency. Which are valid approaches?</span><span class="two-tag">Choose two</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Deploy the application into additional AWS Regions</span></li><li><span class="l">B</span><span>Use Amazon CloudFront edge locations to cache content</span></li><li><span class="l">C</span><span>Configure Elastic Load Balancing to distribute traffic across AWS Regions</span></li><li><span class="l">D</span><span>Use Amazon Translate to localize the interface</span></li><li><span class="l">E</span><span>Enable Amazon EBS Multi-Attach</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">29</span><span class="q-stem">A compliance rule states that a particular S3 bucket must never contain public objects. What is the correct approach?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Write a Lambda function that scans the bucket hourly and deletes public objects</span></li><li><span class="l">B</span><span>Enable S3 Block Public Access on the bucket</span></li><li><span class="l">C</span><span>Require manual approval before every upload</span></li><li><span class="l">D</span><span>Train staff to upload only private objects</span></li></ul></div>
+
+  <div class="q"><div class="q-head"><span class="q-num">30</span><span class="q-stem">Several EC2 instances across two Availability Zones must read and write the same files at the same time. Which storage service?</span></div>
+    <ul class="opts"><li><span class="l">A</span><span>Amazon EBS</span></li><li><span class="l">B</span><span>Amazon EFS</span></li><li><span class="l">C</span><span>Amazon S3 Glacier</span></li><li><span class="l">D</span><span>AWS Artifact</span></li></ul></div>
+
+  <div class="part">
+    <span class="n">Answer key</span>
+    <h2>Answers and why</h2>
+    <p>Mark the reason as well as the letter. A question you got right for the wrong reason is one you
+      will get wrong on test day.</p>
+  </div>
+
+  <div class="key-wrap">
+    <div class="key-row"><span class="kn">1</span><span class="ka">B</span><span class="kw"><b>The customer.</b> On EC2 you have OS access, so you patch it.</span></div>
+    <div class="key-row"><span class="kn">2</span><span class="ka">A</span><span class="kw"><b>AWS.</b> RDS is managed: no OS access, so AWS patches it. Questions 1 and 2 are the same task with opposite answers &mdash; the service name decides.</span></div>
+    <div class="key-row"><span class="kn">3</span><span class="ka">B</span><span class="kw"><b>Configuration management.</b> The only three shared controls are patch management, configuration management, and awareness and training.</span></div>
+    <div class="key-row"><span class="kn">4</span><span class="ka">B, D</span><span class="kw">Encryption decisions and security group configuration are yours. Media decommissioning, inter-AZ networking and host firmware are AWS's.</span></div>
+    <div class="key-row"><span class="kn">5</span><span class="ka">B</span><span class="kw"><b>The customer.</b> AWS provides the certificate service; you decide to use it. Encryption is never automatic on your behalf.</span></div>
+    <div class="key-row"><span class="kn">6</span><span class="ka">C</span><span class="kw"><b>Hardware maintenance.</b> Scaling your application, patching your images and configuring security groups are all yours.</span></div>
+    <div class="key-row"><span class="kn">7</span><span class="ka">C</span><span class="kw"><b>CloudWatch.</b> A number over time plus a threshold is always CloudWatch.</span></div>
+    <div class="key-row"><span class="kn">8</span><span class="ka">B</span><span class="kw"><b>CloudWatch.</b> Billing metrics are CloudWatch metrics, so billing alarms are CloudWatch alarms.</span></div>
+    <div class="key-row"><span class="kn">9</span><span class="ka">D</span><span class="kw"><b>CloudTrail.</b> Which identity, which API, when, from where.</span></div>
+    <div class="key-row"><span class="kn">10</span><span class="ka">A</span><span class="kw"><b>Config.</b> Resource state over time. CloudTrail would tell you who changed it, not what it became.</span></div>
+    <div class="key-row"><span class="kn">11</span><span class="ka">B</span><span class="kw"><b>VPC Flow Logs.</b> Network traffic metadata, accepted and rejected.</span></div>
+    <div class="key-row"><span class="kn">12</span><span class="ka">C</span><span class="kw"><b>Trusted Advisor.</b> Its security checks include unrestricted security group access. Inspector scans software for CVEs.</span></div>
+    <div class="key-row"><span class="kn">13</span><span class="ka">C</span><span class="kw"><b>Pricing / TCO Calculator.</b> They are not on AWS yet, so there is no spend for Cost Explorer to explore.</span></div>
+    <div class="key-row"><span class="kn">14</span><span class="ka">B</span><span class="kw"><b>Cost Explorer.</b> Visualize, break down and forecast existing spend.</span></div>
+    <div class="key-row"><span class="kn">15</span><span class="ka">B</span><span class="kw"><b>Budgets.</b> The word "exceed" plus a notification is always Budgets.</span></div>
+    <div class="key-row"><span class="kn">16</span><span class="ka">B</span><span class="kw"><b>Direct Connect.</b> Dedicated, private, consistent, not over the internet.</span></div>
+    <div class="key-row"><span class="kn">17</span><span class="ka">B</span><span class="kw"><b>AWS VPN.</b> "Existing internet connection" and "this week" rule out Direct Connect, which is a physical circuit taking weeks to provision.</span></div>
+    <div class="key-row"><span class="kn">18</span><span class="ka">B, D</span><span class="kw">Direct Connect for the network link, Storage Gateway for storage. Route 53, CloudFront and EBS are not hybrid extension services.</span></div>
+    <div class="key-row"><span class="kn">19</span><span class="ka">C</span><span class="kw"><b>Amazon VPC.</b> Network ACLs are a VPC feature.</span></div>
+    <div class="key-row"><span class="kn">20</span><span class="ka">B</span><span class="kw"><b>CloudFront.</b> "Cache" plus "static content" plus "distant users" is the CDN. ElastiCache is in-memory database caching &mdash; the word is the trap.</span></div>
+    <div class="key-row"><span class="kn">21</span><span class="ka">B, D</span><span class="kw">CloudFront and Shield run at edge locations, as do Route 53, WAF and Global Accelerator. EC2, RDS and EBS live in Availability Zones.</span></div>
+    <div class="key-row"><span class="kn">22</span><span class="ka">B, D</span><span class="kw">Regions, Availability Zones and edge locations are the global infrastructure. Resource groups, security groups and AMIs are account-level features.</span></div>
+    <div class="key-row"><span class="kn">23</span><span class="ka">B, D</span><span class="kw">Route 53 and IAM are global, as are CloudFront and Organizations. S3 is regional &mdash; buckets live in a Region even though the console lists them together.</span></div>
+    <div class="key-row"><span class="kn">24</span><span class="ka">A</span><span class="kw"><b>Multiple Availability Zones.</b> An AZ is one or more data centers; spreading across AZs survives losing one.</span></div>
+    <div class="key-row"><span class="kn">25</span><span class="ka">B</span><span class="kw"><b>Fault tolerance.</b> "No loss of function at all" is the tell. High availability would say minimal downtime.</span></div>
+    <div class="key-row"><span class="kn">26</span><span class="ka">A</span><span class="kw"><b>Reduces capital expenditure.</b> Cloud converts capex into variable operational spend, so capex goes down, not opex.</span></div>
+    <div class="key-row"><span class="kn">27</span><span class="ka">B, C</span><span class="kw">A is an absolute and false &mdash; security in the cloud is yours. D and E are false outright.</span></div>
+    <div class="key-row"><span class="kn">28</span><span class="ka">A, B</span><span class="kw">C is false: ELB is a regional service and cannot distribute across Regions. That is the option you have picked twice.</span></div>
+    <div class="key-row"><span class="kn">29</span><span class="ka">B</span><span class="kw"><b>S3 Block Public Access.</b> When AWS ships a switch for exactly the requirement, custom tooling is never the answer.</span></div>
+    <div class="key-row"><span class="kn">30</span><span class="ka">B</span><span class="kw"><b>EFS.</b> Shared file system, many instances, multiple AZs. EBS attaches to one instance in one AZ.</span></div>
+  </div>
+
+  <div class="callout">
+    <h4>Scoring this</h4>
+    <p>These thirty target your known weak spots, so treat 27+ as the bar rather than 21. Anything you
+      miss here is worth going back to Part One for &mdash; it means the concept has not moved yet.
+      Questions 1 and 2, and 13 through 15, are the pairs most worth getting right for the right
+      reason.</p>
+  </div>
+
+</div>
