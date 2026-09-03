@@ -100,3 +100,13 @@ domain and topic by keyword. Two notes on that corpus: several files use lazy
 Markdown numbering (every item written as `1.`), so questions are renumbered by
 document order; and the domain tagging is a keyword heuristic, useful for
 grouping but not authoritative.
+
+## Study guides
+
+| File | What it covers |
+| --- | --- |
+| `question-targeting-guide.html` | How to read a CLF-C02 question in Domains 1 and 2: question anatomy, signal-word tables, the shared responsibility line across EC2/RDS/Lambda, and the eight trap pairs. Written from the exam guide. |
+| `corpus-patterns-guide.html` | What the external corpus actually repeats, measured rather than assumed: the most-repeated questions, per-service decoy rates, the shared responsibility inventory, and the stem-phrase-to-service map. Derived by counting across all 1,142 questions. |
+
+The second guide's numbers come from the analysis in `tools/`; re-run
+`parse_practice_exams.py` after any parser change to confirm they still hold.
