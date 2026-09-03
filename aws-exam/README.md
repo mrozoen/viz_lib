@@ -68,3 +68,35 @@ The real exam is scaled to 100–1000 with a pass at 700, roughly 70% of the sco
 questions. Both outputs report plain percentages and mark 70% as the line. Score by domain
 rather than overall — a gap in Cloud Technology and Services (34% of the exam) costs about
 three times what the same gap costs in Billing, Pricing, and Support (12%).
+
+## Taking the external practice exams
+
+`tools/` grades the 23 CLF-C02 practice exams published by
+[kananinirav/aws-certified-cloud-practitioner-notes](https://github.com/kananinirav/aws-certified-cloud-practitioner-notes)
+(MIT licensed, ~1,140 questions). The corpus is not vendored here — only the
+tooling is. Clone it first:
+
+```bash
+git clone --depth 1 \
+  https://github.com/kananinirav/aws-certified-cloud-practitioner-notes ~/aws-cp-notes
+export PRACTICE_EXAM_DIR=~/aws-cp-notes/practice-exam
+```
+
+Then:
+
+```bash
+python3 tools/practice.py show 5 --from 1 --to 10   # questions, no answer key
+python3 tools/practice.py grade 5 "1A 2D 3B 4BE"    # score + domain breakdown
+python3 tools/practice.py grade 5 "..." --show      # plus the missed questions in full
+```
+
+Answers parse leniently — `1A`, `1. A`, `1 - A` and `4BE` / `4 B and E` all work.
+Grading reports an overall score, a per-domain breakdown, the topics you missed
+ranked weakest first, and every missed question with your answer beside the
+correct one.
+
+`tools/parse_practice_exams.py` does the extraction and tags each question with a
+domain and topic by keyword. Two notes on that corpus: several files use lazy
+Markdown numbering (every item written as `1.`), so questions are renumbered by
+document order; and the domain tagging is a keyword heuristic, useful for
+grouping but not authoritative.
