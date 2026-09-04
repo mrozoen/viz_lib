@@ -110,5 +110,20 @@ grouping but not authoritative.
 | `review-packet.html` | Personal review packet built from the 48 questions missed across practice exams 9, 17 and 20: the seven recurring concept gaps, a signal-word table, and 30 targeted practice problems with an answer key. |
 | `corpus-patterns-guide.html` | What the external corpus actually repeats, measured rather than assumed: the most-repeated questions, per-service decoy rates, the shared responsibility inventory, and the stem-phrase-to-service map. Derived by counting across all 1,142 questions. |
 
+## Anki decks
+
+`tools/make_anki_decks.py` generates four separate Anki packages from the review
+packet — Cost Tools (14 cards), Hybrid Connectivity (12), Global Infrastructure
+(14) and Signal Words (39). The signal deck is extracted from the packet's own
+Part Two table at build time, so it cannot drift from the document.
+
+```bash
+pip install genanki
+python3 tools/make_anki_decks.py -o ~/decks
+```
+
+Deck and model IDs are pinned, so regenerating updates the decks already imported
+into Anki instead of creating duplicates.
+
 The second guide's numbers come from the analysis in `tools/`; re-run
 `parse_practice_exams.py` after any parser change to confirm they still hold.
