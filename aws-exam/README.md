@@ -125,5 +125,18 @@ python3 tools/make_anki_decks.py -o ~/decks
 Deck and model IDs are pinned, so regenerating updates the decks already imported
 into Anki instead of creating duplicates.
 
+`tools/make_missed_deck.py` builds a fifth deck from the questions actually
+answered wrong. It reads graded answer files, selects one domain, and makes a
+card per missed question with the stem and options on the front and only the
+correct answer on the back. Questions repeated across exams are de-duplicated,
+and unanswered questions are skipped rather than counted as misses.
+
+```bash
+python3 tools/make_missed_deck.py --domain 2 --answers ~/answers/*.txt -o ~/decks
+```
+
+That deck quotes the source corpus verbatim, so the generated `.apkg` is
+personal study material and is not committed here — only the generator is.
+
 The second guide's numbers come from the analysis in `tools/`; re-run
 `parse_practice_exams.py` after any parser change to confirm they still hold.
