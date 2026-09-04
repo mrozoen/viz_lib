@@ -67,8 +67,14 @@ hr#answer { border: 0; border-top: 1px solid #dce2e8; margin: 16px 0; }
 
 COST = [
     ("A company is still entirely on-premises and wants to know whether moving to AWS would cost less. Which tool?",
-     "AWS Pricing / TCO Calculator",
-     "They are not on AWS yet, so there is no spend for Cost Explorer to explore."),
+     "TCO Calculator",
+     "Comparing on-premises against AWS is the TCO Calculator specifically. Either way it is not Cost Explorer - there is no AWS spend yet."),
+    ("A customer without an AWS account wants to estimate what a proposed architecture will cost. Which tool?",
+     "AWS Pricing Calculator",
+     "Estimating AWS costs = Pricing Calculator (it replaced the Simple Monthly Calculator). Comparing with on-premises = TCO Calculator."),
+    ("Pricing Calculator vs TCO Calculator",
+     "Pricing Calculator estimates AWS costs. TCO Calculator compares AWS against on-premises.",
+     "Both are used before you are on AWS. The tell is whether on-premises is being compared."),
     ("Visualise the last 12 months of AWS spend, broken down by service, with a forecast of next month. Which tool?",
      "AWS Cost Explorer", ""),
     ("Email the team as soon as forecast spending will exceed $5,000 this month. Which tool?",
