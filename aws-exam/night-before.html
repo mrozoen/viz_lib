@@ -1,0 +1,386 @@
+<title>Night Before Cram Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root {
+    --paper: #eef1f4; --surface: #ffffff; --surface-2: #f6f8fa;
+    --line: #dce2e8; --line-strong: #c3ccd6;
+    --ink: #182430; --ink-2: #445260; --ink-3: #6b7a88;
+    --accent: #b85c0c; --accent-soft: #fbeee0; --on-accent: #ffffff;
+    --ok: #1c6b4f; --ok-soft: #e4f1ea; --bad: #a63a2b; --bad-soft: #f8e8e5;
+    --shadow: 0 1px 2px rgba(24,36,48,.06), 0 8px 24px -16px rgba(24,36,48,.28);
+    --ui: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  :root:not([data-theme="light"]) { color-scheme: light; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #10161c; --surface: #18202a; --surface-2: #1f2833;
+      --line: #2b3742; --line-strong: #3c4a57;
+      --ink: #e6edf3; --ink-2: #a9b7c4; --ink-3: #7d8c9a;
+      --accent: #e08b3e; --accent-soft: #3a2a17; --on-accent: #10161c;
+      --ok: #4fbf8e; --ok-soft: #16302a; --bad: #e88070; --bad-soft: #33201c;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #10161c; --surface: #18202a; --surface-2: #1f2833;
+    --line: #2b3742; --line-strong: #3c4a57;
+    --ink: #e6edf3; --ink-2: #a9b7c4; --ink-3: #7d8c9a;
+    --accent: #e08b3e; --accent-soft: #3a2a17; --on-accent: #10161c;
+    --ok: #4fbf8e; --ok-soft: #16302a; --bad: #e88070; --bad-soft: #33201c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--ui); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  h1,h2,h3,h4 { margin: 0; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+  p { margin: 0; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px 90px; }
+
+  /* masthead */
+  .masthead { padding: 46px 0 6px; }
+  .masthead h1 { font-size: 40px; line-height: 1.06; margin: 11px 0 14px; max-width: 16ch; }
+  .lede { font-family: var(--serif); font-size: 18.5px; line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
+
+  .verdict {
+    margin-top: 26px; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--surface); box-shadow: var(--shadow); overflow: hidden;
+  }
+  .verdict-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 1px; background: var(--line); }
+  .vcell { background: var(--surface); padding: 15px 18px; display: flex; flex-direction: column; gap: 3px; }
+  .vcell b { font-family: var(--mono); font-size: 25px; font-weight: 600; line-height: 1; }
+  .vcell.good b { color: var(--ok); }
+  .vcell.bad b { color: var(--bad); }
+  .vcell span { font-size: 12px; color: var(--ink-3); line-height: 1.35; }
+  .verdict-note { padding: 16px 18px; border-top: 1px solid var(--line); font-family: var(--serif); font-size: 16.5px; line-height: 1.6; color: var(--ink-2); }
+  .verdict-note b { color: var(--ink); font-weight: 600; }
+
+  /* plan */
+  .part { margin: 50px 0 26px; padding-top: 20px; border-top: 2px solid var(--ink); display: flex; flex-direction: column; gap: 6px; }
+  .part .n { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; color: var(--accent); text-transform: uppercase; }
+  .part h2 { font-size: 26px; }
+  .part p { font-family: var(--serif); font-size: 16.5px; line-height: 1.6; color: var(--ink-2); max-width: 62ch; margin-top: 4px; }
+
+  .block { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; box-shadow: var(--shadow); margin-bottom: 16px; }
+  .block-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .block-head h3 { font-size: 17px; }
+  .clock { font-family: var(--mono); font-size: 11.5px; padding: 3px 9px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+  .block p { font-family: var(--serif); font-size: 16.5px; line-height: 1.6; color: var(--ink-2); max-width: 64ch; }
+  .block p + p { margin-top: 10px; }
+  .block b { color: var(--ink); font-weight: 600; }
+
+  .steps { counter-reset: s; margin: 12px 0 0; padding: 0; list-style: none; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.55; color: var(--ink-2); }
+  .steps li:first-child { border-top: 0; }
+  .steps li::before { content: counter(s); font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+  .steps b { color: var(--ink); }
+
+  /* cram tables */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); box-shadow: var(--shadow); margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 470px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; padding: 11px 15px; background: var(--surface-2); border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 10px 15px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.42; }
+  tr:last-child td { border-bottom: 0; }
+  td.k { font-family: var(--serif); color: var(--ink); }
+  td.v { font-weight: 600; color: var(--ink); }
+  .grp td { background: var(--surface-2); font-family: var(--mono); font-size: 10.5px; letter-spacing: .11em; text-transform: uppercase; color: var(--accent); padding: 8px 15px; }
+
+  .three { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; margin: 14px 0; }
+  .bucket { border: 1px solid var(--line-strong); border-radius: 8px; padding: 13px 15px; background: var(--surface); }
+  .bucket h4 { font-size: 11.5px; margin-bottom: 8px; font-family: var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+  .bucket ul { margin: 0; padding-left: 16px; }
+  .bucket li { font-size: 13.5px; line-height: 1.48; color: var(--ink-2); margin-bottom: 5px; }
+  .bucket li:last-child { margin-bottom: 0; }
+
+  .callout { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+  .callout h4 { font-size: 14.5px; color: var(--accent); }
+  .callout p { font-family: var(--serif); font-size: 16px; line-height: 1.58; color: var(--ink-2); max-width: 62ch; }
+  .callout.good { border-left-color: var(--ok); background: var(--ok-soft); }
+  .callout.good h4 { color: var(--ok); }
+  .callout.warn { border-left-color: var(--bad); background: var(--bad-soft); }
+  .callout.warn h4 { color: var(--bad); }
+
+  ul.plain { margin: 10px 0 0; padding-left: 20px; }
+  ul.plain li { font-size: 15.5px; line-height: 1.58; color: var(--ink-2); margin-bottom: 7px; }
+  ul.plain li:last-child { margin-bottom: 0; }
+  ul.plain b { color: var(--ink); font-weight: 600; }
+
+  .final { border-top: 2px solid var(--ink); padding-top: 22px; margin-top: 46px; }
+  .final p { font-family: var(--serif); font-size: 17px; line-height: 1.65; color: var(--ink-2); max-width: 62ch; }
+  .final p + p { margin-top: 12px; }
+  .final b { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 620px) {
+    .wrap { padding: 0 16px 60px; }
+    .masthead h1 { font-size: 29px; }
+    .part h2 { font-size: 21px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="eyebrow">AWS Certified Cloud Practitioner &middot; CLF-C02 &middot; Exam tomorrow morning</span>
+    <h1>One evening, one lever</h1>
+    <p class="lede">You do not have time to learn AWS tonight, and you do not need to. Across 220
+      practice questions your single-answer accuracy is already above the pass line. One question
+      type is holding you under it. Fix that, revise twelve facts, and go to bed.</p>
+
+    <div class="verdict">
+      <div class="verdict-top">
+        <div class="vcell"><b>65.9%</b><span>your average across 220 questions</span></div>
+        <div class="vcell good"><b>71.2%</b><span>single-answer questions (170)</span></div>
+        <div class="vcell bad"><b>48.0%</b><span>Choose TWO questions (50)</span></div>
+        <div class="vcell"><b>~70%</b><span>the pass line</span></div>
+      </div>
+      <p class="verdict-note">If your Choose TWO accuracy rises to <b>75%</b> and nothing else
+        changes, your average becomes <b>72.3%</b> &mdash; a pass. That is 14 marks sitting in one
+        habit. It is the highest-value hour you will spend tonight.</p>
+    </div>
+  </header>
+
+  <div class="part">
+    <span class="n">The plan</span>
+    <h2>Tonight, in about two and a half hours</h2>
+    <p>Do these in order. If you run out of time or energy, the first block is the one that matters
+      &mdash; everything after it is worth less than sleep.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><h3>1. The Choose TWO habit</h3><span class="clock">30 min</span></div>
+    <p>Across every practice exam, <b>on almost every Choose TWO you missed, you had exactly one of
+      the two answers right.</b> Not one where you were lost. You find the obvious answer, then pick
+      a partner that <em>sounds like it belongs with it</em> rather than testing it on its own.</p>
+    <p>The fix is mechanical, and it is the only thing tonight you should practise until it is
+      automatic:</p>
+    <ol class="steps">
+      <li><b>Cover the other options.</b> Read option A alone.</li>
+      <li><b>Ask one question: "is this statement true, by itself?"</b> Not "does it fit with the
+        others". Mark it T or F.</li>
+      <li><b>Repeat for B, C, D, E</b> without looking back at what you marked.</li>
+      <li><b>Select the two you marked T.</b> If you marked three, re-read them for an absolute
+        ("all", "never", "eliminates") &mdash; that one is false.</li>
+      <li><b>Count your selections before moving on.</b> One selection scores zero. So does three.</li>
+    </ol>
+    <div class="callout warn">
+      <h4>You have thrown away marks on the count alone</h4>
+      <p>Twice now you have submitted a single letter for a Choose TWO question. On the real exam
+        that is an automatic zero on a question you may well have half-known. Before you leave any
+        multi-response question, count the boxes.</p>
+    </div>
+    <p><b>Practise it now</b> on these, which are your own past errors. For each, say true or false
+      out loud, one at a time: <em>"ELB can distribute traffic to multiple AWS Regions."</em>
+      <em>"AWS manages all security in the cloud."</em> <em>"Amazon EC2 is a serverless service."</em>
+      <em>"Resource groups are part of the AWS global infrastructure."</em> <em>"Amazon S3 is a global
+      service."</em> All five are false, and you picked every one of them.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><h3>2. The twelve facts you keep missing</h3><span class="clock">45 min</span></div>
+    <p>These are not a general revision list. Each one is something you have got wrong at least
+      twice across five practice exams. Cover the right column and test yourself.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>The question</th><th>The answer</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Who patches the guest OS on <b>EC2</b>?</td><td class="v">You</td></tr>
+          <tr><td class="k">Who patches the guest OS on <b>RDS, Lambda, Fargate, DynamoDB</b>?</td><td class="v">AWS</td></tr>
+          <tr><td class="k">Who is responsible for <b>encryption</b>, always?</td><td class="v">You. AWS gives tools; you switch them on</td></tr>
+          <tr><td class="k">The <b>three shared controls</b></td><td class="v">Patch management, configuration management, awareness &amp; training</td></tr>
+          <tr><td class="k">Which service monitors <b>CPU, metrics, billing alarms</b>?</td><td class="v">Amazon CloudWatch</td></tr>
+          <tr><td class="k">Which service says <b>who called an API</b>?</td><td class="v">AWS CloudTrail</td></tr>
+          <tr><td class="k">Which service says <b>what a resource looked like and how it changed</b>?</td><td class="v">AWS Config</td></tr>
+          <tr><td class="k">Which service logs <b>network traffic in a VPC</b>?</td><td class="v">VPC Flow Logs</td></tr>
+          <tr><td class="k">Which finds <b>security groups with unrestricted access</b>?</td><td class="v">AWS Trusted Advisor</td></tr>
+          <tr><td class="k">Pay-as-you-go <b>reduces which expenditure</b>?</td><td class="v">Capital (CapEx). Not operational</td></tr>
+          <tr><td class="k">Connect <b>over the public internet</b>, encrypted?</td><td class="v">AWS VPN (never Direct Connect)</td></tr>
+          <tr><td class="k">Cache <b>static content near distant users</b>?</td><td class="v">CloudFront (ElastiCache is database caching)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="three">
+      <div class="bucket">
+        <h4 style="color:var(--ink-2)">Always yours</h4>
+        <ul>
+          <li>Guest OS patching on EC2</li>
+          <li>All encryption decisions</li>
+          <li>Security groups and NACLs</li>
+          <li>IAM users, roles, policies</li>
+          <li>Your app and its scaling</li>
+          <li>Your data and who sees it</li>
+          <li>Region selection</li>
+        </ul>
+      </div>
+      <div class="bucket">
+        <h4 style="color:var(--ink-2)">Always AWS</h4>
+        <ul>
+          <li>Hypervisor, host firmware</li>
+          <li>Hardware and facilities</li>
+          <li>Physical media destruction</li>
+          <li>Edge location management</li>
+          <li>Networking infrastructure</li>
+          <li>Training AWS staff</li>
+          <li>Managed-service OS patching</li>
+        </ul>
+      </div>
+      <div class="bucket">
+        <h4 style="color:var(--accent)">Shared &mdash; only 3</h4>
+        <ul>
+          <li>Patch management</li>
+          <li>Configuration management</li>
+          <li>Awareness and training</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><h3>3. Service map, one pass</h3><span class="clock">45 min</span></div>
+    <p>Read the left column, say the right column, move on. Do not stop to study anything you already
+      know. These are the phrases that carry the most questions on this exam.</p>
+
+    <div class="table-scroll">
+      <table>
+        <tbody>
+          <tr class="grp"><td colspan="2">Security</td></tr>
+          <tr><td class="k">malicious &middot; unusual &middot; compromised &middot; threat</td><td class="v">GuardDuty</td></tr>
+          <tr><td class="k">vulnerabilities &middot; CVEs &middot; unpatched software</td><td class="v">Inspector</td></tr>
+          <tr><td class="k">sensitive data &middot; PII in S3</td><td class="v">Macie</td></tr>
+          <tr><td class="k">SQL injection &middot; web requests &middot; rate limit</td><td class="v">WAF</td></tr>
+          <tr><td class="k">DDoS</td><td class="v">Shield (Standard free &amp; automatic; Advanced adds the response team)</td></tr>
+          <tr><td class="k">compliance reports &middot; SOC &middot; PCI &middot; agreements</td><td class="v">Artifact</td></tr>
+          <tr><td class="k">encryption keys</td><td class="v">KMS (CloudHSM if "dedicated" or "single-tenant")</td></tr>
+          <tr><td class="k">store and <em>rotate</em> a credential</td><td class="v">Secrets Manager</td></tr>
+          <tr><td class="k">TLS/SSL certificates</td><td class="v">Certificate Manager (ACM)</td></tr>
+          <tr><td class="k">AWS resources involved in abuse</td><td class="v">AWS Abuse team</td></tr>
+          <tr><td class="k">bucket must never be public</td><td class="v">S3 Block Public Access</td></tr>
+
+          <tr class="grp"><td colspan="2">Identity</td></tr>
+          <tr><td class="k">app on EC2 &middot; temporary credentials &middot; cross-account</td><td class="v">IAM role</td></tr>
+          <tr><td class="k">employees &middot; corporate directory &middot; many accounts</td><td class="v">IAM Identity Center</td></tr>
+          <tr><td class="k">your app's own end users</td><td class="v">Cognito</td></tr>
+          <tr><td class="k">ceiling on an account or OU</td><td class="v">Service control policy (SCP)</td></tr>
+          <tr><td class="k">a brand-new IAM user can do&hellip;</td><td class="v">nothing. Implicit deny until granted</td></tr>
+          <tr><td class="k">an allow and a deny both apply</td><td class="v">explicit deny always wins</td></tr>
+
+          <tr class="grp"><td colspan="2">Connectivity and delivery</td></tr>
+          <tr><td class="k">dedicated &middot; private &middot; not over the internet</td><td class="v">Direct Connect</td></tr>
+          <tr><td class="k">encrypted tunnel over the internet</td><td class="v">AWS VPN</td></tr>
+          <tr><td class="k">extend on-premises <em>storage</em></td><td class="v">Storage Gateway</td></tr>
+          <tr><td class="k">cache content near users &middot; global viewers</td><td class="v">CloudFront</td></tr>
+          <tr><td class="k">route to healthy <em>regional</em> endpoints &middot; static IPs</td><td class="v">Global Accelerator</td></tr>
+          <tr><td class="k">distribute HTTP traffic across instances</td><td class="v">Application Load Balancer</td></tr>
+          <tr><td class="k">isolated network &middot; provides NACLs &middot; subnets</td><td class="v">Amazon VPC</td></tr>
+
+          <tr class="grp"><td colspan="2">Compute, storage, database</td></tr>
+          <tr><td class="k">run code with no servers &middot; event-driven</td><td class="v">Lambda</td></tr>
+          <tr><td class="k">containers with no EC2 to manage</td><td class="v">Fargate</td></tr>
+          <tr><td class="k">deploy an app, AWS handles the platform (PaaS)</td><td class="v">Elastic Beanstalk</td></tr>
+          <tr><td class="k">add/remove instances with demand</td><td class="v">EC2 Auto Scaling</td></tr>
+          <tr><td class="k">Chef / Puppet</td><td class="v">OpsWorks</td></tr>
+          <tr><td class="k">troubleshoot microservice latency &middot; trace requests</td><td class="v">X-Ray</td></tr>
+          <tr><td class="k">object storage &middot; static website &middot; unlimited</td><td class="v">S3</td></tr>
+          <tr><td class="k">block storage for one instance</td><td class="v">EBS</td></tr>
+          <tr><td class="k">shared file system &middot; many instances at once</td><td class="v">EFS</td></tr>
+          <tr><td class="k">cheapest archive, 12-hour retrieval</td><td class="v">S3 Glacier Deep Archive</td></tr>
+          <tr><td class="k">offload database <em>reads</em></td><td class="v">Read replicas</td></tr>
+          <tr><td class="k">database <em>failover</em> / availability</td><td class="v">Multi-AZ deployment</td></tr>
+          <tr><td class="k">managed NoSQL &middot; key-value</td><td class="v">DynamoDB</td></tr>
+          <tr><td class="k">data warehouse &middot; analytics on huge datasets</td><td class="v">Redshift</td></tr>
+          <tr><td class="k">in-memory cache for a database</td><td class="v">ElastiCache</td></tr>
+          <tr><td class="k">MySQL-compatible, auto-scaling storage</td><td class="v">Aurora</td></tr>
+          <tr><td class="k">decouple components &middot; queue messages</td><td class="v">SQS</td></tr>
+          <tr><td class="k">infrastructure as code &middot; templates</td><td class="v">CloudFormation</td></tr>
+
+          <tr class="grp"><td colspan="2">Money and support</td></tr>
+          <tr><td class="k">before you are on AWS &middot; compare to on-premises</td><td class="v">Pricing / TCO Calculator</td></tr>
+          <tr><td class="k">visualize and forecast spend over time</td><td class="v">Cost Explorer</td></tr>
+          <tr><td class="k">alert me when spending exceeds X</td><td class="v">AWS Budgets</td></tr>
+          <tr><td class="k">one bill &middot; volume discounts &middot; central governance</td><td class="v">Organizations (consolidated billing)</td></tr>
+          <tr><td class="k">interruptible, fault-tolerant, cheapest</td><td class="v">Spot Instances</td></tr>
+          <tr><td class="k">steady workload &middot; largest discount</td><td class="v">Reserved / Savings Plan, 3-year all upfront</td></tr>
+          <tr><td class="k">per-core or per-socket licence</td><td class="v">Dedicated Hosts</td></tr>
+          <tr><td class="k">try or buy third-party software</td><td class="v">AWS Marketplace</td></tr>
+          <tr><td class="k">15-minute response, business-critical down</td><td class="v">Enterprise Support</td></tr>
+          <tr><td class="k">designated Technical Account Manager</td><td class="v">Enterprise Support</td></tr>
+          <tr><td class="k">24/7 phone support, 1-hour production down</td><td class="v">Business Support</td></tr>
+          <tr><td class="k">raise a service limit</td><td class="v">Contact AWS Support; monitor limits in Trusted Advisor</td></tr>
+
+          <tr class="grp"><td colspan="2">Concepts</td></tr>
+          <tr><td class="k">spike, then release &middot; matches demand automatically</td><td class="v">Elasticity</td></tr>
+          <tr><td class="k">add more instances</td><td class="v">Horizontal scaling (AWS prefers this)</td></tr>
+          <tr><td class="k">survives failure &middot; <em>minimal</em> downtime &middot; multi-AZ</td><td class="v">High availability</td></tr>
+          <tr><td class="k"><em>no</em> interruption at all</td><td class="v">Fault tolerance</td></tr>
+          <tr><td class="k">failure does not cascade &middot; independent components</td><td class="v">Loose coupling</td></tr>
+          <tr><td class="k">prices fall as AWS grows</td><td class="v">Economies of scale</td></tr>
+          <tr><td class="k">lift and shift, unchanged</td><td class="v">Rehost</td></tr>
+          <tr><td class="k">move to managed equivalent, e.g. onto RDS</td><td class="v">Replatform</td></tr>
+          <tr><td class="k">6 pillars</td><td class="v">Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability</td></tr>
+          <tr><td class="k">global infrastructure is&hellip;</td><td class="v">Regions, Availability Zones, edge locations. Nothing else</td></tr>
+          <tr><td class="k">global services</td><td class="v">IAM, Route 53, CloudFront, Organizations. S3 is regional</td></tr>
+          <tr><td class="k">AZs are connected by&hellip;</td><td class="v">low-latency links, enabling synchronous replication</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="part">
+    <span class="n">Tomorrow</span>
+    <h2>How to actually sit the exam</h2>
+    <p>65 questions, 90 minutes. That is 83 seconds each, and most questions should take half that.
+      Your problem will not be time; it will be rushing the ones that need care.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><h3>The protocol</h3></div>
+    <ol class="steps">
+      <li><b>Read the last sentence of the question first</b>, then the options, then go back for the
+        scenario only if you still need it. Most of the scenario is decoration.</li>
+      <li><b>Name the answer before you look at the options.</b> If you can, find it and move on in
+        ten seconds. If you cannot, you are guessing &mdash; flag it and go.</li>
+      <li><b>Never spend more than 90 seconds on a question.</b> Flag, pick your best guess anyway,
+        move on. There is no penalty for a wrong answer, so never leave one blank.</li>
+      <li><b>On every Choose TWO, run the T/F pass and count your selections.</b> This is the one
+        thing worth slowing down for.</li>
+      <li><b>Eliminate absolutes.</b> "All", "never", "eliminates", "guarantees", "no need to" &mdash;
+        almost always wrong. The one exception: explicit deny always wins in IAM.</li>
+      <li><b>Prefer the managed AWS service</b> over any option describing manual work or custom
+        tooling. If AWS ships a switch for the requirement, that is the answer.</li>
+      <li><b>Read the service name in the scenario</b> before answering anything about patching,
+        responsibility or configuration. EC2 and RDS give opposite answers to the same question.</li>
+      <li><b>First pass: answer everything you know</b>, flag the rest. Aim to finish the first pass
+        in 50 minutes. Then spend the remaining time on flagged questions only.</li>
+      <li><b>Do not change an answer</b> on the second pass unless you can name the specific reason
+        the new one is right. Second-guessing costs more than it gains.</li>
+    </ol>
+    <div class="callout good">
+      <h4>The morning-of, ten minutes</h4>
+      <p>Re-read only two things: the three-bucket shared responsibility table, and the twelve facts.
+        Then close it. Cramming new material in the car has never helped anyone; walking in calm has.</p>
+    </div>
+  </div>
+
+  <div class="final">
+    <p><b>An honest word about where you are.</b> You are averaging 65.9% and the line is around 70%.
+      That is close, and close can fall either way. It is not a formality &mdash; but it is also not
+      a long shot, and the gap is not a knowledge gap: your single-answer accuracy is already 71%.</p>
+    <p>The community practice exams you have been using are also harder and rougher than the real
+      thing in places &mdash; we found two questions with outright wrong answer keys, and several
+      more that were ambiguous or truncated. The real exam is more carefully written than that.</p>
+    <p>So: do the Choose TWO block properly, run through the twelve facts twice, take one pass over
+      the service map, and then <b>stop and sleep</b>. Being rested is worth more tomorrow than any
+      extra hour of revision, and you have done the work to be in range.</p>
+  </div>
+
+</div>

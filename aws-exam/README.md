@@ -106,6 +106,7 @@ grouping but not authoritative.
 | File | What it covers |
 | --- | --- |
 | `question-targeting-guide.html` | How to read a CLF-C02 question in Domains 1 and 2: question anatomy, signal-word tables, the shared responsibility line across EC2/RDS/Lambda, and the eight trap pairs. Written from the exam guide. |
+| `night-before.html` | One-evening cram plan for the day before the exam: the Choose TWO habit that accounts for the whole score gap, the twelve repeatedly-missed facts, a one-pass service map, and the exam-day protocol. |
 | `review-packet.html` | Personal review packet built from the 48 questions missed across practice exams 9, 17 and 20: the seven recurring concept gaps, a signal-word table, and 30 targeted practice problems with an answer key. |
 | `corpus-patterns-guide.html` | What the external corpus actually repeats, measured rather than assumed: the most-repeated questions, per-service decoy rates, the shared responsibility inventory, and the stem-phrase-to-service map. Derived by counting across all 1,142 questions. |
 
