@@ -127,9 +127,11 @@ into Anki instead of creating duplicates.
 
 `tools/make_missed_deck.py` builds a fifth deck from the questions actually
 answered wrong. It reads graded answer files, selects one domain, and makes a
-card per missed question with the stem and options on the front and only the
-correct answer on the back. Questions repeated across exams are de-duplicated,
-and unanswered questions are skipped rather than counted as misses.
+card per missed question with only the correct answer on the back. Pass
+`--no-options` to put just the question on the front, for free recall rather than
+multiple choice. Questions repeated across exams are de-duplicated, unanswered
+questions are skipped rather than counted as misses, and notes are keyed by the
+source question so switching front formats updates the cards already in Anki.
 
 ```bash
 python3 tools/make_missed_deck.py --domain 2 --answers ~/answers/*.txt -o ~/decks
