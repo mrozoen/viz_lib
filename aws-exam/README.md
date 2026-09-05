@@ -95,6 +95,20 @@ Grading reports an overall score, a per-domain breakdown, the topics you missed
 ranked weakest first, and every missed question with your answer beside the
 correct one.
 
+`tools/in_scope_services.py` carries the CLF-C02 exam guide's in-scope service list
+(135 services, in the guide's own categories) and joins it to the corpus, counting
+how often each service is the keyed answer versus a wrong option:
+
+```bash
+python3 tools/in_scope_services.py                  # the summary table
+python3 tools/in_scope_services.py --stems Artifact # every stem a service answers
+python3 tools/in_scope_services.py --json out.json
+```
+
+Those counts are what `in-scope-services.html` is built from. The service list is
+transcribed from the exam guide appendix rather than fetched, so re-check it against
+the published page after an exam-guide revision.
+
 `tools/parse_practice_exams.py` does the extraction and tags each question with a
 domain and topic by keyword. Two notes on that corpus: several files use lazy
 Markdown numbering (every item written as `1.`), so questions are renumbered by
@@ -109,6 +123,7 @@ grouping but not authoritative.
 | `night-before.html` | One-evening cram plan for the day before the exam: the Choose TWO habit that accounts for the whole score gap, the twelve repeatedly-missed facts, a one-pass service map, and the exam-day protocol. |
 | `review-packet.html` | Personal review packet built from the 48 questions missed across practice exams 9, 17 and 20: the seven recurring concept gaps, a signal-word table, and 30 targeted practice problems with an answer key. |
 | `corpus-patterns-guide.html` | What the external corpus actually repeats, measured rather than assumed: the most-repeated questions, per-service decoy rates, the shared responsibility inventory, and the stem-phrase-to-service map. Derived by counting across all 1,142 questions. |
+| `in-scope-services.html` | The exam guide's in-scope service list joined to the corpus: every service defined by what the questions ask about it, the stem phrases that select it, and the 22 in-scope services that are never a correct answer. |
 
 ## Anki decks
 

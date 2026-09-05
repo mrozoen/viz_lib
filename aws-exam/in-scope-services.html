@@ -1,0 +1,1112 @@
+<title>In-Scope Service Signals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root {
+    --paper: #eef1f4;
+    --surface: #ffffff;
+    --surface-2: #f6f8fa;
+    --line: #dce2e8;
+    --line-strong: #c3ccd6;
+    --ink: #182430;
+    --ink-2: #445260;
+    --ink-3: #6b7a88;
+    --accent: #b85c0c;
+    --accent-soft: #fbeee0;
+    --on-accent: #ffffff;
+    --ok: #1c6b4f;
+    --ok-soft: #e4f1ea;
+    --bad: #a63a2b;
+    --bad-soft: #f8e8e5;
+    --shadow: 0 1px 2px rgba(24, 36, 48, .06), 0 8px 24px -16px rgba(24, 36, 48, .28);
+    --ui: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  :root:not([data-theme="light"]) { color-scheme: light; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #10161c; --surface: #18202a; --surface-2: #1f2833;
+      --line: #2b3742; --line-strong: #3c4a57;
+      --ink: #e6edf3; --ink-2: #a9b7c4; --ink-3: #7d8c9a;
+      --accent: #e08b3e; --accent-soft: #3a2a17; --on-accent: #10161c;
+      --ok: #4fbf8e; --ok-soft: #16302a; --bad: #e88070; --bad-soft: #33201c;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #10161c; --surface: #18202a; --surface-2: #1f2833;
+    --line: #2b3742; --line-strong: #3c4a57;
+    --ink: #e6edf3; --ink-2: #a9b7c4; --ink-3: #7d8c9a;
+    --accent: #e08b3e; --accent-soft: #3a2a17; --on-accent: #10161c;
+    --ok: #4fbf8e; --ok-soft: #16302a; --bad: #e88070; --bad-soft: #33201c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--ui); font-size: 16px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+  }
+  code {
+    font-family: var(--mono); font-size: .87em; background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ---------- masthead ---------- */
+  .masthead { padding: 50px 0 4px; }
+  .masthead h1 { font-size: 40px; line-height: 1.06; margin: 12px 0 15px; max-width: 18ch; }
+  .lede { font-family: var(--serif); font-size: 18.5px; line-height: 1.6; color: var(--ink-2); max-width: 62ch; }
+  .runs { display: flex; gap: 10px; margin-top: 26px; flex-wrap: wrap; }
+  .run {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 15px; display: flex; flex-direction: column; gap: 1px; box-shadow: var(--shadow);
+  }
+  .run b { font-family: var(--mono); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .run span { font-size: 11.5px; color: var(--ink-3); }
+
+  /* ---------- part dividers ---------- */
+  .part {
+    margin: 58px 0 30px; padding: 22px 0 0; border-top: 2px solid var(--ink);
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .part .n { font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); }
+  .part h2 { font-size: 27px; }
+  .part p { font-family: var(--serif); font-size: 17px; color: var(--ink-2); max-width: 62ch; }
+
+  /* ---------- category heading ---------- */
+  .cat {
+    display: flex; align-items: baseline; gap: 12px;
+    margin: 40px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line-strong);
+  }
+  .cat h3 { font-size: 18px; }
+  .cat .count { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); margin-left: auto; }
+
+  /* ---------- service entry ---------- */
+  .svc {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+    padding: 16px 18px; margin-bottom: 10px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .svc.key { border-left: 3px solid var(--accent); }
+  .svc-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .svc-head h4 { font-size: 16.5px; }
+  .freq {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em;
+    color: var(--ink-3); margin-left: auto; white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .freq b { color: var(--accent); font-weight: 600; }
+  .def { font-family: var(--serif); font-size: 16.5px; line-height: 1.55; color: var(--ink-2); }
+  .def strong { color: var(--ink); font-weight: 600; }
+
+  .sig { display: flex; gap: 9px; align-items: flex-start; }
+  .sig .tag {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ok); background: var(--ok-soft); border: 1px solid var(--ok);
+    border-radius: 3px; padding: 2px 5px; flex: none; margin-top: 2px;
+  }
+  .sig .body { font-size: 14.5px; color: var(--ink-2); }
+  .sig .body em { font-style: normal; font-family: var(--mono); font-size: 13px;
+    color: var(--ink); background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 3px; padding: 0 4px; }
+
+  .trap { display: flex; gap: 9px; align-items: flex-start; }
+  .trap .tag {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--bad); background: var(--bad-soft); border: 1px solid var(--bad);
+    border-radius: 3px; padding: 2px 5px; flex: none; margin-top: 2px;
+  }
+  .trap .body { font-size: 14.5px; color: var(--ink-2); }
+
+  /* ---------- compact rows for low-frequency services ---------- */
+  .mini { border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--surface); }
+  .mini > div {
+    display: grid; grid-template-columns: 210px 1fr; gap: 16px;
+    padding: 10px 16px; border-top: 1px solid var(--line); align-items: baseline;
+  }
+  .mini > div:first-child { border-top: 0; }
+  .mini b { font-size: 14.5px; font-weight: 600; }
+  .mini span { font-family: var(--serif); font-size: 15.5px; color: var(--ink-2); }
+  @media (max-width: 620px) { .mini > div { grid-template-columns: 1fr; gap: 3px; } }
+
+  /* ---------- signal lookup table ---------- */
+  .lookup { border: 1px solid var(--line); border-radius: 9px; overflow: hidden;
+    background: var(--surface); box-shadow: var(--shadow); }
+  .lookup table { width: 100%; border-collapse: collapse; }
+  .lookup td { padding: 9px 16px; border-top: 1px solid var(--line); vertical-align: top; }
+  .lookup tr:first-child td { border-top: 0; }
+  .lookup .grp td {
+    background: var(--surface-2); font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); padding: 7px 16px;
+  }
+  .lookup .sigcell { font-family: var(--serif); font-size: 16px; color: var(--ink-2); width: 58%; }
+  .lookup .anscell { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+  @media (max-width: 620px) {
+    .lookup .sigcell, .lookup .anscell { display: block; width: auto; }
+    .lookup .sigcell { padding-bottom: 2px; border-top: 1px solid var(--line); }
+    .lookup .anscell { padding-top: 0; border-top: 0; }
+  }
+
+  /* ---------- decoy list ---------- */
+  .decoys { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+  .decoy {
+    background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--bad);
+    border-radius: 7px; padding: 10px 13px;
+  }
+  .decoy b { display: block; font-size: 14.5px; }
+  .decoy span { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); }
+  .decoy p { font-size: 13.5px; color: var(--ink-2); margin-top: 4px; }
+
+  /* ---------- callout ---------- */
+  .note {
+    background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 9px;
+    padding: 15px 18px; margin: 18px 0; display: flex; flex-direction: column; gap: 6px;
+  }
+  .note b { font-size: 14px; }
+  .note p { font-family: var(--serif); font-size: 16px; color: var(--ink-2); }
+
+  .legend { display: flex; gap: 22px; flex-wrap: wrap; margin: 16px 0 4px; font-size: 13.5px; color: var(--ink-2); }
+  .legend > div { display: flex; gap: 7px; align-items: center; }
+
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-3); }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">AWS Certified Cloud Practitioner · CLF-C02</div>
+    <h1>In-Scope Service Signals</h1>
+    <p class="lede">Every service on the exam guide's in-scope list, defined by what the questions
+    actually ask about it — and the words in a stem that make it the answer. Definitions and signals
+    are drawn from 1,142 questions across 24 practice exams, so each one is weighted by how the
+    exam really uses the service, not by how the documentation describes it.</p>
+    <div class="runs">
+      <div class="run"><b>135</b><span>in-scope services</span></div>
+      <div class="run"><b>1,142</b><span>questions analysed</span></div>
+      <div class="run"><b>38</b><span>carry 80% of the answers</span></div>
+      <div class="run"><b>41</b><span>never a correct answer</span></div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <div class="part">
+    <span class="n">Part One</span>
+    <h2>The signal lookup</h2>
+    <p>Read the stem, find the phrase, take the service. These are the tells that decided the most
+    questions in the corpus. If you memorise nothing else, memorise this table.</p>
+  </div>
+
+  <div class="lookup">
+    <table>
+      <tr class="grp"><td colspan="2">Cost and billing</td></tr>
+      <tr><td class="sigcell">"estimate" · "proposed architecture" · "before deploying" · no AWS account yet</td><td class="anscell">AWS Pricing Calculator</td></tr>
+      <tr><td class="sigcell">"compare to on-premises" · "savings from migrating"</td><td class="anscell">TCO Calculator</td></tr>
+      <tr><td class="sigcell">"visualize" · "over time" · "trends" · "past 12 months" · "forecast spend"</td><td class="anscell">AWS Cost Explorer</td></tr>
+      <tr><td class="sigcell">"alert" · "notify" · "threshold" · "exceeds" · "custom limit"</td><td class="anscell">AWS Budgets</td></tr>
+      <tr><td class="sigcell">"most granular" · "line-item detail" · "hourly, per resource"</td><td class="anscell">AWS Cost and Usage Report</td></tr>
+      <tr><td class="sigcell">"multiple accounts" · "one bill" · "volume discounts" · "centrally manage"</td><td class="anscell">AWS Organizations</td></tr>
+      <tr><td class="sigcell">"separate costs by department / project / team"</td><td class="anscell">Cost allocation tags</td></tr>
+
+      <tr class="grp"><td colspan="2">Who did what, and is it compliant</td></tr>
+      <tr><td class="sigcell">"who made the API call" · "who deleted it" · "account activity history" · "audit user actions"</td><td class="anscell">AWS CloudTrail</td></tr>
+      <tr><td class="sigcell">"configuration changes" · "how a resource changed over time" · "non-compliant resources"</td><td class="anscell">AWS Config</td></tr>
+      <tr><td class="sigcell">"metrics" · "CPU utilization" · "alarm" · "billing alarm" · "logs from an application"</td><td class="anscell">Amazon CloudWatch</td></tr>
+      <tr><td class="sigcell">"best practice checks" · "service limits" · "security groups open to the world" · "cost optimization recommendations"</td><td class="anscell">AWS Trusted Advisor</td></tr>
+      <tr><td class="sigcell">"SOC report" · "PCI" · "ISO" · "auditor-issued" · "compliance reports on demand"</td><td class="anscell">AWS Artifact</td></tr>
+      <tr><td class="sigcell">"health of <em>your</em> resources" · "personalized" · "proactive notification" · "scheduled maintenance"</td><td class="anscell">AWS Health Dashboard (Personal)</td></tr>
+
+      <tr class="grp"><td colspan="2">Protecting things</td></tr>
+      <tr><td class="sigcell">"SQL injection" · "cross-site scripting" · "block requests from an IP" · "filter web traffic"</td><td class="anscell">AWS WAF</td></tr>
+      <tr><td class="sigcell">"DDoS"</td><td class="anscell">AWS Shield</td></tr>
+      <tr><td class="sigcell">"DDoS" <em>and</em> "AWS experts during an attack" / "cost protection"</td><td class="anscell">AWS Shield Advanced</td></tr>
+      <tr><td class="sigcell">"encryption keys" · "manage keys" · "encrypt EBS / S3 / CloudTrail"</td><td class="anscell">AWS KMS</td></tr>
+      <tr><td class="sigcell">"dedicated hardware" · "FIPS 140-2 Level 3" · "single-tenant key store"</td><td class="anscell">AWS CloudHSM</td></tr>
+      <tr><td class="sigcell">"PII" · "sensitive data" · "discover and classify data in S3"</td><td class="anscell">Amazon Macie</td></tr>
+      <tr><td class="sigcell">"vulnerabilities on EC2" · "automated security assessment" · "unintended network access"</td><td class="anscell">Amazon Inspector</td></tr>
+      <tr><td class="sigcell">"threat detection" · "continuously monitors for malicious activity" · <em>detects</em>, never blocks</td><td class="anscell">Amazon GuardDuty</td></tr>
+      <tr><td class="sigcell">"users, groups, roles, permissions" · "who can do what" · "at no additional cost"</td><td class="anscell">AWS IAM</td></tr>
+      <tr><td class="sigcell">"temporary access" · "app on EC2 needs S3, without storing credentials"</td><td class="anscell">IAM role</td></tr>
+      <tr><td class="sigcell">"SSL/TLS certificate" · "HTTPS"</td><td class="anscell">AWS Certificate Manager</td></tr>
+
+      <tr class="grp"><td colspan="2">Getting there and getting connected</td></tr>
+      <tr><td class="sigcell">"dedicated" · "private" · "consistent performance" · "does NOT use the public internet"</td><td class="anscell">AWS Direct Connect</td></tr>
+      <tr><td class="sigcell">"encrypted" · "over the public internet" · "IPsec tunnel" · "quick to set up"</td><td class="anscell">AWS VPN</td></tr>
+      <tr><td class="sigcell">"extend on-premises into AWS" (Choose TWO)</td><td class="anscell">Direct Connect <b>+</b> VPN, or DX <b>+</b> Storage Gateway</td></tr>
+      <tr><td class="sigcell">"cache content closer to users" · "CDN" · "video globally" · "low latency, high transfer speed"</td><td class="anscell">Amazon CloudFront</td></tr>
+      <tr><td class="sigcell">"DNS" · "register a domain" · "route users to the nearest Region" · "health checks + failover"</td><td class="anscell">Amazon Route 53</td></tr>
+      <tr><td class="sigcell">"static anycast IP" · "best-performing endpoint" · non-HTTP traffic</td><td class="anscell">AWS Global Accelerator</td></tr>
+      <tr><td class="sigcell">"hundreds / thousands of VPCs" · "simplify connection management" · hub-and-spoke</td><td class="anscell">AWS Transit Gateway</td></tr>
+      <tr><td class="sigcell">"distribute traffic across instances" · "across multiple AZs"</td><td class="anscell">Elastic Load Balancing</td></tr>
+      <tr><td class="sigcell">"petabytes" · "500 TB" · "limited bandwidth" · physical shipping</td><td class="anscell">AWS Snow Family</td></tr>
+      <tr><td class="sigcell">"migrate a database with minimal downtime" · "source stays available"</td><td class="anscell">AWS DMS</td></tr>
+
+      <tr class="grp"><td colspan="2">Running the workload</td></tr>
+      <tr><td class="sigcell">"event-driven" · "triggered by an event" · "run code without provisioning servers"</td><td class="anscell">AWS Lambda</td></tr>
+      <tr><td class="sigcell">"full control over the OS" · "install custom software" · "highest level of control"</td><td class="anscell">Amazon EC2</td></tr>
+      <tr><td class="sigcell">"just upload the code" · "don't want to manage the infrastructure" · "quickly deploy and scale a web app"</td><td class="anscell">AWS Elastic Beanstalk</td></tr>
+      <tr><td class="sigcell">"flexible start and end times" · "can be interrupted" · "fault-tolerant batch"</td><td class="anscell">Spot Instances</td></tr>
+      <tr><td class="sigcell">"steady state" · "predictable usage" · "1 or 3 years"</td><td class="anscell">Reserved Instances / Savings Plans</td></tr>
+      <tr><td class="sigcell">"licensing requires dedicated physical hardware" · "regulatory, hardware dedicated to us"</td><td class="anscell">Dedicated Hosts</td></tr>
+      <tr><td class="sigcell">"adjust capacity to demand automatically" · "handle a traffic spike" · "avoid over-provisioning"</td><td class="anscell">AWS Auto Scaling</td></tr>
+      <tr><td class="sigcell">"infrastructure as code" · "template" · "recreate the same stack in another Region"</td><td class="anscell">AWS CloudFormation</td></tr>
+
+      <tr class="grp"><td colspan="2">Where the data lives</td></tr>
+      <tr><td class="sigcell">"objects" · "static website" · "virtually unlimited" · "11 nines of durability"</td><td class="anscell">Amazon S3</td></tr>
+      <tr><td class="sigcell">"archive" · "7 years" · "lowest cost" · "retrieval in hours is fine"</td><td class="anscell">S3 Glacier / Deep Archive</td></tr>
+      <tr><td class="sigcell">"attach to one EC2 instance" · "database on EC2" · "persistent block storage"</td><td class="anscell">Amazon EBS</td></tr>
+      <tr><td class="sigcell">"shared file system" · "many EC2 instances at once" · "NFS" · Linux</td><td class="anscell">Amazon EFS</td></tr>
+      <tr><td class="sigcell">"on-premises applications using cloud storage" · "hybrid storage"</td><td class="anscell">AWS Storage Gateway</td></tr>
+      <tr><td class="sigcell">"relational" · "joins" · "ACID" · "OLTP" · managed MySQL / PostgreSQL / Oracle / SQL Server</td><td class="anscell">Amazon RDS</td></tr>
+      <tr><td class="sigcell">"NoSQL" · "key-value" · "single-digit millisecond" · "serverless database"</td><td class="anscell">Amazon DynamoDB</td></tr>
+      <tr><td class="sigcell">"MySQL/PostgreSQL compatible" · "five times faster" · "storage grows automatically"</td><td class="anscell">Amazon Aurora</td></tr>
+      <tr><td class="sigcell">"in-memory" · "cache query results" · "sub-millisecond" · "reduce database load"</td><td class="anscell">Amazon ElastiCache</td></tr>
+      <tr><td class="sigcell">"data warehouse" · "analytics over large datasets" · "OLAP"</td><td class="anscell">Amazon Redshift</td></tr>
+    </table>
+  </div>
+
+  <!-- ============================================================ -->
+  <div class="part">
+    <span class="n">Part Two</span>
+    <h2>The catalogue</h2>
+    <p>Every service on the in-scope list, in the exam guide's own categories. Each entry gives the
+    definition in the terms the questions use, the signals that select it, and — where one exists —
+    the service it is most often confused with.</p>
+  </div>
+
+  <div class="legend">
+    <div><span class="freq"><b>19×</b> answer · 53× decoy</span></div>
+    <div>How often the service was the correct answer, and how often it appeared only as a wrong option.</div>
+  </div>
+
+  <div class="note">
+    <b>A high decoy count is information.</b>
+    <p>Trusted Advisor was the right answer 19 times and a wrong option 53 times. Amazon Inspector was
+    right 4 times and wrong 42. When a familiar security service is sitting in the options, that is
+    usually the writer expecting you to grab it — check the stem again before you do.</p>
+  </div>
+
+  <!-- ---------- Compute ---------- -->
+  <div class="cat"><h3>Compute</h3><span class="count">7 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon EC2</h4><span class="freq"><b>59×</b> answer · 95× decoy</span></div>
+    <p class="def">Virtual servers. The service that gives you <strong>the highest level of control over the
+    underlying infrastructure</strong> — and, because of that, the most customer responsibility: you patch
+    the OS, configure the firewall, and manage everything above the hypervisor.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"full control over the operating system" · "install custom / self-managed software" · "run a self-managed database" · "licensing requires a specific OS" · almost every <em>shared responsibility</em> question is built on EC2</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">EC2 does <em>not</em> run at edge locations — it runs in Availability Zones. It is also not the answer when the stem says "without managing servers" or "focus on the application, not the infrastructure."</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Elastic Beanstalk</h4><span class="freq"><b>8×</b> answer · 7× decoy</span></div>
+    <p class="def">You upload code; AWS handles <strong>capacity provisioning, load balancing, Auto Scaling and
+    health monitoring</strong> for you. You keep full control of the underlying resources and pay only for them
+    — Beanstalk itself is free.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"quickly deploy" + "has no cloud experience" · "deploy an existing .NET / Node.js / Java application" · "manage the deployment details for me"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Not for event-driven code — that is Lambda. Not infrastructure as code — that is CloudFormation.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Batch</h4><span class="freq"><b>2×</b> answer · 11× decoy</span></div>
+    <p class="def">Runs <strong>batch computing jobs</strong> at any scale, provisioning the compute for you.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"large numbers of batch jobs" · "queue of processing work"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Lightsail</h4><span class="freq"><b>2×</b> answer · 13× decoy</span></div>
+    <p class="def">The <strong>simplest</strong> way to launch a small application — a virtual server, storage and
+    networking bundled at a predictable monthly price.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"simplest" · "small business, minimal configuration" · "predictable monthly price" · "pre-configured WordPress / LAMP stack"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Outposts</h4><span class="freq">0× answer · 4× decoy</span></div>
+    <p class="def">Physical <strong>AWS-managed racks installed in your own data center</strong>, running AWS services
+    on-premises with the same APIs.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"must remain on-premises for latency or data residency, but I want AWS services"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Local Zones</h4><span class="freq">not seen in corpus</span></div>
+    <p class="def">AWS infrastructure placed <strong>close to a large population centre</strong>, for single-digit
+    millisecond latency to end users in that metro area.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Wavelength</h4><span class="freq">not seen in corpus</span></div>
+    <p class="def">AWS compute embedded <strong>inside 5G carrier networks</strong>, for mobile applications needing
+    ultra-low latency.</p>
+  </div>
+
+  <!-- ---------- Serverless & Containers ---------- -->
+  <div class="cat"><h3>Serverless and Containers</h3><span class="count">5 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Lambda</h4><span class="freq"><b>21×</b> answer · 16× decoy</span></div>
+    <p class="def">Runs your code <strong>in response to events</strong>, with no servers to provision or manage.
+    You are billed per request and per millisecond of execution — <strong>when the code is not running, you pay
+    nothing</strong>. Maximum execution time is 15 minutes.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"event-driven" · "triggered by" · "run code without provisioning or managing servers" · "reduce the compute footprint" · any question containing the word <em>serverless</em></span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">A long-running or always-on application is not Lambda. "Serverless" in a database question means DynamoDB, not Lambda.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Fargate</h4><span class="freq"><b>1×</b> answer · 9× decoy</span></div>
+    <p class="def">The <strong>serverless compute engine for containers</strong>. ECS and EKS run your containers;
+    Fargate is the option that removes the EC2 instances underneath them.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"containers" <em>and</em> "without managing servers or clusters"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon ECS</h4><span class="freq"><b>3×</b> answer · 11× decoy</span></div>
+    <p class="def">AWS's own container orchestration service — it <strong>installs, operates and scales the cluster
+    management infrastructure</strong> for you.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"container service" + "manage the cluster" · Docker workloads without Kubernetes</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon EKS</h4><span class="freq">not seen in corpus</span></div>
+    <p class="def">Managed <strong>Kubernetes</strong>. If the stem says Kubernetes, this is the answer.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon ECR</h4><span class="freq">0× answer · 2× decoy</span></div>
+    <p class="def">A <strong>registry for container images</strong> — it stores images, it does not run them.</p>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Appears as a decoy in "which container service runs / scales your containers" questions. Registry = storage.</span></div>
+  </div>
+
+  <!-- ---------- Storage ---------- -->
+  <div class="cat"><h3>Storage</h3><span class="count">8 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon S3</h4><span class="freq"><b>36×</b> answer · 59× decoy</span></div>
+    <p class="def"><strong>Object</strong> storage: virtually unlimited, 99.999999999% durable, automatically
+    replicated across multiple Availability Zones. Serves static websites, offers versioning and lifecycle
+    rules, and is <strong>regional, not global</strong>.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"objects" · "photos, videos, documents" · "static website" · "downloadable over the internet" · "unlimited storage that scales automatically"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">S3 is <em>regional</em> — it is a classic wrong pick on "which services are global". Protection from accidental deletion is <em>versioning</em> (plus MFA Delete); blocking public objects is <em>S3 Block Public Access</em>.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon S3 Glacier</h4><span class="freq"><b>6×</b> answer · 24× decoy</span></div>
+    <p class="def"><strong>Archival</strong> storage classes: the lowest cost per gigabyte, in exchange for retrieval
+    that takes minutes to hours. Glacier Deep Archive is cheapest of all, with 12-hour retrieval.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"archive" · "retain for 5 / 7 / 10 years" · "regulatory retention" · "lowest cost" + "rarely accessed"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">If the stem says the data must be available <em>immediately</em>, it is not Glacier — that is S3 Standard-IA or One Zone-IA.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon EBS</h4><span class="freq"><b>10×</b> answer · 52× decoy</span></div>
+    <p class="def"><strong>Block</strong> storage attached to a single EC2 instance — a virtual hard drive. It persists
+    independently of the instance, lives in <strong>one Availability Zone</strong>, and is backed up with snapshots
+    to S3.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"persistent storage for an EC2 instance" · "a database running on EC2" · "high read/write on one instance" · "snapshots"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">EBS is one-instance-at-a-time. If several instances must share the same files, it is EFS. <em>Instance store</em>, not EBS, is the ephemeral storage that vanishes when an instance stops.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon EFS</h4><span class="freq"><b>8×</b> answer · 20× decoy</span></div>
+    <p class="def">A <strong>shared file system</strong> (NFS) that many EC2 instances — and on-premises servers —
+    can mount at the same time, growing and shrinking automatically.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"multiple instances access the same files simultaneously" · "NFS" · "shared file storage" · "Linux"</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Storage Gateway</h4><span class="freq"><b>8×</b> answer · 12× decoy</span></div>
+    <p class="def"><strong>Hybrid</strong> storage: lets on-premises applications use AWS cloud storage through
+    standard file, volume and tape protocols, without rewriting them.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"on-premises applications" + "seamlessly use cloud storage" · "extend on-premises storage into AWS" · "virtual tape library"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">On <em>"which TWO extend an on-premises architecture into AWS"</em>, the pair is usually Direct Connect + Storage Gateway.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon FSx</h4><span class="freq">not seen in corpus</span></div>
+    <p class="def">Fully managed <strong>third-party file systems</strong> — FSx for Windows File Server (SMB, Active
+    Directory) and FSx for Lustre (high-performance computing).</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"Windows file shares" · "SMB" · "Lustre" · "HPC scratch storage"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Backup</h4><span class="freq">0× answer · 3× decoy</span></div>
+    <p class="def"><strong>Centralised, policy-based backup</strong> across EBS, RDS, DynamoDB, EFS and more, from
+    one console.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Elastic Disaster Recovery</h4><span class="freq">not seen in corpus</span></div>
+    <p class="def">Continuously replicates servers into AWS so you can <strong>fail over quickly</strong> after an
+    outage, and fail back afterwards.</p>
+  </div>
+
+  <!-- ---------- Database ---------- -->
+  <div class="cat"><h3>Database</h3><span class="count">7 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon RDS</h4><span class="freq"><b>21×</b> answer · 34× decoy</span></div>
+    <p class="def">Managed <strong>relational</strong> database — MySQL, PostgreSQL, MariaDB, Oracle, SQL Server and
+    Aurora. AWS handles provisioning, <strong>OS and database patching</strong>, backups and failover; you handle
+    the schema, the queries and the data. <strong>Multi-AZ</strong> gives you a synchronous standby with automatic
+    failover and an unchanged endpoint; <strong>read replicas</strong> give you read scaling.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"relational" · "joins" · "complex transactions" · "ACID" · "OLTP" · "managed MySQL/Oracle/SQL Server" · "don't have DBAs for routine tasks"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Patching an RDS instance is <em>AWS's</em> job. If the same database runs on EC2, patching becomes the <em>customer's</em> job — this inversion is one of the most common shared-responsibility questions on the exam.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon DynamoDB</h4><span class="freq"><b>17×</b> answer · 31× decoy</span></div>
+    <p class="def">Managed <strong>NoSQL key-value</strong> database. Serverless, single-digit millisecond latency at
+    any scale, replicated across three Availability Zones automatically.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"NoSQL" · "non-relational" · "key-value" · "document store" · "single-digit millisecond" · "serverless database" · "scales automatically without intervention"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Aurora</h4><span class="freq"><b>6×</b> answer · 18× decoy</span></div>
+    <p class="def">AWS's own relational engine, <strong>MySQL- and PostgreSQL-compatible</strong>, up to five times
+    the throughput of standard MySQL, with storage that grows automatically.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"MySQL-compatible" + "five times faster" · "storage scales automatically" · "cloud-native relational"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon ElastiCache</h4><span class="freq"><b>5×</b> answer · 16× decoy</span></div>
+    <p class="def">Managed <strong>in-memory cache</strong> (Redis or Memcached) that sits in front of a database to
+    serve frequently-read data in microseconds.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"cache database query results" · "reduce load on the database" · "sub-millisecond" · "most frequently accessed data"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">The word "cache" also appears in CDN questions. Caching <em>content for distant users</em> is CloudFront; caching <em>database reads</em> is ElastiCache.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Redshift</h4><span class="freq"><b>7×</b> answer · 35× decoy</span></div>
+    <p class="def">Managed <strong>data warehouse</strong> for analytics and business intelligence over very large
+    datasets.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"data warehouse" · "consolidate data from many sources for analysis" · "petabyte-scale analytics" · "OLAP"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Thirty-five appearances as a decoy: it is dropped into ordinary database questions to see if "Redshift" reads as generic AWS database. It is analytics only.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Neptune</h4><span class="freq"><b>1×</b> answer · 7× decoy</span></div>
+    <p class="def"><strong>Graph</strong> database — relationships between highly connected data: social networks,
+    recommendation engines, fraud rings.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon DocumentDB · Amazon MemoryDB for Redis</h4><span class="freq">0× answer</span></div>
+    <p class="def">DocumentDB is managed <strong>MongoDB-compatible</strong> document storage. MemoryDB is a
+    <strong>durable in-memory</strong> Redis database (unlike ElastiCache, it is a primary database, not just a cache).</p>
+  </div>
+
+  <!-- ---------- Networking ---------- -->
+  <div class="cat"><h3>Networking and Content Delivery</h3><span class="count">10 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon CloudFront</h4><span class="freq"><b>29×</b> answer · 31× decoy</span></div>
+    <p class="def">The <strong>content delivery network</strong>. Caches content at <strong>edge locations</strong> worldwide
+    so users far from your Region get low latency and high transfer speeds. It is a <strong>global</strong> service,
+    and it integrates with Shield and WAF, which is why it also turns up in DDoS answers.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"users around the world" + "latency" · "CDN" · "cache static content closer to users" · "deliver video globally" · "edge locations"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">On DDoS questions CloudFront is a legitimate answer alongside Shield and WAF — it absorbs and filters traffic at the edge, before it reaches your origin.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Direct Connect</h4><span class="freq"><b>19×</b> answer · 35× decoy</span></div>
+    <p class="def">A <strong>dedicated physical network connection</strong> from your data center to AWS. Consistent
+    performance, and it <strong>does not traverse the public internet</strong>. Requires an ISP and a colocation
+    facility, and takes weeks to provision.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"dedicated" · "private" · "consistent / predictable network performance" · "does not use the public internet" · "large daily data transfers, business critical"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">If the stem says <em>over the public internet</em> or <em>set up quickly / cheaply</em>, it is VPN, not Direct Connect. This exact swap has cost you marks before.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS VPN</h4><span class="freq"><b>10×</b> answer · 14× decoy</span></div>
+    <p class="def">An <strong>encrypted IPsec tunnel</strong> between your network and AWS, running over the public
+    internet. Cheap and fast to set up; performance depends on the internet.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"securely connect over the public internet" · "encrypted tunnel" · "IPsec" · "needed this week" · Site-to-Site or Client VPN by name</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon VPC</h4><span class="freq"><b>13×</b> answer · 34× decoy</span></div>
+    <p class="def">Your <strong>logically isolated virtual network</strong> in AWS: subnets, route tables, internet
+    gateways, <strong>security groups</strong> (instance-level, stateful) and <strong>network ACLs</strong> (subnet-level,
+    stateless). <strong>VPC Flow Logs</strong> capture IP traffic information.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"virtual network dedicated to your account" · "subnets" · "network ACLs" · "capture information about IP traffic" (Flow Logs) · "connect two VPCs" (peering)</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">A VPC sits inside <em>one Region</em>. "Geographically isolated locations" is multiple Regions, never a VPC.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon Route 53</h4><span class="freq"><b>12×</b> answer · 23× decoy</span></div>
+    <p class="def">Managed <strong>DNS</strong> and domain registration, with health checks and routing policies
+    (latency, geolocation, weighted, failover). A <strong>global</strong> service that runs at edge locations.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"DNS" · "register a domain name" · "route users to the nearest Region" · "health checks" · "cross-Region traffic management"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Load balancing <em>across Regions</em> is Route 53 or Global Accelerator. ELB is regional and cannot do it.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Elastic Load Balancing</h4><span class="freq"><b>9×</b> answer · 27× decoy</span></div>
+    <p class="def">Distributes incoming traffic across multiple targets in <strong>multiple Availability Zones</strong>,
+    which is what makes an architecture highly available. Types: Application (HTTP/HTTPS), Network (TCP/UDP,
+    ultra-low latency) and Gateway.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"distribute traffic across instances" · "no single point of failure" · "highly available web tier" · usually paired with Auto Scaling on Choose TWO</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Global Accelerator</h4><span class="freq"><b>5×</b> answer · 3× decoy</span></div>
+    <p class="def">Gives you <strong>static anycast IP addresses</strong> and routes users over the AWS global network
+    to the <strong>best-performing healthy endpoint</strong>, across Regions.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"static IP addresses" · "route to the healthiest regional endpoint" · "improve performance for a global audience" for non-cacheable or non-HTTP traffic</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">CloudFront caches <em>content</em>; Global Accelerator routes <em>connections</em>. If the workload is TCP/UDP or dynamic, it is Global Accelerator.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Transit Gateway</h4><span class="freq"><b>4×</b> answer · 6× decoy</span></div>
+    <p class="def">A <strong>network hub</strong> connecting thousands of VPCs and on-premises networks through a
+    single gateway, replacing a mesh of peering connections.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"hundreds / thousands of VPCs" · "simplify connection management" · "scale connectivity"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon API Gateway</h4><span class="freq">0× answer · 6× decoy</span></div>
+    <p class="def">Create, publish and secure <strong>APIs at any scale</strong>; commonly the front door to Lambda.</p>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Never correct in this corpus, but appears six times as a decoy — usually in VPC and network-ACL questions where it has no role.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS PrivateLink</h4><span class="freq">0× answer · 2× decoy</span></div>
+    <p class="def">Private connectivity between VPCs and AWS services <strong>without traversing the internet</strong>,
+    using interface VPC endpoints.</p>
+  </div>
+
+  <!-- ---------- Security ---------- -->
+  <div class="cat"><h3>Security, Identity, and Compliance</h3><span class="count">20 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS IAM</h4><span class="freq"><b>33×</b> answer · 57× decoy</span></div>
+    <p class="def">Controls <strong>who can do what</strong> in your account: users, groups, roles and policies.
+    <strong>Free</strong>, and <strong>global</strong> rather than regional. Best practices the exam tests constantly:
+    grant <strong>least privilege</strong>, enable <strong>MFA</strong>, attach permissions to <strong>groups</strong> not
+    individuals, use <strong>roles</strong> for applications and temporary access, and never use the root user for
+    daily work.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"manage user permissions" · "control what each developer can access" · "apply common access controls to many users" (groups) · "at no additional cost"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body"><em>Roles</em> for temporary access and for applications on EC2 — never access keys stored on the instance. An <em>IAM credential report</em> lists all users and the status of their credentials.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Artifact</h4><span class="freq"><b>19×</b> answer · 12× decoy</span></div>
+    <p class="def">A self-service portal for <strong>on-demand access to AWS compliance reports and agreements</strong>
+    — SOC 1/2/3, PCI DSS, ISO certifications, and BAAs.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"SOC report" · "PCI" · "ISO" · "auditor requests" · "compliance documentation" · "download reports on demand" · "agreements with AWS"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">One of the most reliable one-to-one mappings on the exam: <em>compliance report</em> → Artifact. Nineteen questions, always the same answer.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS WAF</h4><span class="freq"><b>9×</b> answer · 15× decoy</span></div>
+    <p class="def">A <strong>web application firewall</strong> that inspects HTTP/HTTPS requests and <strong>blocks</strong>
+    them by rule — SQL injection, cross-site scripting, specific IP addresses, rate limits.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"SQL injection" · "cross-site scripting" · "block requests from a set of IP addresses" · "filter malicious web requests" · layer 7</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">WAF <em>blocks</em>; GuardDuty only <em>detects</em>. When a stem says "block the malicious traffic", GuardDuty is the decoy.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Shield</h4><span class="freq"><b>6×</b> answer · 15× decoy</span></div>
+    <p class="def"><strong>DDoS protection.</strong> Shield Standard is free and always on for every customer.
+    Shield Advanced adds bigger-attack mitigation, cost protection against scaling charges, and
+    <strong>24/7 access to the AWS Shield Response Team</strong>.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"DDoS" → Shield. "DDoS" <em>plus</em> "assistance from AWS experts" or "cost protection" → Shield <em>Advanced</em>.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS KMS</h4><span class="freq"><b>6×</b> answer · 6× decoy</span></div>
+    <p class="def"><strong>Creates and manages encryption keys</strong>, and controls their use across AWS services —
+    EBS, S3, RDS, CloudTrail and the rest.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"generate / manage encryption keys" · "encrypt EBS volumes" · "encrypt data stored by CloudTrail" · "control access to keys"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Keys are KMS or CloudHSM. <em>Certificates</em> are ACM. <em>Passwords and API keys</em> are Secrets Manager. Do not let "Certificate Manager" pull you in on a key question.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS CloudHSM</h4><span class="freq"><b>4×</b> answer · 8× decoy</span></div>
+    <p class="def">A <strong>dedicated single-tenant hardware security module</strong> in the cloud, for when compliance
+    requires that keys live on hardware you alone control (FIPS 140-2 Level 3).</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"dedicated hardware" · "contractual or regulatory requirement" · "generate and use your own keys" · often paired with KMS on Choose TWO</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Macie</h4><span class="freq"><b>4×</b> answer · 9× decoy</span></div>
+    <p class="def">Uses machine learning to <strong>discover, classify and protect sensitive data in Amazon S3</strong> —
+    personally identifiable information and credentials.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"PII" · "sensitive data" · "intellectual property" · "classify data" · nearly always mentions S3</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Inspector</h4><span class="freq"><b>4×</b> answer · 42× decoy</span></div>
+    <p class="def">Automated <strong>vulnerability assessment of EC2 instances and container images</strong> — software
+    CVEs and unintended network exposure.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"vulnerabilities" · "automated security assessment" · "unintended network accessibility of EC2 instances"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Forty-two appearances as a wrong option — the single most over-offered decoy in the corpus. It is <em>only</em> about vulnerabilities in EC2 workloads. Account-level security checks are Trusted Advisor; sensitive data is Macie; threat detection is GuardDuty.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon GuardDuty</h4><span class="freq"><b>1×</b> answer · 15× decoy</span></div>
+    <p class="def">Continuous <strong>threat detection</strong>: analyses CloudTrail, VPC Flow Logs and DNS logs for
+    malicious or unauthorised behaviour and raises findings.</p>
+    <div class="trap"><span class="tag">Trap</span><span class="body">It <em>detects and alerts</em>. It never blocks anything. Right answer once in 1,142 questions; wrong option fifteen times.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Certificate Manager (ACM)</h4><span class="freq"><b>2×</b> answer · 21× decoy</span></div>
+    <p class="def">Provisions, manages and <strong>renews SSL/TLS certificates</strong> for AWS services, at no cost for
+    public certificates.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"SSL" · "TLS" · "HTTPS" · "certificate"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Twenty-one decoy appearances, mostly in <em>encryption key</em> questions. Certificates ≠ keys.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Cognito</h4><span class="freq"><b>1×</b> answer · 18× decoy</span></div>
+    <p class="def">Sign-up, sign-in and access control for <strong>your application's end users</strong> — including
+    social and enterprise identity federation.</p>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Cognito is for <em>your app's users</em>. IAM is for <em>people and services using your AWS account</em>. Eighteen decoy appearances live entirely on that confusion.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Directory Service</h4><span class="freq"><b>1×</b> answer · 6× decoy</span></div>
+    <p class="def">Managed <strong>Microsoft Active Directory</strong> in AWS, and connectors that let you keep using
+    an existing on-premises directory.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"Active Directory" · "existing on-premises identity management" · "single sign-on to AWS from a corporate directory"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Secrets Manager</h4><span class="freq">0× answer · 15× decoy</span></div>
+    <p class="def">Stores and <strong>automatically rotates</strong> database credentials, API keys and other secrets.</p>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Fifteen decoy appearances, zero correct — almost always offered in <em>encryption key</em> questions where KMS is the answer. Secrets Manager holds passwords, not keys.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Security Hub</h4><span class="freq">0× answer · 6× decoy</span></div>
+    <p class="def">A <strong>single pane of glass</strong> aggregating findings from GuardDuty, Inspector, Macie and
+    partner tools, and running automated best-practice checks.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Firewall Manager · AWS Network Firewall</h4><span class="freq">0× answer · 3× decoy</span></div>
+    <p class="def">Firewall Manager <strong>centrally administers WAF and Shield rules across many accounts</strong>.
+    Network Firewall is a managed <strong>network-layer firewall for a VPC</strong>.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS IAM Identity Center</h4><span class="freq">not seen in corpus</span></div>
+    <p class="def">Formerly AWS SSO. <strong>One sign-in across all your AWS accounts</strong> and business
+    applications, connected to your existing identity provider.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon Detective · AWS Audit Manager · AWS RAM</h4><span class="freq">0× answer · 6× decoy</span></div>
+    <p class="def">Detective <strong>investigates the root cause</strong> of a security finding. Audit Manager
+    <strong>automates evidence collection</strong> for audits. Resource Access Manager <strong>shares resources
+    between AWS accounts</strong>.</p>
+  </div>
+
+  <!-- ---------- Management ---------- -->
+  <div class="cat"><h3>Management and Governance</h3><span class="count">18 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Organizations</h4><span class="freq"><b>26×</b> answer · 33× decoy</span></div>
+    <p class="def">Centrally manages <strong>many AWS accounts</strong>: consolidated billing into a single bill,
+    <strong>volume discounts from combined usage</strong>, Reserved Instance and Savings Plans sharing, and
+    <strong>Service Control Policies</strong> that cap what member accounts may do.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"multiple AWS accounts" · "single/aggregated bill" · "volume discounts across accounts" · "centrally manage governance" · "restrict which services member accounts can use" (SCPs)</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">RI sharing is <strong>on</strong> by default. To confine a Reserved Instance to one account you <em>turn sharing off</em> from the management account — options that say "enable sharing" are inverted.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Trusted Advisor</h4><span class="freq"><b>19×</b> answer · 53× decoy</span></div>
+    <p class="def">Inspects your account and recommends improvements in <strong>five categories: cost optimization,
+    performance, security, fault tolerance and service limits</strong>. Basic and Developer plans get a core
+    subset; Business and Enterprise get all checks.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"security groups with unrestricted access" · "service limits" · "idle or underutilised resources" · "best practice checks" · "MFA on the root account" · "S3 bucket permissions"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Fifty-three decoy appearances. It checks <em>your account's configuration against best practices</em> — it does not monitor metrics (CloudWatch), record changes (Config), or log API calls (CloudTrail).</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>Amazon CloudWatch</h4><span class="freq"><b>15×</b> answer · 39× decoy</span></div>
+    <p class="def"><strong>Metrics, logs and alarms.</strong> Collects performance data (CPU, network, disk), stores
+    application logs, and triggers alarms and actions when a threshold is crossed — including
+    <strong>billing alarms</strong>.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"monitor CPU utilization" · "metrics" · "alarm" · "billing alarm" · "notify when a threshold is breached" · "application logs"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">CloudWatch answers <em>how is it performing</em>. CloudTrail answers <em>who did it</em>. Config answers <em>what changed</em>. A <em>billing alarm</em> is CloudWatch; a <em>budget with a threshold</em> is AWS Budgets.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS CloudTrail</h4><span class="freq"><b>14×</b> answer · 43× decoy</span></div>
+    <p class="def">Records <strong>every API call made in your account</strong> — who made it, from what IP, when, and
+    what happened. The audit trail for governance and forensics.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"who deleted / terminated / created it" · "API call history" · "unauthorized API calls" · "log of all access to resources" · "user activity in the Management Console"</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Config</h4><span class="freq"><b>14×</b> answer · 44× decoy</span></div>
+    <p class="def">Records the <strong>configuration of your resources over time</strong>, evaluates them against rules,
+    and flags — or remediates — non-compliant resources.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"configuration changes" · "how a resource changed over time" · "evaluate resources against a desired configuration" · "identify non-compliant resources" · "change management audit"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">CloudTrail and Config both say "audit". CloudTrail = the <em>action</em> and its actor. Config = the <em>state</em> of the resource and whether it complies.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS CloudFormation</h4><span class="freq"><b>13×</b> answer · 14× decoy</span></div>
+    <p class="def"><strong>Infrastructure as code.</strong> A template describes your resources; CloudFormation
+    provisions them, repeatably, in any account or Region. Free — you pay only for what it creates.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"infrastructure as code" · "template" · "programmatically define resources" · "replicate an environment in another Region" · "automate provisioning"</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Auto Scaling</h4><span class="freq"><b>17×</b> answer · 12× decoy</span></div>
+    <p class="def">Adds and removes capacity <strong>automatically as demand changes</strong> — the mechanism behind
+    elasticity, and the reason you stop paying for idle resources.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"traffic fluctuates" · "flash sale" · "unpredictable demand" · "avoid paying for underutilised capacity" · "no capacity planning decisions"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">On <em>highly available architecture</em> Choose TWO questions, the pair is almost always Auto Scaling + Elastic Load Balancing.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Health Dashboard</h4><span class="freq"><b>9×</b> answer · 9× decoy</span></div>
+    <p class="def">Two views. The <strong>Service Health</strong> view is the public status of every AWS service in
+    every Region. The <strong>Personal Health</strong> view is <strong>personalised to your account</strong>: events
+    affecting <em>your</em> resources, plus proactive notice of scheduled maintenance.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"personalized" · "your resources" · "proactive notification" · "scheduled changes" → <strong>Personal</strong>. "status of all AWS services in all Regions" · status.aws.amazon.com → <strong>Service</strong>.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Systems Manager</h4><span class="freq"><b>2×</b> answer · 18× decoy</span></div>
+    <p class="def">Operational control of your fleet: <strong>patch management</strong>, running commands across many
+    instances at once, Session Manager shell access, and Parameter Store for configuration.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"apply patches on a schedule" · "run a command across all instances" · "operate at scale" — including patching databases you run on EC2</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Control Tower</h4><span class="freq"><b>2×</b> answer · 0× decoy</span></div>
+    <p class="def">Sets up and governs a <strong>secure, well-architected multi-account environment</strong> — a landing
+    zone with guardrails, built on Organizations.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"multi-account environment" + "automate and govern" · "landing zone" · "guardrails"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Management Console · AWS CLI · SDKs</h4><span class="freq"><b>10×</b> answer combined</span></div>
+    <p class="def">The three ways to interact with AWS: a <strong>web interface</strong>, a <strong>command line</strong> for
+    scripting, and <strong>SDKs</strong> for code. Programmatic access needs an <strong>access key ID and a secret
+    access key</strong>.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"scripts to manage AWS resources" → CLI · "web-based user interface" → Console · Choose TWO on "valid ways to interact with AWS" usually wants Console + CLI</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Service Catalog</h4><span class="freq">0× answer · 12× decoy</span></div>
+    <p class="def">A catalogue of <strong>IT services your own organisation has approved</strong> for use on AWS.</p>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Twelve decoy appearances, zero correct. It is repeatedly offered where <em>AWS Marketplace</em> is the answer. Service Catalog = your org's internal approved products. Marketplace = third-party software you can buy.</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Well-Architected Tool</h4><span class="freq">0× answer · 6× decoy</span></div>
+    <p class="def">Reviews your workload against the <strong>six pillars</strong> — operational excellence, security,
+    reliability, performance efficiency, cost optimization, sustainability — and reports the gaps.</p>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Resource Groups and Tag Editor</h4><span class="freq"><b>1×</b> answer · 4× decoy</span></div>
+    <p class="def">Groups resources by tag and edits tags in bulk. <strong>Cost allocation tags</strong> are how you
+    break a bill down by department, project or environment.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"separate / track costs by department, team, project or environment"</span></div>
+  </div>
+
+  <div class="mini">
+    <div><b>AWS Compute Optimizer</b><span>Recommends optimal instance types from your actual utilisation data.</span></div>
+    <div><b>AWS License Manager</b><span>Tracks and enforces software licences across AWS and on-premises.</span></div>
+    <div><b>Amazon Managed Grafana</b><span>Managed Grafana for visualising operational metrics.</span></div>
+    <div><b>Amazon Managed Service for Prometheus</b><span>Managed Prometheus for container metrics monitoring.</span></div>
+  </div>
+
+  <!-- ---------- Cloud Financial Management ---------- -->
+  <div class="cat"><h3>Cloud Financial Management</h3><span class="count">6 services</span></div>
+
+  <div class="note">
+    <b>The one question that separates the cost tools: are they on AWS yet?</b>
+    <p>Not on AWS yet, estimating → <strong>Pricing Calculator</strong>. Not on AWS yet, comparing against
+    on-premises → <strong>TCO Calculator</strong>. Already on AWS, looking backwards → <strong>Cost Explorer</strong>.
+    Already on AWS, wanting a warning → <strong>Budgets</strong>. This family has cost you more marks than any
+    other in Domain 4.</p>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Pricing Calculator</h4><span class="freq"><b>9×</b> answer · 11× decoy</span></div>
+    <p class="def">Estimates the cost of an architecture <strong>before you build it</strong>. No AWS account needed.
+    Replaced the Simple Monthly Calculator, which older questions still name.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"estimate the cost of a new application" · "monthly cost estimate for a proposed design" · "customers without an AWS account" · "forecast the cost before deploying"</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Cost Explorer</h4><span class="freq"><b>6×</b> answer · 32× decoy</span></div>
+    <p class="def"><strong>Visualises spend that has already happened</strong> — by service, account, tag or time —
+    up to 12 months back, with a forecast forward.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"visualize" · "understand and manage costs over time" · "trends" · "break down spending by service" · "forecast future spend"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">Thirty-two decoy appearances — most of them in questions about a company that is <em>still on-premises</em>. If there is no AWS spend yet, there is nothing for Cost Explorer to show.</span></div>
+  </div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Budgets</h4><span class="freq"><b>8×</b> answer · 29× decoy</span></div>
+    <p class="def">Sets custom cost, usage, Reserved Instance and Savings Plans <strong>thresholds and alerts you</strong>
+    when actual or forecast spend crosses them.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"alert" · "notify" · "exceeds" · "threshold" · "custom limit" · "before it happens" (forecast alerts)</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Cost and Usage Report</h4><span class="freq"><b>3×</b> answer · 11× decoy</span></div>
+    <p class="def">The <strong>most granular</strong> billing data available: every line item, hourly, delivered to S3.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"most detailed" · "comprehensive line-item data" · "export billing data for analysis"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Marketplace</h4><span class="freq"><b>7×</b> answer · 9× decoy</span></div>
+    <p class="def">A store for <strong>third-party software</strong> that runs on AWS — find it, buy it, deploy it, with
+    the charges on your AWS bill.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"third-party" · "independent software vendors" · "try before committing" · "buy and immediately start using software"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Billing Conductor</h4><span class="freq">not seen in corpus</span></div>
+    <p class="def">Produces <strong>customised billing views and rates</strong> for internal chargeback across accounts.</p>
+  </div>
+
+  <!-- ---------- Migration ---------- -->
+  <div class="cat"><h3>Migration and Transfer</h3><span class="count">8 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Snow Family</h4><span class="freq"><b>6×</b> answer · 17× decoy</span></div>
+    <p class="def">Physical devices that ship data into AWS when the network cannot carry it. <strong>Snowcone</strong>
+    (up to 8 TB), <strong>Snowball Edge</strong> (tens of terabytes to petabytes), <strong>Snowmobile</strong> (exabytes,
+    in a shipping container on a truck).</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"petabytes" · "500 TB" · "60 PB" · "limited bandwidth" · "would take months over the network" · "cost-effective bulk transfer"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>AWS Database Migration Service</h4><span class="freq"><b>4×</b> answer · 6× decoy</span></div>
+    <p class="def">Migrates databases to AWS <strong>while the source stays available</strong>, with minimal downtime.
+    Paired with the <strong>Schema Conversion Tool</strong> when the engine changes.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"migrate a database" · "without impacting the running application" · "minimal downtime"</span></div>
+  </div>
+
+  <div class="mini">
+    <div><b>AWS Application Discovery Service</b><span>Inventories on-premises servers and their dependencies before a migration.</span></div>
+    <div><b>AWS Application Migration Service</b><span>Lift-and-shift replication of physical or virtual servers into AWS.</span></div>
+    <div><b>AWS Migration Hub</b><span>One place to track the progress of migrations across tools.</span></div>
+    <div><b>AWS Schema Conversion Tool</b><span>Converts a database schema from one engine to another.</span></div>
+    <div><b>AWS DataSync</b><span>Automated, accelerated data transfer over the network between on-premises and AWS.</span></div>
+    <div><b>AWS Transfer Family</b><span>Managed SFTP, FTPS and FTP into S3 and EFS.</span></div>
+  </div>
+
+  <!-- ---------- Support ---------- -->
+  <div class="cat"><h3>Customer Engagement and Support</h3><span class="count">4 services</span></div>
+
+  <div class="svc key">
+    <div class="svc-head"><h4>AWS Support</h4><span class="freq"><b>14×</b> answer · 35× decoy</span></div>
+    <p class="def">Four plans. <strong>Basic</strong>: documentation, forums, core Trusted Advisor checks — free.
+    <strong>Developer</strong>: business-hours email, one contact. <strong>Business</strong>: 24/7 phone, chat and
+    email, <strong>full Trusted Advisor</strong>, the <strong>Support API</strong>, third-party software support.
+    <strong>Enterprise</strong>: everything above plus a <strong>Technical Account Manager</strong>, the
+    <strong>Concierge</strong> billing team, Well-Architected reviews, and a 15-minute response for
+    business-critical outages.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"Support API" or "full Trusted Advisor" or "24/7 phone" → <strong>Business</strong> is the minimum. "TAM" · "architectural and operational reviews" · "15 minutes" → <strong>Enterprise</strong>. "billing and account inquiries" → <strong>Concierge</strong>.</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">The Concierge team handles <em>billing</em>, not technical cases — the TAM handles technical. This exact swap is a recurring question.</span></div>
+  </div>
+
+  <div class="mini">
+    <div><b>AWS Professional Services</b><span>AWS's own consultants, for hands-on help with a migration or a landing zone.</span></div>
+    <div><b>AWS Partner Network (APN)</b><span>Certified third-party partners who do the hands-on work. On "who can help us migrate" Choose TWO, the pair is usually ProServe + an APN partner.</span></div>
+    <div><b>AWS Managed Services (AMS)</b><span>AWS operates your infrastructure for you day to day.</span></div>
+    <div><b>AWS IQ · AWS Activate</b><span>IQ connects you to freelance AWS experts for small projects. Activate gives startups credits and support.</span></div>
+  </div>
+
+  <!-- ---------- App integration ---------- -->
+  <div class="cat"><h3>Application Integration</h3><span class="count">4 services</span></div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon SQS</h4><span class="freq"><b>4×</b> answer · 10× decoy</span></div>
+    <p class="def">A managed <strong>message queue</strong>. Components send messages into the queue and other
+    components read them later — so no message is lost if one component fails. The standard answer for
+    <strong>decoupling</strong> a monolith.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"decouple" · "messages between components" · "not lost if a component fails" · "send, store and receive messages"</span></div>
+  </div>
+
+  <div class="svc">
+    <div class="svc-head"><h4>Amazon SNS</h4><span class="freq"><b>6×</b> answer · 15× decoy</span></div>
+    <p class="def"><strong>Publish/subscribe notifications</strong> — one message fanned out to many subscribers by
+    email, SMS, HTTP or Lambda. The delivery mechanism behind CloudWatch alarms and Budgets alerts.</p>
+    <div class="sig"><span class="tag">Signals</span><span class="body">"send alerts / notifications" · "SMS or email from an application" · "notify subscribers"</span></div>
+    <div class="trap"><span class="tag">Trap</span><span class="body">SNS <em>pushes</em> to subscribers; SQS <em>holds</em> messages until something pulls them. Decoupling is SQS; notifying is SNS.</span></div>
+  </div>
+
+  <div class="mini">
+    <div><b>AWS Step Functions</b><span>Coordinates multiple services into a visual workflow with defined steps and retries.</span></div>
+    <div><b>Amazon EventBridge</b><span>A serverless event bus routing events between AWS services, your apps and SaaS partners.</span></div>
+  </div>
+
+  <!-- ---------- Analytics ---------- -->
+  <div class="cat"><h3>Analytics</h3><span class="count">9 services</span></div>
+
+  <div class="mini">
+    <div><b>Amazon Athena</b><span>Runs standard SQL directly against data in S3. Serverless — no cluster, pay per query.</span></div>
+    <div><b>Amazon EMR</b><span>Managed Hadoop, Spark and big-data frameworks on a cluster.</span></div>
+    <div><b>Amazon Kinesis</b><span>Collects and processes <b>streaming</b> data in real time — the signal word is "real-time stream".</span></div>
+    <div><b>AWS Glue</b><span>Serverless <b>ETL</b>: discovers, catalogues and prepares data for analytics.</span></div>
+    <div><b>Amazon QuickSight</b><span>Business intelligence <b>dashboards and visualisations</b>. Fifteen decoy appearances, never correct — it is not a cost tool.</span></div>
+    <div><b>Amazon OpenSearch Service</b><span>Search and log analytics over operational data.</span></div>
+    <div><b>Amazon MSK</b><span>Managed Apache Kafka for streaming.</span></div>
+    <div><b>AWS Data Exchange</b><span>Find and subscribe to third-party datasets.</span></div>
+    <div><b>Amazon Redshift</b><span>The data warehouse — see the Database section above.</span></div>
+  </div>
+
+  <!-- ---------- Dev tools ---------- -->
+  <div class="cat"><h3>Developer Tools</h3><span class="count">11 services</span></div>
+
+  <div class="mini">
+    <div><b>AWS CodeCommit</b><span>Private Git repositories. The signal is <b>"version control"</b> or "store and manage versions of source code".</span></div>
+    <div><b>AWS CodeBuild</b><span>Compiles source and runs tests — the build step.</span></div>
+    <div><b>AWS CodeDeploy</b><span>Automates deploying code to EC2, Lambda and on-premises servers.</span></div>
+    <div><b>AWS CodePipeline</b><span>The CI/CD pipeline that chains Commit, Build and Deploy together.</span></div>
+    <div><b>AWS CodeArtifact</b><span>A private repository for software packages and dependencies.</span></div>
+    <div><b>AWS X-Ray</b><span><b>Traces requests through a distributed application</b> to find bottlenecks and errors. The signal is "debug / analyse a microservices application".</span></div>
+    <div><b>AWS Cloud9</b><span>A browser-based IDE.</span></div>
+    <div><b>AWS CloudShell</b><span>A browser-based shell with the CLI pre-authenticated.</span></div>
+    <div><b>AWS AppConfig</b><span>Deploys application configuration changes safely, separate from code.</span></div>
+    <div><b>AWS CodeStar</b><span>A project template that wires the Code services together.</span></div>
+    <div><b>AWS CLI</b><span>The command line — see Management above.</span></div>
+  </div>
+
+  <!-- ---------- ML ---------- -->
+  <div class="cat"><h3>Machine Learning</h3><span class="count">9 services</span></div>
+
+  <div class="mini">
+    <div><b>Amazon SageMaker</b><span>Build, train and deploy your <b>own</b> machine learning models. The signal is "custom model".</span></div>
+    <div><b>Amazon Rekognition</b><span><b>Images and video</b> — object, face and text detection.</span></div>
+    <div><b>Amazon Polly</b><span>Text <b>to</b> speech.</span></div>
+    <div><b>Amazon Transcribe</b><span>Speech <b>to</b> text.</span></div>
+    <div><b>Amazon Translate</b><span>Language translation.</span></div>
+    <div><b>Amazon Comprehend</b><span>Natural language processing — sentiment, entities, key phrases in text.</span></div>
+    <div><b>Amazon Lex</b><span>Conversational chatbots (the technology behind Alexa).</span></div>
+    <div><b>Amazon Textract</b><span>Extracts text and data from <b>scanned documents</b> and forms.</span></div>
+    <div><b>Amazon Kendra</b><span>Intelligent enterprise search across your own documents.</span></div>
+  </div>
+
+  <!-- ---------- The rest ---------- -->
+  <div class="cat"><h3>Business Applications, End-User Computing, Frontend, IoT</h3><span class="count">10 services</span></div>
+
+  <div class="mini">
+    <div><b>Amazon Connect</b><span>A cloud <b>contact centre</b>. Twenty-five decoy appearances, correct twice — the name makes it look like a networking service. It is a call centre.</span></div>
+    <div><b>Amazon SES</b><span>Bulk and transactional <b>email</b> sending.</span></div>
+    <div><b>Amazon WorkSpaces</b><span>Managed <b>virtual desktops</b> in the cloud.</span></div>
+    <div><b>Amazon AppStream 2.0</b><span>Streams a single <b>application</b> to a browser, rather than a whole desktop.</span></div>
+    <div><b>AWS Amplify</b><span>Build and host full-stack web and mobile front ends.</span></div>
+    <div><b>AWS AppSync</b><span>Managed GraphQL APIs for applications.</span></div>
+    <div><b>Amazon Pinpoint</b><span>Targeted customer engagement campaigns across email, SMS and push.</span></div>
+    <div><b>AWS IoT Core</b><span>Connects and manages internet-of-things devices at scale.</span></div>
+    <div><b>AWS IoT Greengrass</b><span>Runs AWS compute on IoT devices at the edge, working offline.</span></div>
+    <div><b>Amazon WorkSpaces Web</b><span>A secure browser for accessing internal websites and SaaS.</span></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <div class="part">
+    <span class="n">Part Three</span>
+    <h2>The decoys</h2>
+    <p>These services are in scope, so they appear in the options — but across 1,142 questions they were
+    <em>never</em> the correct answer. Each one is offered because it sounds close to something else.
+    Recognising them as decoys is worth as much as knowing the right answer.</p>
+  </div>
+
+  <div class="decoys">
+    <div class="decoy"><b>AWS Secrets Manager</b><span>0 correct · 15 decoy</span><p>Offered on encryption-key questions. Keys are KMS.</p></div>
+    <div class="decoy"><b>Amazon QuickSight</b><span>0 correct · 15 decoy</span><p>Offered on cost questions. It is BI dashboards, not billing.</p></div>
+    <div class="decoy"><b>AWS Service Catalog</b><span>0 correct · 12 decoy</span><p>Offered where AWS Marketplace is meant. "Third-party" means Marketplace.</p></div>
+    <div class="decoy"><b>Amazon Kinesis</b><span>0 correct · 10 decoy</span><p>Only ever right for real-time streaming, which these exams don't ask.</p></div>
+    <div class="decoy"><b>Amazon SES</b><span>0 correct · 7 decoy</span><p>Offered against SNS. Notifications and alerts are SNS.</p></div>
+    <div class="decoy"><b>AWS Cloud9</b><span>0 correct · 7 decoy</span><p>An IDE. Never the answer to a deployment or management question.</p></div>
+    <div class="decoy"><b>Amazon API Gateway</b><span>0 correct · 6 decoy</span><p>Offered in VPC and network-ACL questions where VPC is the answer.</p></div>
+    <div class="decoy"><b>AWS Security Hub</b><span>0 correct · 6 decoy</span><p>Offered against Trusted Advisor and GuardDuty.</p></div>
+    <div class="decoy"><b>Amazon Comprehend</b><span>0 correct · 6 decoy</span><p>NLP. Offered in generic "which service analyses data" stems.</p></div>
+    <div class="decoy"><b>AWS Well-Architected Tool</b><span>0 correct · 6 decoy</span><p>Offered where Trusted Advisor is meant.</p></div>
+    <div class="decoy"><b>AWS Migration Hub</b><span>0 correct · 5 decoy</span><p>Offered against DMS and Snowball on migration questions.</p></div>
+    <div class="decoy"><b>Amazon Pinpoint</b><span>0 correct · 5 decoy</span><p>Marketing campaigns. Offered against SNS.</p></div>
+    <div class="decoy"><b>Amazon AppStream 2.0</b><span>0 correct · 5 decoy</span><p>Offered in cost and analytics stems where it has no role.</p></div>
+    <div class="decoy"><b>AWS RAM</b><span>0 correct · 4 decoy</span><p>Offered against Organizations on multi-account questions.</p></div>
+    <div class="decoy"><b>AWS Outposts</b><span>0 correct · 4 decoy</span><p>Offered on hybrid questions where DX, VPN or Storage Gateway is meant.</p></div>
+    <div class="decoy"><b>AWS Firewall Manager</b><span>0 correct · 3 decoy</span><p>Offered against WAF and Shield. Single-account protection is WAF.</p></div>
+    <div class="decoy"><b>AWS Backup</b><span>0 correct · 3 decoy</span><p>Offered against EBS snapshots and S3 versioning.</p></div>
+    <div class="decoy"><b>AWS CodeStar</b><span>0 correct · 3 decoy</span><p>Offered against CodeCommit, CodeDeploy and Beanstalk.</p></div>
+    <div class="decoy"><b>Amazon DocumentDB</b><span>0 correct · 2 decoy</span><p>Offered against DynamoDB on NoSQL questions.</p></div>
+    <div class="decoy"><b>Amazon ECR</b><span>0 correct · 2 decoy</span><p>Offered against ECS. A registry stores images; it doesn't run them.</p></div>
+    <div class="decoy"><b>Amazon Detective</b><span>0 correct · 2 decoy</span><p>Offered against GuardDuty and CloudTrail.</p></div>
+    <div class="decoy"><b>AWS PrivateLink</b><span>0 correct · 2 decoy</span><p>Offered against VPC endpoints and ELB.</p></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <div class="part">
+    <span class="n">Part Four</span>
+    <h2>Not services, but they decide the questions</h2>
+    <p>The in-scope list names services only. These are the concepts those services get wrapped in —
+    and in your practice exams they accounted for more misses than any single service did.</p>
+  </div>
+
+  <div class="lookup">
+    <table>
+      <tr class="grp"><td colspan="2">Shared responsibility model</td></tr>
+      <tr><td class="sigcell">"of the cloud" — hardware, the global infrastructure, physical security, the hypervisor, managed-service patching, decommissioning disks</td><td class="anscell">AWS's responsibility</td></tr>
+      <tr><td class="sigcell">"in the cloud" — your data, encryption choices, IAM and permissions, security group and firewall configuration, guest OS patching on EC2, backups of your data</td><td class="anscell">Customer's responsibility</td></tr>
+      <tr><td class="sigcell">Patching the OS under <em>RDS</em>, <em>Lambda</em>, <em>DynamoDB</em> — a managed service</td><td class="anscell">AWS</td></tr>
+      <tr><td class="sigcell">Patching the OS on <em>EC2</em>, or a database you installed on EC2</td><td class="anscell">Customer</td></tr>
+
+      <tr class="grp"><td colspan="2">EC2 purchasing models</td></tr>
+      <tr><td class="sigcell">"unpredictable" · "short-term" · "cannot be interrupted" · no commitment</td><td class="anscell">On-Demand</td></tr>
+      <tr><td class="sigcell">"steady state" · "predictable" · "1 or 3 year commitment" · up to 72% off</td><td class="anscell">Reserved Instances / Savings Plans</td></tr>
+      <tr><td class="sigcell">"flexible start and end times" · "can be interrupted" · up to 90% off</td><td class="anscell">Spot Instances</td></tr>
+      <tr><td class="sigcell">"licensing tied to physical cores" · "regulatory requirement for dedicated hardware"</td><td class="anscell">Dedicated Hosts</td></tr>
+
+      <tr class="grp"><td colspan="2">Global infrastructure</td></tr>
+      <tr><td class="sigcell">The three components of the global infrastructure</td><td class="anscell">Regions, Availability Zones, edge locations</td></tr>
+      <tr><td class="sigcell">"high availability" · "minimal downtime" · "survive a data center failure"</td><td class="anscell">Multiple Availability Zones</td></tr>
+      <tr><td class="sigcell">"disaster recovery" · "geographically isolated" · "data residency" · "global latency"</td><td class="anscell">Multiple Regions</td></tr>
+      <tr><td class="sigcell">"fault tolerance"</td><td class="anscell">Built-in redundancy — no loss of function at all</td></tr>
+      <tr><td class="sigcell">Which services are global, not regional</td><td class="anscell">IAM, Route 53, CloudFront, Organizations, WAF</td></tr>
+
+      <tr class="grp"><td colspan="2">The six advantages of cloud</td></tr>
+      <tr><td class="sigcell">"no large upfront hardware purchase"</td><td class="anscell">Trade capital expense for variable expense</td></tr>
+      <tr><td class="sigcell">"AWS's scale gives lower prices than we could get"</td><td class="anscell">Benefit from massive economies of scale</td></tr>
+      <tr><td class="sigcell">"no need to estimate future capacity"</td><td class="anscell">Stop guessing capacity</td></tr>
+      <tr><td class="sigcell">"minutes instead of weeks" · "experiment cheaply"</td><td class="anscell">Increase speed and agility</td></tr>
+      <tr><td class="sigcell">"stop racking, stacking and powering servers"</td><td class="anscell">Stop spending on running data centers</td></tr>
+      <tr><td class="sigcell">"deploy worldwide in minutes"</td><td class="anscell">Go global in minutes</td></tr>
+
+      <tr class="grp"><td colspan="2">Root-user-only tasks</td></tr>
+      <tr><td class="sigcell">Close the AWS account · change the support plan · change the root email or password · restore IAM user permissions · view certain tax invoices</td><td class="anscell">Root user credentials required</td></tr>
+      <tr><td class="sigcell">Create IAM users, policies and roles · generate access keys · attach a role to EC2</td><td class="anscell">Ordinary IAM administration — not root-only</td></tr>
+    </table>
+  </div>
+
+  <footer>
+    Definitions and signals derived from 1,142 questions across the 24 CLF-C02 practice exams published by
+    kananinirav/aws-certified-cloud-practitioner-notes. Frequency counts come from
+    <code>tools/in_scope_services.py</code>, which joins the exam guide's in-scope service list to the
+    corpus and counts how often each service is the keyed answer versus a wrong option. The service list
+    follows the CLF-C02 exam guide appendix; verify against the published page, since services move on and
+    off it between revisions.
+  </footer>
+
+</div>
