@@ -188,6 +188,43 @@
 
   footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line);
     font-size: 13px; color: var(--ink-3); }
+
+  /* ---------- print ---------- */
+  @page { size: A4; margin: 14mm 12mm; }
+  @media print {
+    /* Print always uses the light palette: the dark tokens would burn ink and
+       the accent loses contrast on paper. */
+    :root {
+      --paper: #ffffff; --surface: #ffffff; --surface-2: #f6f8fa;
+      --line: #d3dae1; --line-strong: #b6c0ca;
+      --ink: #101a24; --ink-2: #3b4854; --ink-3: #64727f;
+      --accent: #9c4b06; --accent-soft: #fbf1e5; --on-accent: #ffffff;
+      --ok: #175c43; --ok-soft: #eaf3ee; --bad: #8f3123; --bad-soft: #fbeeec;
+      --shadow: none;
+    }
+    body { background: #ffffff; font-size: 10.2pt; }
+    .wrap { max-width: none; padding: 0 0 8mm; }
+
+    /* Nothing that reads as one object may be split across a page break. */
+    .svc, .decoy, .note, .run, .mini > div, .lookup tr { break-inside: avoid; }
+    .cat, .part { break-after: avoid; }
+    .part { break-before: page; margin: 0 0 18px; padding-top: 0; }
+    /* The first part follows the masthead on page one, so it keeps its air. */
+    .masthead + .part { break-before: avoid; margin-top: 30px; padding-top: 20px; }
+    .lookup, .mini { break-inside: auto; }
+    .lookup .grp td { break-after: avoid; }
+
+    .masthead { padding: 0 0 4px; }
+    .masthead h1 { font-size: 30pt; }
+    .lede { font-size: 12pt; }
+    .part h2 { font-size: 19pt; }
+    .cat { margin: 22px 0 10px; }
+    .svc { margin-bottom: 7px; padding: 11px 13px; gap: 6px; }
+    .def, .lookup .sigcell { font-size: 10.6pt; }
+    .sig .body, .trap .body, .lookup .anscell { font-size: 9.6pt; }
+    .decoys { grid-template-columns: repeat(3, 1fr); }
+    footer { margin-top: 26px; }
+  }
 </style>
 
 <div class="wrap">
